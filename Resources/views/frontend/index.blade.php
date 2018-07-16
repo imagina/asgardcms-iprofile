@@ -233,7 +233,7 @@
                                             <tbody>
                                             <tr v-for="(address,index) in addresses">
                                                 <th>@{{ address.firstname  }} @{{ address.lastname  }}, @{{ address.address_1  }},@{{ address.city  }},@{{ address.zone  }},@{{ address.country  }}
-                                                    <span v-if="addresses[index].type!=''" class="badge bg-primary text-white">default @{{addresses[index].type}}</span>
+                                                    <span v-if="addresses[index].type!=''" class="badge bg-primary text-white">{{trans('iprofile::addresses.default')}} @{{addresses[index].type}}</span>
                                                 </th>
                                             </tr>
                                             </tbody>

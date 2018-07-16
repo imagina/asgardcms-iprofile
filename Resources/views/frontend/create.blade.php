@@ -288,7 +288,7 @@
 
                         };
                     } else {
-                        alert("Por favor seleccione una imagen.");
+                        alert("{{trans('iprofile::profiles.messages.select_image')}}");
                     }
                 });
 

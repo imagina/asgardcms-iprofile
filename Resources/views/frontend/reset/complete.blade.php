@@ -17,7 +17,7 @@
 
                         <div class="login-box-body">
 
-                            <span class="title">Restablecer contraseña</span>
+                            <span class="title">{{trans('iprofile::profiles.messages.reset_password')}}</span>
 
                             <div class="formulario">
 

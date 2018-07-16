@@ -15,7 +15,7 @@
 		    href="{{url('/wishlist')}}" >
 		    <i class="fa fa-heart"></i>
 		    <strong>
-		        My Wishlist
+		        {{trans('iprofile::profiles.button.my_wishlist')}}
 		    </strong>
 		</a>
   	</li>
@@ -24,7 +24,7 @@
 		    href="{{url('/orders')}}">
 		    <i class="fa fa-shopping-bag"></i>
 		    <strong>
-		        Order List
+		        {{trans('iprofile::profiles.button.order_list')}}
 		    </strong>
 		</a>
   	</li>
@@ -35,7 +35,7 @@
 		    title="Sign Out">
 		    <i class="fa fa-sign-out"></i> 
 		    <strong>
-		        Sign Out
+		        {{trans('iprofile::profiles.button.sign_out')}}
 		    </strong>
 		</a>
   	</li>

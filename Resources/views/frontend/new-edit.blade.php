@@ -100,7 +100,7 @@
 
             };
           } else {
-            alert("Por favor seleccione una imagen.");
+            alert("{{trans('iprofile::profiles.messages.select_image')}}");
           }
         });
 
@@ -308,24 +308,24 @@
                 }
             }//for
             if(this.editedAddress.firstname==""){
-                this.alerta("The first name field can not be empty", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_first_name') }}", "error");
             }
             else if(this.editedAddress.lastname=="")
-                this.alerta("The last name field can not be empty", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_last_name') }}", "error");
             else if(this.editedAddress.address_1=="")
-                this.alerta("You must enter an address", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_address') }}", "error");
             else if(this.editedAddress.city=="")
-                this.alerta("You must enter an city", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_city') }}", "error");
             else if(this.editedAddress.postcode=="")
-                this.alerta("You must enter an postal code", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_postcode') }}", "error");
             else if(this.editedAddress.type=='billing' && countBilling>0)
-                this.alerta("There can only be one address like default billing ", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.only_one_billing') }}", "error");
             else if(this.editedAddress.type=='shipping' && countShipping>0)
-                this.alerta("There can only be one address like default shipping", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.only_one_shipping') }}", "error");
             else if(this.editedAddress.country=="" || this.editedAddress.country=="null")
-                this.alerta("You must select a country", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_country') }}", "error");
             else if(this.editedAddress.zone=="" || this.editedAddress.country=="null")
-                this.alerta("You must select a state/province", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_state') }}", "error");
             else{
                 for (var i = 0; i < this.addresses.length; i++) {
                     if (this.addresses[i]['id'] == index) {
@@ -367,19 +367,19 @@
           if (countShipping < 2 && countBilling < 2) {
             axios.post('{{ url("account/update_address") }}', [this.addresses]).then(response => {
               if (response.data.status) {
-                this.alerta("The addresses have been updated correctly.", "success");
+                this.alerta("{{ trans('iprofile::profiles.messages.addresses_updated') }}", "success");
                 //this.addressesEncoded = [];
                 this.addresses = [];
                 this.addresses = response.data.addresses;
                 //this.addressesEncoded = response.data.addressesEncoded;
               } else {
-                this.alerta("There was a problem updating the data.", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.problem_updating') }}", "error");
               }
             }).catch(error => {
               console.log(error);
             });
           } else
-            this.alerta("There can only be one address like default billing and an address like default shipping", "error");
+            this.alerta("{{ trans('iprofile::profiles.messages.only_one_bill_ship') }}", "error");
         },
         saveNewAddress: function(){
           //console.log('New address to save: ');
@@ -400,31 +400,31 @@
                 }
             }//for
             if(this.newAddress.firstname=="")
-                this.alerta("The first name field can not be empty", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_first_name') }}", "error");
             else if(this.newAddress.lastname=="")
-                this.alerta("The last name field can not be empty", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_last_name') }}", "error");
             else if(this.newAddress.address_1=="")
-                this.alerta("You must enter an address", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_address') }}", "error");
             else if(this.newAddress.city=="")
-                this.alerta("You must enter an city", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_city') }}", "error");
             else if(this.newAddress.postcode=="")
-                this.alerta("You must enter an postal code", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_postcode') }}", "error");
             else if(this.newAddress.type=='billing' && countBilling>0){
-                this.alerta("There can only be one address like default billing ", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.only_one_billing') }}", "error");
                 this.newAddress.type=='';
             }
             else if(this.newAddress.type=='shipping' && countShipping>0){
-                this.alerta("There can only be one address like default shipping", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.only_one_shipping') }}", "error");
                 this.newAddress.type=='';
             }
             else if(this.newAddress.country=="" || this.newAddress.country=="null")
-                this.alerta("You must select a country", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_country') }}", "error");
             else if(this.newAddress.zone=="" || this.newAddress.country=="null")
-                this.alerta("You must select a state/province", "error");
+                this.alerta("{{ trans('iprofile::profiles.messages.empty_state') }}", "error");
             else{
                 axios.post('{{ url("account/save_new_address") }}', [this.newAddress]).then(response => {
                     if (response.data.status) {
-                        this.alerta("The address has been stored correctly in the database..", "success");
+                        this.alerta("{{ trans('iprofile::profiles.messages.address_stored') }}", "success");
                         //console.log(response.data.addresses);
                         this.newAddress.firstname='';
                         this.newAddress.lastname='';
@@ -439,7 +439,7 @@
                         this.statesPayment=[];
                         this.addresses = response.data.addresses;
                     } else {
-                        this.alerta("There was a problem trying to save the new address", "error");
+                        this.alerta("{{ trans('iprofile::profiles.messages.problem_saving_new') }}", "error");
                     }
                 }).catch(error => {
                     console.log(error);
