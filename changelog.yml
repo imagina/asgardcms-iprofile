@@ -1,0 +1,5 @@
+url: https://github.com/imagina/asgardcms-iprofile
+versions:
+    "0.0.1":
+        changed:
+            - Initial release
