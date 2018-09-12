@@ -3,11 +3,11 @@
 use Illuminate\Routing\Router;
 
 # Overwrite Default Asgard Login
-$router->get('auth/login', [
+/*$router->get('auth/login', [
   'middleware' => 'auth.guest',
   'as' => 'login',
   'uses' => 'AuthProfileController@getLogin'
-]);
+]);*/
 
 
 /** @var Router $router */

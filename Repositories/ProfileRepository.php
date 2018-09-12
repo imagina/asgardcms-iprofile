@@ -13,5 +13,4 @@ interface ProfileRepository extends BaseRepository
      */
     public function findByUserId($user_id);
 
-
 }

@@ -20,6 +20,7 @@ class CreateIprofileProfilesTable extends Migration
             $table->text('bio')->nullable();
             $table->string('tel')->nullable();
             $table->string('address')->nullable();
+            $table->string('ext_number')->nullable();
             $table->timestamp('birthday')->nullable();
             $table->text('social')->nullable();
             $table->text('options')->nullable();

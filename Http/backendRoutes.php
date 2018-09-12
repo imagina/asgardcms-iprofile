@@ -54,7 +54,41 @@ $router->group(['prefix' =>'/iprofile'], function (Router $router) {
         'uses' => 'AddressController@destroy',
         'middleware' => 'can:iprofile.addresses.destroy'
     ]);
+    $router->bind('department', function ($id) {
+        return app('Modules\Iprofile\Repositories\DepartmentRepository')->find($id);
+    });
+    $router->get('departments', [
+        'as' => 'admin.iprofile.department.index',
+        'uses' => 'DepartmentController@index',
+        'middleware' => 'can:iprofile.departments.index'
+    ]);
+    $router->get('departments/create', [
+        'as' => 'admin.iprofile.department.create',
+        'uses' => 'DepartmentController@create',
+        'middleware' => 'can:iprofile.departments.create'
+    ]);
+    $router->post('departments', [
+        'as' => 'admin.iprofile.department.store',
+        'uses' => 'DepartmentController@store',
+        'middleware' => 'can:iprofile.departments.create'
+    ]);
+    $router->get('departments/{department}/edit', [
+        'as' => 'admin.iprofile.department.edit',
+        'uses' => 'DepartmentController@edit',
+        'middleware' => 'can:iprofile.departments.edit'
+    ]);
+    $router->put('departments/{department}', [
+        'as' => 'admin.iprofile.department.update',
+        'uses' => 'DepartmentController@update',
+        'middleware' => 'can:iprofile.departments.edit'
+    ]);
+    $router->delete('departments/{department}', [
+        'as' => 'admin.iprofile.department.destroy',
+        'uses' => 'DepartmentController@destroy',
+        'middleware' => 'can:iprofile.departments.destroy'
+    ]);
 // append
+
 
 
 
