@@ -3,6 +3,7 @@
 namespace Modules\Iprofile\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\User\Entities\Sentinel\User;
 
 class Department extends Model
 {

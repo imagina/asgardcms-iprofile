@@ -4,7 +4,7 @@ namespace Modules\Iprofile\Transformers;
 
 use Illuminate\Http\Resources\Json\Resource;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use Modules\Iprofile\Transformers\UserTransformer;
+use Modules\User\Transformers\UserTransformer;
 
 class DepartmentTransformer extends Resource
 {
