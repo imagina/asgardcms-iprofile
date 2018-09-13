@@ -148,11 +148,11 @@ class ApiUserController extends BaseApiController
       $user->roles()->sync($role->id);
     }
 
-    /*if (isset($request->departments)) {
+    if (isset($request->departments)) {
       foreach ($request->departments as $department){
         $user->departments()->sync($department);
       }
-    }*/
+    }
 
     $data = $request->all();
 
