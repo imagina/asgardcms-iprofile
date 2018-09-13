@@ -49,6 +49,7 @@ class ApiAuthController extends BasePublicController
 
     if (Auth::attempt($credentials)) {
       $user = Auth::user();
+      $role = $user->roles()->first();
       
       $this->apiLogout($request); //Revoke all tokens from this user
       $token = $user->createToken('Laravel Password Grant Client');
@@ -63,7 +64,7 @@ class ApiAuthController extends BasePublicController
           'email' => $user->email,
           'first_name' => $user->first_name,
           'last_name' => $user->last_name,
-          'permissions' => $user->permissions, //array_merge($logged_user->permissions, $role->permissions),
+          'permissions' => array_merge($user->permissions, $role->permissions),
           'departments' => $departments,
           'profile' => new ProfileTransformer($profile)
         ]

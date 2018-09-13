@@ -8,7 +8,7 @@ use Cartalyst\Sentinel\Laravel\Facades\Activation;
 
 use Illuminate\Contracts\Foundation\Application;
 use Modules\Core\Http\Controllers\BasePublicController;
-use Modules\Icustom\Http\Controllers\BaseApiController;
+use Modules\Iprofile\Http\Controllers\BaseApiController;
 use Modules\User\Repositories\RoleRepository;
 use Modules\User\Repositories\UserRepository;
 use Modules\Iprofile\Repositories\ApiUserRepository;

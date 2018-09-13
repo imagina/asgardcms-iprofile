@@ -5,7 +5,7 @@ namespace Modules\Iprofile\Http\Controllers\Api;
 use Mockery\CountValidator\Exception;
 
 use Illuminate\Contracts\Foundation\Application;
-use Modules\Icustom\Http\Controllers\BaseApiController;
+use Modules\Iprofile\Http\Controllers\BaseApiController;
 
 use Modules\Iprofile\Repositories\ApiRoleRepository;
 use Modules\Iprofile\Transformers\RoleTransformer;

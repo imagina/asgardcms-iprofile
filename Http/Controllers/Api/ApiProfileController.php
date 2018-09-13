@@ -8,7 +8,7 @@ use Mockery\CountValidator\Exception;
 use Modules\Iprofile\Entities\Profile;
 use Modules\Iprofile\Http\Requests\CreateProfileRequest;
 use Modules\Iprofile\Http\Requests\UpdateProfileRequest;
-use Modules\Icustom\Http\Controllers\BaseApiController;
+use Modules\Iprofile\Http\Controllers\BaseApiController;
 use Modules\Iprofile\Repositories\ProfileRepository;
 use Modules\Iprofile\Repositories\AddressRepository;
 use Modules\Iprofile\Transformers\AddressesTransformer;

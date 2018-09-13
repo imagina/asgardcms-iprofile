@@ -7,7 +7,7 @@ use Modules\Fhia\Http\Requests\FhiaRequest;
 
 use Illuminate\Contracts\Foundation\Application;
 use Modules\Iprofile\Repositories\DepartmentRepository;
-use Modules\Icustom\Http\Controllers\BaseApiController;
+use Modules\Iprofile\Http\Controllers\BaseApiController;
 use Modules\User\Entities\Sentinel\User;
 use Modules\Iprofile\Transformers\DepartmentTransformer;
 use Modules\Fhia\Events\DepartmentBroadcastingEvent;
