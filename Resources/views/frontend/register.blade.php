@@ -36,7 +36,7 @@
                             <i class="fa fa-user"></i>
                             {!! Form::label('first_name', trans('user::users.form.first-name').' *') !!}
                             {!! Form::text('first_name', old('first_name'), ['class' => 'form-control','required' => 'required']) !!}
-                            {!! $errors->first('first_name', '<span class="help-block">:message</span>') !!}
+                            {!! $errors->first('first_name', '</br><span class="alert alert-danger m">:message</span>') !!}
                         </div>
 
                         <!-- APELLIDO -->
@@ -44,7 +44,7 @@
                             <i class="fa fa-users"></i>
                             {!! Form::label('last_name', trans('user::users.form.last-name').' *') !!}
                             {!! Form::text('last_name', old('last_name'), ['class' => 'form-control','required' => 'required']) !!}
-                            {!! $errors->first('last_name', '<span class="help-block">:message</span>') !!}
+                            {!! $errors->first('last_name', '</br><span class="alert alert-danger">:message</span>') !!}
                         </div>
 
                         <!-- TELEFONO -->
@@ -52,7 +52,7 @@
                             <i class="fa fa-phone"></i>
                             {!! Form::label('tel', trans('iprofile::profiles.form.tel').' *') !!}
                             {!! Form::text('tel', old('tel'), ['class' => 'form-control','required' => 'required']) !!}
-                            {!! $errors->first('tel', '<span class="help-block">:message</span>') !!}
+                            {!! $errors->first('tel', '</br><span class="alert alert-danger">:message</span>') !!}
                         </div>
 
 
@@ -69,7 +69,7 @@
                                 <i class="fa fa-building"></i>
                                     {!! Form::label('business', 'Empresa') !!}
                                     {!! Form::text('business', old('business'), ['class' => 'form-control']) !!}
-                                    {!! $errors->first('business', '<span class="help-block">:message</span>') !!}
+                                    {!! $errors->first('business', '</br><span class="alert alert-danger">:message</span>') !!}
                             </div>
                         @endif
 
@@ -84,7 +84,7 @@
                                    class="form-control"
                                    value="{{ old('email') }}"
                                    required>
-                            {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
+                            {!! $errors->first('email', '</br><span class="alert alert-danger">:message</span>') !!}
                         </div>
 
                         <!-- PASS -->
@@ -97,7 +97,7 @@
                                    name="password"
                                    class="form-control"
                                    required>
-                            {!! $errors->first('password', '<span class="help-block">:message</span>') !!}
+                            {!! $errors->first('password', '</br><span class="alert alert-danger">:message</span>') !!}
                         </div>
 
                         <!-- CONFIR pass -->
@@ -109,11 +109,18 @@
                             <input type="password"
                                    name="password_confirmation"
                                    class="form-control" required>
-                            {!! $errors->first('password_confirmation', '<span class="help-block">:message</span>') !!}
+                            {!! $errors->first('password_confirmation', '</br><span class="alert alert-danger">:message</span>') !!}
                         </div>
 
+                            @if(Setting::get('iforms::captcha')=="1")
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    {!!NoCaptcha::display()!!}
+                                    </br>
+                                    {!!$errors->first('g-recaptcha', '<span class="alert alert-danger">:message</span>') !!}
+                                </div>
+                        @endif
                         <!-- BOTON REGISTRAR -->
-                        <div class="p-0">
+                        <div class="py-3">
                             <button type="submit"
                                     class="btn btn-primary btn-flat">
                                 {{ trans('user::auth.register me') }}
