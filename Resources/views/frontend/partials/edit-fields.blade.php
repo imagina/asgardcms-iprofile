@@ -96,6 +96,17 @@
             </div>
         </div>
     @endif
+    <!-- NIT DE EMPRESA -->
+    @if(isset($profile->nit) && !empty($profile->nit))
+        <div class="col-12 col-lg-6">
+            <div class='form-group{{ $errors->has("nit") ? ' has-error' : '' }}'>
+                <i class="fa fa-icon-legal"></i>
+                {!! Form::label("nit", trans('iprofile::profiles.form.nit')) !!}
+                {!! Form::text("nit", old("nit", $profile->nit), ['class' => 'form-control identification', 'required' => 'required' ,'data-nit' => 'target', 'placeholder' => trans('iprofile::profiles.form.nit')]) !!}
+                {!! $errors->first("nit", '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+    @endif
 </div>
 
 

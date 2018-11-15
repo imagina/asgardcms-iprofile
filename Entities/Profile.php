@@ -16,6 +16,8 @@ class Profile extends Model
     'user_id',
     'identification',
     'business',
+    'nit',
+    'type_person',
     'bio',
     'tel',
     'address',
