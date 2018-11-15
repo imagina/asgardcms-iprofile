@@ -85,9 +85,44 @@
         </div>
     @endif
 
+    <div class="col-12 col-lg-6">
+      <div class='form-group' >
+        <br>
+        <strong>{{ trans('icommerce::customer.form.person_legal') }}</strong>
+        <label class="form-check-label">
+          <input
+          type="radio"
+          class="my-2"
+          name="type_person"
+          id="guestOrCustomer1"
+          value="natural"
+          data-parent="#Register"
+          data-toggle="collapse"
+          data-target=".legalPerson"
+          aria-expanded="true"
+          aria-controls="legalPerson" checked>
+          {{ trans('icommerce::customer.form.no') }}
+        </label>
+        <label class="form-check-label">
+          <input
+          type="radio"
+          class="my-2"
+          name="type_person"
+          id="guestOrCustomer1"
+          value="legal"
+          data-parent="#Register"
+          data-toggle="collapse"
+          data-target=".legalPerson"
+          aria-expanded="true"
+          aria-controls="legalPerson" >
+          {{ trans('icommerce::customer.form.yes') }}
+        </label>
+      </div>
+    </div>
+
     <!-- EMPRESAS -->
-    @if(isset($profile->business) && !empty($profile->business))
-        <div class="col-12 col-lg-6">
+    @if(isset($profile->business) )
+        <div class="col-12 col-lg-6 legalPerson collapse">
             <div class='form-group{{ $errors->has("business") ? ' has-error' : '' }}'>
                 <i class="fa fa-handshake-o"></i>
                 {!! Form::label("business", trans('iprofile::profiles.form.business')) !!}
@@ -97,8 +132,8 @@
         </div>
     @endif
     <!-- NIT DE EMPRESA -->
-    @if(isset($profile->nit) && !empty($profile->nit))
-        <div class="col-12 col-lg-6">
+    @if(isset($profile->nit) )
+        <div class="col-12 col-lg-6 legalPerson collapse">
             <div class='form-group{{ $errors->has("nit") ? ' has-error' : '' }}'>
                 <i class="fa fa-icon-legal"></i>
                 {!! Form::label("nit", trans('iprofile::profiles.form.nit')) !!}

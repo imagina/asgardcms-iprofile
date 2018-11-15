@@ -45,6 +45,7 @@ return [
         'bio'               => 'Sobre mi',
         'Settings'          => 'Perfil',
         'tel'               => 'Teléfono',
+        'business'          => 'Empresa',
         'address'           => 'Dirección',
         'birthday'          => 'Fecha de Nacimiento',
         'identification'    => 'Cedula',

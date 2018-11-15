@@ -67,7 +67,7 @@
 
 
                             <div class="card text-center">
-                                <div class="card-header border-0 bg-secondary">
+                                <div class="card-header border-0 bg-primary">
                                     <div class="card-header border-0 bg-transparent">
                                         <h3 class="text-white">
                                             <?php if ($user->present()->fullname() != ' '): ?>
@@ -192,6 +192,19 @@
                                                     @endif
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <th>
+                                                    {{trans('iprofile::profiles.form.business')}}:
+                                                </th>
+                                                <td>
+                                                    @if(isset($profile->business)&& !empty($profile->business))
+                                                        {{$profile->business}}
+                                                    @else
+                                                        {{trans('iprofile::profiles.form.Not fount')}}
+                                                    @endif
+                                                </td>
+                                            </tr>
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -283,13 +296,14 @@
             created: function () {
                 console.log(this.addresses);
                 console.log(this.addressesEncoded);
+                console.log('asdadadad');
             },
             data: {
                 addresses: {!! $addresses ? $addresses : "''"!!},
                 addressesEncoded: {!! $addressesEncoded ? $addressesEncoded : "''"!!},
                 hide: true
-            }
+            },
+
         });
     </script>
 @stop
-

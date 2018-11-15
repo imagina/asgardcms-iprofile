@@ -45,6 +45,7 @@ return [
     'bio'             => 'Details',
     'Settings'        => 'Profile',
     'tel'             => 'Telephone',
+    'business'          => 'Business',
     'address'         => 'Address',
     'birthday'        => 'Birthday',
     'identification'  => 'Identification',
