@@ -49,6 +49,7 @@ return [
     'birthday'        => 'Birthday',
     'identification'  => 'Identification',
     'business'        => 'Business',
+    'nit'             => 'N.I.T',
     'company'         => 'Name Company',
     'address1'        => 'Address 1',
     'address2'        => 'Address 2',

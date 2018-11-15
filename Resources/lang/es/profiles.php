@@ -49,6 +49,7 @@ return [
         'birthday'          => 'Fecha de Nacimiento',
         'identification'    => 'Cedula',
         'business'          => 'Empresa',
+        'nit'               => 'N.I.T',
         'company'           => 'Nombre de la compañia',
         'address1'          => 'Dirección 1',
         'address2'          => 'Dirección 2',
@@ -64,7 +65,7 @@ return [
             'link'          => 'Enlace',
             'description'   => 'Descripción',
             'Add Row'       => 'Agregar red social'
-        ], 
+        ],
     ],
     'messages' => [
     'reset_password'        => 'Restablecer contraseña',
