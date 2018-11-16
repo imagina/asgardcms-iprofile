@@ -1,9 +1,13 @@
 url: https://github.com/imagina/asgardcms-iprofile
 versions:
     "0.1.6":
+      added:
+        - nit and type_person fields in entity profiles
+        - trans news fields in profile
+        - trans profiles and checkbox of legal person in edit profile
       change:
         - ApiLoginController method apiLogin
-        -
+        - function update of iprofile, the default language in the controller
     "0.1.1":
       added:
         - reCAPTCHA in register
