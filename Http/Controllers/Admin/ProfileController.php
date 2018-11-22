@@ -12,7 +12,12 @@ use Modules\Iprofile\Http\Requests\UpdateProfileRequest;
 use Modules\Iprofile\Repositories\ProfileRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 use Log;
+use Modules\Iprofile\Entities\Status;
 
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\Iprofile\Imports\ProfilesImport;
+use Modules\User\Repositories\UserRepository;
+use Modules\User\Repositories\RoleRepository;
 
 class ProfileController extends AdminBaseController
 {
@@ -21,13 +26,24 @@ class ProfileController extends AdminBaseController
      */
     private $profile;
     private $auth;
+    private $status;
+    private $user;
+    private $role;
 
-    public function __construct(ProfileRepository $profile, Authentication $auth)
-    {
+    public function __construct(
+        ProfileRepository $profile, 
+        Authentication $auth, 
+        Status $status,
+        UserRepository $user, 
+        RoleRepository $role
+    ){
         parent::__construct();
 
         $this->profile = $profile;
         $this->auth = $auth;
+        $this->status = $status;
+        $this->user = $user;
+        $this->role = $role;
     }
 
     /**
@@ -37,16 +53,11 @@ class ProfileController extends AdminBaseController
      */
     public function index()
     {
-        $user = $this->auth->user();
-        $profile = $this->profile->findByUserId($user->id);
-        $this->assetPipeline->requireJs('moment.js');
-        $this->assetPipeline->requireJs('daterangepicker.js');
-        $this->assetPipeline->requireCss('daterangepicker.css');
-        if (count($profile)) {
-            return view('iprofile::admin.profiles.edit', compact('user', 'profile'));
-        }
-        return view('iprofile::admin.profiles.create', compact('user'));
 
+        $profiles = $this->profile->all();
+        $status = $this->status;
+        return view('iprofile::admin.profiles.index', compact('profiles','status'));
+        
     }
 
     /**
@@ -91,9 +102,18 @@ class ProfileController extends AdminBaseController
      * @param  Profile $profile
      * @return Response
      */
-    public function edit(Profile $profile)
+    public function edit()
     {
-        return view('iprofile::admin.profiles.edit', compact('profile'));
+        $user = $this->auth->user();
+        $profile = $this->profile->findByUserId($user->id);
+        $this->assetPipeline->requireJs('moment.js');
+        $this->assetPipeline->requireJs('daterangepicker.js');
+        $this->assetPipeline->requireCss('daterangepicker.css');
+        if (count($profile)) {
+            return view('iprofile::admin.profiles.edit', compact('user', 'profile'));
+        }
+        return view('iprofile::admin.profiles.create', compact('user'));
+        //return view('iprofile::admin.profiles.edit', compact('profile'));
     }
 
     /**
@@ -214,4 +234,36 @@ class ProfileController extends AdminBaseController
             return null;
         }
     }
+
+     
+    /**
+     * view import and export from profiles.
+     * @return View
+     */
+    public function indexImport(){
+        return view('iprofile::admin.profiles.bulkload.index');
+    }
+
+    public function importProfiles(Request $request)
+    {
+        $msg="";
+       
+        try {
+
+            $data_excel = Excel::import(new ProfilesImport($this->user,$this->role,$this->profile), $request->importfile);
+
+            $msg=trans('iprofile::profiles.bulkload.success migrate');
+            return redirect()->route('admin.account.profile.index')
+            ->withSuccess($msg);
+           
+        } catch (Exception $e) {
+           
+            $msg  =  trans('iprofile::profiles.bulkload.error in migrate');
+            return redirect()->route('admin.account.profile.index')
+            ->withError($msg);
+            
+        }
+ 
+    }
+
 }

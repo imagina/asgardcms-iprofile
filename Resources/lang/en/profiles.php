@@ -1,6 +1,8 @@
 <?php
 
 return [
+  'singular' => 'Profile',
+  'plural' => 'Profiles', 
   'list resource'     => 'List profiles',
   'create resource'   => 'Create profiles',
   'edit resource'     => 'Edit profiles',
@@ -19,6 +21,8 @@ return [
     'social'          => 'Social',
     'login'           => 'Sign In',
     'addresses'       => 'Your Addresses',
+    'fullname'        => 'Fullname',
+    'completed'       => 'Completed',
   ],
   'button'      => [
     'create profile'  => 'Create a profile',
@@ -90,4 +94,20 @@ return [
     'email is required'     => 'E-mail required',
     'email already exist'   => 'The email already registered',
   ],
+
+  'bulkload' => [
+    'title' => 'Import Profiles',
+    'Select File' => 'Select File',
+    'selectFilecompatible' => 'Select Compatible Files CSV, XLSX',
+    'Submit' => 'Submit',
+    'import' => 'Import',
+    'success migrate' => 'Success migrate',
+    'error in migrate' => 'Error in migrate'
+  ],
+
+  'status' => [
+    'notverified' => 'Not Verified',
+    'verified' => 'Verified'
+  ]
+
 ];

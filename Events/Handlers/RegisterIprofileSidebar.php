@@ -38,6 +38,35 @@ class RegisterIprofileSidebar implements \Maatwebsite\Sidebar\SidebarExtender
     {
         $menu->group(trans('core::sidebar.content'), function (Group $group) {
 
+            $group->item(trans('iprofile::profiles.plural'), function (Item $item) {
+                $item->icon('fa fa-address-book-o');
+                $item->weight(100);
+
+                $item->item(trans('iprofile::profiles.list resource'), function (Item $item) {
+                    $item->icon('fa fa-users');
+                    $item->weight(0);
+                    $item->append('admin.account.profile.index');
+                    $item->route('admin.account.profile.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('iprofile.profiles.index')
+                    );
+                });
+               
+
+                $item->item(trans('iprofile::profiles.bulkload.import'), function (Item $item) {
+                    $item->icon('fa fa-upload');
+                    $item->weight(0);
+                    $item->append('admin.iprofile.bulkload.index');
+                    $item->route('admin.iprofile.bulkload.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('iprofile.bulkload.import')
+                    );
+                });
+
+            });
+
+           
+
         });
 
         return $menu;

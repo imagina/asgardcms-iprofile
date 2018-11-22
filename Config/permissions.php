@@ -26,6 +26,12 @@ return [
     'edit' => 'iprofile::departments.edit resource',
     'destroy' => 'iprofile::departments.destroy resource',
   ],
+
+  'iprofile.bulkload' => [
+    'import' => 'iprofile::profiles.bulkload.import',
+    'export' => 'iprofile::profiles.bulkload.export',
+  ],
+
 // append
 
 

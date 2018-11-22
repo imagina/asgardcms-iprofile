@@ -8,8 +8,12 @@ $router->group(['prefix' =>'/iprofile'], function (Router $router) {
         return app('Modules\Iprofile\Repositories\ProfileRepository')->find($id);
     });
     $router->get('profiles', [
-        'as' => 'admin.account.profile.edit',
+        'as' => 'admin.account.profile.index',
         'uses' => 'ProfileController@index',
+    ]);
+    $router->get('profiles/edit', [
+        'as' => 'admin.account.profile.edit',
+        'uses' => 'ProfileController@edit',
     ]);
     $router->post('profiles', [
         'as' => 'admin.iprofile.profile.store',
@@ -87,6 +91,23 @@ $router->group(['prefix' =>'/iprofile'], function (Router $router) {
         'uses' => 'DepartmentController@destroy',
         'middleware' => 'can:iprofile.departments.destroy'
     ]);
+
+
+    $router->group(['prefix' =>'bulkload'], function (Router $router){
+
+        $router->get('index',[
+            'as'=>'admin.iprofile.bulkload.index',
+            'uses'=>'ProfileController@indeximport',
+            'middleware'=>'can:iprofile.bulkload.import',
+        ]);
+
+        $router->post('import',[
+            'as'=>'admin.iprofile.bulkload.import',
+            'uses'=>'ProfileController@importProfiles',
+             'middleware'=>'can:iprofile.bulkload.import',
+        ]);
+
+    });
 // append
 
 
