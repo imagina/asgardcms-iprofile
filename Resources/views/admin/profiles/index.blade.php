@@ -35,7 +35,7 @@
                             <?php if (isset($profiles)): ?>
                             <?php foreach ($profiles as $profile): ?>
                             <tr>
-                                <td>{{$profile->id}}</td>
+                                <td>{{$profile->user->id}}</td>
                                 <td>{{$profile->user->present()->fullname}}</td>
                                 <td>{{$profile->user->email}}</td>
                                 <td>---</td>

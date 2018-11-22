@@ -33,13 +33,16 @@ class UsersImport implements ToCollection,WithHeadingRow,WithChunkReading,Should
         $this->profile = $profile;
     }
 
+    /**
+     * Data from Excel
+     */
     public function collection(Collection $rows)
     {
         
         foreach ($rows as $row) 
         {
             try {
-                
+                $errorMsj = "";
                 // Email is priority to create an user
                 if(isset($row['email']) && !empty($row['email'])){
                    
@@ -61,6 +64,7 @@ class UsersImport implements ToCollection,WithHeadingRow,WithChunkReading,Should
                         'last_name' => $row['last_name'] ?? ''
                     );
 
+                    // Check activated
                     $activated = false;
                     if(isset($row['activated']) && !empty($row['activated'])){
                         $userActived = (int)$row['activated'];
@@ -73,13 +77,16 @@ class UsersImport implements ToCollection,WithHeadingRow,WithChunkReading,Should
                         'business' => (string)$row['business'] ?? '',
                         'identification' => (string)$row['identification'] ?? '', 
                         'bio' => (string)$row['bio'] ?? '',
+                        'nit' => (string)$row['nit'] ?? '',
+                        'type_person' => (string)$row['type_person'] ?? '',
                         'tel' => (string)$row['tel'] ?? '' ,
                         'address' => (string)$row['address'] ?? '',
                         'ext_number' => (string)$row['ext_number'] ?? '',
-                        'birthday' => (string)$row['birthday'] ?? '',
+                        'birthday' => $row['birthday'] ?? '',
                         'city' => (string)$row['city'] ?? '',
                         'state' => (string)$row['state'] ?? '',
                         'country' => (string)$row['country'] ?? ''
+                        
                     );
 
                     // Update
@@ -89,40 +96,59 @@ class UsersImport implements ToCollection,WithHeadingRow,WithChunkReading,Should
 
                         $userUpd = $this->user->updateAndSyncRoles($user->id,  $param, $roleCustomer);
                         \Log::info('Update an User');
+
                         // update profile
-                        //$this->createProfile($request,$user); Update
-                         
-                    
+                        $profile = $this->profile->findByUserId($user->id);
+                      
+                        $paramIprofile["user_id"] = $user->id;
+                        $profileUser = $this->profile->update($profile,$paramIprofile);
+                        \Log::info('Update a Profile');
+                        $errorMsj = "updating";
+
                     }else{
-                    
-                        $userAdded = $this->user->createWithRolesFromCli($param,$roleCustomer,$activated);
+                        // Create
+                        //$userAdded = $this->user->createWithRolesFromCli($param,$roleCustomer,$activated);
+                        $userAdded = $this->user->create($param,$activated);
+
+                        // Take id from excel
+                        $userAddedId = $userAdded->id;
+                        $userAdded->id = $param["id"];
+                        $userAdded->save();
                         \Log::info('Create an User');
+
+                        $userAdded->roles()->attach($roleCustomer);
 
                         // create the profile
                         $paramIprofile["user_id"] = $userAdded->id;
                         $profileUser = $this->profile->create($paramIprofile);
                         \Log::info('Create a Profile');
+                        $errorMsj = "Creating";
 
-                    }
+                    }//if
 
-
-                }
+                }//if email
                 
-
             } catch (\Exception $e) {
                 \Log::error($e);
-                dd($e->getMessage(),$row['email']);
+                dd($e->getMessage(),$row['email'],$errorMsj);
             }
 
         }// foreach
 
     }
 
+    /*
+    The most ideal situation (regarding time and memory consumption) 
+    you will find when combining batch inserts and chunk reading.
+    */
     public function batchSize(): int
     {
         return 1000;
     }
 
+    /* 
+     This will read the spreadsheet in chunks and keep the memory usage under control.
+    */
     public function chunkSize(): int
     {
         return 1000;
