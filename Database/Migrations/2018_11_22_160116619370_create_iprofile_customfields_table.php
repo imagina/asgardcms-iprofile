@@ -20,8 +20,8 @@ class CreateIprofileCustomfieldsTable extends Migration
             $table->string('plainValue')->nullable();
             $table->boolean('isTranslatable')->default(false);
             $table->intiger('status')->default(0);
-            // Your fields
             $table->timestamps();
+            $table->foreign('profile_id')->references('id')->on('iprofile__customfields')->onDelete('cascade');
         });
     }
 
@@ -32,6 +32,9 @@ class CreateIprofileCustomfieldsTable extends Migration
      */
     public function down()
     {
+        Schema::table('iprofile__customfields', function (Blueprint $table) {
+            $table->dropForeign(['profile_id']);
+        });
         Schema::dropIfExists('iprofile__customfields');
     }
 }
