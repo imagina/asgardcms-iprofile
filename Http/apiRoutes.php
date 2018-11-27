@@ -77,6 +77,19 @@ $router->group(['prefix' => '/profile'], function (Router $router) {
     'middleware' => ['auth:api']
   ]);
 
+    //Update
+    $router->put('/{id}', [
+        'as' => 'api.profile.update',
+        'uses' => 'ApiProfileController@update',
+        'middleware' => ['auth:api']
+    ]);
+    //Update
+    $router->post('/customfield', [
+        'as' => 'api.profile.update',
+        'uses' => 'ApiProfileController@update',
+        'middleware' => ['auth:api']
+    ]);
+
 });
 
 /*=== ROLES ===*/

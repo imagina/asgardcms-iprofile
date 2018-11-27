@@ -50,8 +50,10 @@ class ApiAuthController extends BasePublicController
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $role = $user->roles()->first();
+            if (config('sgard.iprofile.config.uniqueSession')) {
+                $this->apiLogout($request); //Revoke all tokens from this user
+            }
 
-            $this->apiLogout(); //Revoke all tokens from this user
             $token = $user->createToken('Laravel Password Grant Client');
             $profile = $this->profile->findByUserId($user->id);
             $departments = $user->departments()->orderBy('id')->get();
@@ -81,18 +83,20 @@ class ApiAuthController extends BasePublicController
      * Logout passport
      * @return response
      */
-    public function apiLogout()
+    public function apiLogout(Request $request)
     {
         if (Auth::guard('api')) {
             //If need it, revoke only token from request
-            /*$value = $request->bearerToken();
+
+            $value = $request->bearerToken();
             $id = (new Parser())->parse($value)->getHeader('jti');
             $token = Auth::user()->tokens->find($id);
-            $token->revoke();*/
-
+            $token->revoke();
             //Delete all tokens of this user
-            $user = Auth::user();
-            DB::table('oauth_access_tokens')->where('user_id', $user->id)->delete();
+            if (config('sgard.iprofile.config.uniqueSession')) {
+                $user = Auth::user();
+                DB::table('oauth_access_tokens')->where('user_id', $user->id)->delete();
+            }
         }
 
         return response('You have been successfully logged out!', 200);
