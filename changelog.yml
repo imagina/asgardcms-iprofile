@@ -1,5 +1,11 @@
 url: https://github.com/imagina/asgardcms-iprofile
 versions:
+    "0.1.8":
+      added:
+        - Add Bulk Load Profile and user
+        - Add import roles, users and profile
+      changed:
+        - Fixes
     "0.1.7":
       added:
         - nit and type_person fields in entity profiles
