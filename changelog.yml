@@ -1,5 +1,8 @@
 url: https://github.com/imagina/asgardcms-iprofile
 versions:
+    "0.1.10":
+      changed:
+        - Excel library version from 2 to 3.1.1
     "0.1.9":
       changed:
         - Excel library version from 2 to 3
