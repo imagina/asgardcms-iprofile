@@ -4,7 +4,7 @@
     "description": "",
     "keywords": [],
     "active": 1,
-    "version": "0.1.7",
+    "version": "0.1.10",
     "order": 1,
     "providers": [
         "Modules\\Iprofile\\Providers\\IprofileServiceProvider",
@@ -14,7 +14,7 @@
         "Sentinel": "Cartalyst\\Sentinel\\Laravel\\Facades\\Sentinel"
     },
     "files": [
-        
+
     ],
     "requires": []
 }
