@@ -8,11 +8,12 @@ use Mockery\CountValidator\Exception;
 use Modules\Iprofile\Entities\Profile;
 use Modules\Iprofile\Http\Requests\CreateProfileRequest;
 use Modules\Iprofile\Http\Requests\UpdateProfileRequest;
-use Modules\Iprofile\Http\Controllers\BaseApiController;
+use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Modules\Iprofile\Repositories\ProfileRepository;
 use Modules\Iprofile\Repositories\AddressRepository;
 use Modules\Iprofile\Transformers\AddressesTransformer;
 use Modules\Iprofile\Transformers\ProfileTransformer;
+use Modules\Iprofile\Repositories\CustomfieldRepository;
 use Modules\User\Repositories\UserRepository;
 use Log;
 
@@ -26,17 +27,21 @@ class ApiProfileController extends BaseApiController
   private $profile;
   private $user;
   private $addresses;
+  private $customfields;
 
   public function __construct(
     ProfileRepository $profile,
     UserRepository $user,
-    AddressRepository $addresses)
+    AddressRepository $addresses,
+    CustomfieldRepository $customfield
+)
   {
     parent::__construct();
 
     $this->profile = $profile;
     $this->user = $user;
     $this->addresses = $addresses;
+    $this->customfields=$customfield;
   }
 
 
@@ -113,7 +118,6 @@ class ApiProfileController extends BaseApiController
     try {
       $user = \Auth::user();
       $profile = $this->profile->findByUserId($user->id);
-      //$addresses = AddressesTransformer::collection($this->addresses->findByProfileId($profile->id));
 
       $response = ["data" => new ProfileTransformer($profile)];
 
@@ -139,7 +143,6 @@ class ApiProfileController extends BaseApiController
     try {
       $user = \Auth::user();
       $profile = $this->profile->findByUserId($user->id);
-      //$addresses = AddressesTransformer::collection($this->addresses->findByProfileId($profile->id));
 
       $response = ["data" => new ProfileTransformer($profile)];
 

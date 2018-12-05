@@ -32,7 +32,14 @@ return [
     'export' => 'iprofile::profiles.bulkload.export',
   ],
 
+    'iprofile.customfields' => [
+        'index' => 'iprofile::customfields.list resource',
+        'create' => 'iprofile::customfields.create resource',
+        'edit' => 'iprofile::customfields.edit resource',
+        'destroy' => 'iprofile::customfields.destroy resource',
+    ],
 // append
+
 
 
 ];

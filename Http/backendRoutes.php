@@ -108,7 +108,41 @@ $router->group(['prefix' =>'/iprofile'], function (Router $router) {
         ]);
 
     });
+    $router->bind('customfield', function ($id) {
+        return app('Modules\Iprofile\Repositories\CustomfieldRepository')->find($id);
+    });
+    $router->get('customfields', [
+        'as' => 'admin.iprofile.customfield.index',
+        'uses' => 'CustomfieldController@index',
+        'middleware' => 'can:iprofile.customfields.index'
+    ]);
+    $router->get('customfields/create', [
+        'as' => 'admin.iprofile.customfield.create',
+        'uses' => 'CustomfieldController@create',
+        'middleware' => 'can:iprofile.customfields.create'
+    ]);
+    $router->post('customfields', [
+        'as' => 'admin.iprofile.customfield.store',
+        'uses' => 'CustomfieldController@store',
+        'middleware' => 'can:iprofile.customfields.create'
+    ]);
+    $router->get('customfields/{customfield}/edit', [
+        'as' => 'admin.iprofile.customfield.edit',
+        'uses' => 'CustomfieldController@edit',
+        'middleware' => 'can:iprofile.customfields.edit'
+    ]);
+    $router->put('customfields/{customfield}', [
+        'as' => 'admin.iprofile.customfield.update',
+        'uses' => 'CustomfieldController@update',
+        'middleware' => 'can:iprofile.customfields.edit'
+    ]);
+    $router->delete('customfields/{customfield}', [
+        'as' => 'admin.iprofile.customfield.destroy',
+        'uses' => 'CustomfieldController@destroy',
+        'middleware' => 'can:iprofile.customfields.destroy'
+    ]);
 // append
+
 
 
 

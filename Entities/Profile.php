@@ -5,6 +5,7 @@ namespace Modules\Iprofile\Entities;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use DateTime;
+use Modules\Iprofile\Transformers\CustomFieldTransformer;
 
 class Profile extends Model
 {
@@ -47,6 +48,11 @@ class Profile extends Model
   {
     return $this->hasMany(Address::class);
   }
+
+    public function customFields()
+    {
+        return $this->hasMany(CustomField::class);
+    }
 
   public function setSocialAttribute($value)
   {

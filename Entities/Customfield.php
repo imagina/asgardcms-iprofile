@@ -17,6 +17,11 @@ class Customfield extends Model
         'status'=>'int',
     ];
 
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
+
     public function getPlainValueAttribute($value){
 
         if(isset($value)&&!empty($value)){
