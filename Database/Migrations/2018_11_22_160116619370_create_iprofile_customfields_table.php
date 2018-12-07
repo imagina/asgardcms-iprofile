@@ -15,13 +15,13 @@ class CreateIprofileCustomfieldsTable extends Migration
         Schema::create('iprofile__customfields', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('profile_id')->unisigne();
+            $table->integer('profile_id')->unsigned();
             $table->string('name');
             $table->string('plainValue')->nullable();
             $table->boolean('isTranslatable')->default(false);
-            $table->intiger('status')->default(0);
+            $table->integer('status')->default(0);
             $table->timestamps();
-            $table->foreign('profile_id')->references('id')->on('iprofile__customfields')->onDelete('cascade');
+            $table->foreign('profile_id')->references('id')->on('iprofile__profiles')->onDelete('cascade');
         });
     }
 
