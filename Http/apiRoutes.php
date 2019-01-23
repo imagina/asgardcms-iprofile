@@ -1,115 +1,27 @@
 <?php
 
 use Illuminate\Routing\Router;
+/** @var Router $router */
 
-/*=== AUTH ===*/
-$router->group(['prefix' => '/auth'], function (Router $router) {
-  /** @var Router $router */
-  $router->post('login', [
-    'as' => 'api.login',
-    'uses' => 'ApiAuthController@apiLogin'
-  ]);
+require('ApiRoutes/authRoutes.php');
 
-  /** @var Router $router */
-  $router->get('logout', [
-    'as' => 'api.login',
-    'uses' => 'ApiAuthController@apiLogout',
-    'middleware' => ['auth:api']
-  ]);
-});
+$router->group(['prefix' => '/profile/'], function (Router $router) {
 
-/*=== USERS ===*/
-$router->group(['prefix' => '/users'], function (Router $router) {
+    //======  AUTH
 
-  //Index
-  $router->get('/', [
-    'as' => 'api.user.index',
-    'uses' => 'ApiUserController@index',
-    'middleware' => [
-      'auth:api'
-      //'ApiCan:iprofile.api.user.index'
-    ]
-  ]);
+    //======  ADDRESSES
+    require('ApiRoutes/addressRoutes.php');
 
-  //ShowUser
-  $router->get('/{id}', [
-    'as' => 'api.user.show',
-    'uses' => 'ApiUserController@show',
-    'middleware' => [
-      'auth:api'
-      //'token-can:iprofile.api.user.index'
-    ]
-  ]);
+    //======  FIELDS
+    require('ApiRoutes/fieldRoutes.php');
 
-  //Update
-  $router->put('/{id}', [
-    'as' => 'api.user.update',
-    'uses' => 'ApiUserController@update',
-    'middleware' => [
-      'auth:api'
-      //'token-can:iprofile.api.user.edit'
-    ]
-  ]);
+    //======  DEPARTMENTS
+    require('ApiRoutes/departmentRoutes.php');
 
-  //CreateUser
-  $router->post('/', [
-    'as' => 'api.user.create',
-    'uses' => 'ApiUserController@create',
-    'middleware' => [
-      'auth:api'
-      //'token-can:iprofile.api.user.create'
-    ]
-  ]);
+    //======  ROLES
+    require('ApiRoutes/roleRoutes.php');
 
-  /*$router->delete('/{id}', [
-    'as' => 'user.delete',
-    'uses' => 'ApiUserController@delete',
-  ]);*/
-});
+    //======  USERS
+    require('ApiRoutes/userRoutes.php');
 
-/*=== PROFILE ===*/
-$router->group(['prefix' => '/profile'], function (Router $router) {
-
-  //Update
-  $router->put('/me', [
-    'as' => 'api.profile.update',
-    'uses' => 'ApiProfileController@update',
-    'middleware' => ['auth:api']
-  ]);
-
-    //Update
-    $router->put('/{id}', [
-        'as' => 'api.profile.update',
-        'uses' => 'ApiProfileController@update',
-        'middleware' => ['auth:api']
-    ]);
-    //Update
-    $router->post('/customfield', [
-        'as' => 'api.profile.update',
-        'uses' => 'ApiProfileController@update',
-        'middleware' => ['auth:api']
-    ]);
-
-});
-
-/*=== ROLES ===*/
-$router->group(['prefix' => '/roles'],function (Router $router){
-
-  //IndexRole
-  $router->get('/', [
-    'as' => 'api.role.index',
-    'uses' => 'ApiRolesController@index',
-    'middleware' => ['auth:api']
-  ]);
-
-});
-
-/*=== DEPARTMENTS ===*/
-$router->group(['prefix' => '/departments'], function (Router $router) {
-
-  $router->get('/', [
-    'as' => 'api.department.index',
-    'uses' => 'ApiDepartmentsController@index',
-    'middleware' => ['auth:api']
-  ]);
 });

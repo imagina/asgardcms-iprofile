@@ -37,36 +37,36 @@ class RegisterIprofileSidebar implements \Maatwebsite\Sidebar\SidebarExtender
     public function extendWith(Menu $menu)
     {
         $menu->group(trans('core::sidebar.content'), function (Group $group) {
-
-            $group->item(trans('iprofile::profiles.plural'), function (Item $item) {
-                $item->icon('fa fa-address-book-o');
-                $item->weight(100);
-
-                $item->item(trans('iprofile::profiles.list resource'), function (Item $item) {
-                    $item->icon('fa fa-users');
+            $group->item(trans('iprofile::iprofiles.title.iprofiles'), function (Item $item) {
+                $item->icon('fa fa-copy');
+                $item->weight(10);
+                $item->authorize(
+                    $this->auth->hasAccess('iprofile.addresses.index') ||$this->auth->hasAccess('iprofile.userfields.index')||$this->auth->hasAccess('iprofile.departments.index')
+                );
+                $item->item(trans('iprofile::userfields.title.profiles'), function (Item $item) {
+                    $item->icon('fa fa-copy');
                     $item->weight(0);
-                    $item->append('admin.account.profile.index');
-                    $item->route('admin.account.profile.index');
+                    $item->append('admin.iprofile.userfield.create');
+                    $item->route('admin.iprofile.userfield.index');
                     $item->authorize(
-                        $this->auth->hasAccess('iprofile.profiles.index')
+                        $this->auth->hasAccess('iprofile.userfields.index')
                     );
                 });
-               
-
-                $item->item(trans('iprofile::profiles.bulkload.import'), function (Item $item) {
-                    $item->icon('fa fa-upload');
+                $item->item(trans('iprofile::departments.title.departments'), function (Item $item) {
+                    $item->icon('fa fa-copy');
                     $item->weight(0);
-                    $item->append('admin.iprofile.bulkload.index');
-                    $item->route('admin.iprofile.bulkload.index');
+                    $item->append('admin.iprofile.department.create');
+                    $item->route('admin.iprofile.department.index');
                     $item->authorize(
-                        $this->auth->hasAccess('iprofile.bulkload.import')
+                        $this->auth->hasAccess('iprofile.departments.index')
                     );
                 });
+
+// append
+
+
 
             });
-
-           
-
         });
 
         return $menu;

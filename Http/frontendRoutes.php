@@ -2,21 +2,18 @@
 
 use Illuminate\Routing\Router;
 
-# Overwrite Default Asgard Login
-/*$router->get('auth/login', [
-  'middleware' => 'auth.guest',
-  'as' => 'login',
-  'uses' => 'AuthProfileController@getLogin'
-]);*/
-
-
 /** @var Router $router */
 
+
+# Overwrite Default Asgard Login
+$router->get('auth/login', [
+    'middleware' => 'auth.guest',
+    'as' => 'login',
+    'uses' => 'AuthProfileController@getLogin'
+]);
+/** @var Router $router */
 $router->group(['prefix' => '/account'], function (Router $router) {
 
-    $router->bind('profile', function ($id) {
-        return app('Modules\Iprofile\Repositories\ProfileRepository')->find($id);
-    });
     $router->get('/', [
         'as' => 'account.profile.index',
         'uses' => 'ProfileController@index',
@@ -32,31 +29,22 @@ $router->group(['prefix' => '/account'], function (Router $router) {
         'uses' => 'ProfileController@store',
         'middleware' => 'can:iprofile.profiles.create'
     ]);
-    $router->put('profile/{profile}', [
+    $router->put('profile/{user_id}', [
         'as' => 'iprofile.profile.update',
         'uses' => 'ProfileController@update',
         'middleware' => 'can:iprofile.profiles.edit'
     ]);
-
     $router->put('user/update', [
         'as' => 'iprofile.user.update',
         'uses' => 'ProfileController@updateUser',
         'middleware' => 'can:iprofile.profiles.edit'
     ]);
 
-
-    # Login
-    $router->get('login', [
-        'middleware' => 'auth.guest',
-        'as' => 'account.login',
-        'uses' => 'AuthProfileController@getLogin'
-    ]);
     $router->post('login', [
         'as' => 'account.login.post',
         'uses' => 'AuthProfileController@postLogin'
     ]);
     # Register
-
     $router->get('register', [
         'middleware' => 'auth.guest',
         'as' => 'account.register',
@@ -66,7 +54,6 @@ $router->group(['prefix' => '/account'], function (Router $router) {
         'as' => 'account.register.post',
         'uses' => 'AuthProfileController@userRegister'
     ]);
-
     # Account Activation
     $router->get('activate/{userId}/{activationCode}', 'AuthProfileController@getActivate');
     # Reset password
@@ -91,12 +78,12 @@ $router->group(['prefix' => '/account'], function (Router $router) {
         'as' => 'account.logout',
         'uses' => 'AuthProfileController@getLogout'
     ]);
-    $router->get('social/{provider}',[
-        'as'=> 'account.social.auth',
+    $router->get('social/{provider}', [
+        'as' => 'account.social.auth',
         'uses' => 'AuthProfileController@getSocialAuth'
     ]);
-    $router->get('social/callback/{provider}',[
-        'as'=> 'account.social.callback',
+    $router->get('social/callback/{provider}', [
+        'as' => 'account.social.callback',
         'uses' => 'AuthProfileController@getSocialAuthCallback'
     ]);
     $router->post('update_address', [
@@ -107,7 +94,4 @@ $router->group(['prefix' => '/account'], function (Router $router) {
         'as' => 'account.newaddress.save',
         'uses' => 'ProfileController@storeNewAddress',
     ]);
-
-
 });
-

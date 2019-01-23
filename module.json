@@ -1,20 +1,19 @@
 {
     "name": "Iprofile",
     "alias": "iprofile",
-    "description": "",
-    "keywords": [],
-    "active": 1,
-    "version": "0.1.12",
+    "description": "User management, profiles and capabilities, offering a user interface (UI) for the powerful profile system",
+    "keywords": ["user","profile","address"],
+    "version": "1.0.0",
+	"active": 1,
     "order": 1,
     "providers": [
         "Modules\\Iprofile\\Providers\\IprofileServiceProvider",
-        "Modules\\Iprofile\\Providers\\RouteServiceProvider"
+        "Modules\\Iprofile\\Providers\\RouteServiceProvider",
+        "Modules\\Iprofile\\Providers\\EventServiceProvider"
     ],
-    "aliases": {
-        "Sentinel": "Cartalyst\\Sentinel\\Laravel\\Facades\\Sentinel"
-    },
+    "aliases": {},
     "files": [
-
+        "helpers.php"
     ],
     "requires": []
 }
