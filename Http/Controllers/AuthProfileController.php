@@ -43,7 +43,8 @@ class AuthProfileController extends AuthController
     {
 
         $tpl = 'iprofile::frontend.login';
-
+        $ttpl = 'iprofile.login';
+        if (view()->exists($ttpl)) $tpl = $ttpl;
         return view($tpl);
     }
 
