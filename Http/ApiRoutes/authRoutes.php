@@ -17,4 +17,11 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
     'uses' => 'AuthApiController@logout',
     'middleware' => ['auth:api']
   ]);
+
+    /** @var Router $router */
+    $router->get('register', [
+        'as' => 'api.profile.register',
+        'uses' => 'AuthApiController@register'
+    ]);
+
 });

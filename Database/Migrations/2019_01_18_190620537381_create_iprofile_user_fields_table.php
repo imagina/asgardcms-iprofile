@@ -17,10 +17,11 @@ class CreateIprofileUserFieldsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
             $table->string('name');
-            $table->string('plain_value')->nullable();
+            $table->text('plain_value')->nullable();
             $table->boolean('is_translatable')->default(false);
             $table->text('type')->nullable();
             $table->timestamps();
+            $table->unique(['user_id', 'name']);
             $table->foreign('user_id')->references('id')->on(config('auth.table', 'users'))->onDelete('restrict');
 
         });

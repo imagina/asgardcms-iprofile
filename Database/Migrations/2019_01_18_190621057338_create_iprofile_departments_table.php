@@ -20,6 +20,7 @@ class CreateIprofileDepartmentsTable extends Migration
             $table->integer('lft')->unsigned()->nullable();
             $table->integer('rgt')->unsigned()->nullable();
             $table->integer('depth')->unsigned()->nullable();
+
             $table->timestamps();
         });
     }
@@ -31,9 +32,7 @@ class CreateIprofileDepartmentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('iprofile__departments', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-        });
+
         Schema::dropIfExists('iprofile__departments');
     }
 }

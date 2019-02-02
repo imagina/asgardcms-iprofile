@@ -2,11 +2,11 @@
 
 @section('content-header')
     <h1>
-        {{ trans('iprofile::userfields.title.userfields') }}
+        {{ trans('iprofile::profiles.title.profiles') }}
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-        <li class="active">{{ trans('iprofile::userfields.title.userfields') }}</li>
+        <li class="active">{{ trans('iprofile::profiles.title.profiles') }}</li>
     </ol>
 @stop
 
@@ -15,8 +15,8 @@
         <div class="col-xs-12">
             <div class="row">
                 <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
-                    <a href="{{ route('admin.iprofile.userfield.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
-                        <i class="fa fa-pencil"></i> {{ trans('iprofile::userfields.button.create userfield') }}
+                    <a href="{{ route('admin.iprofile.profiles.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
+                        <i class="fa fa-pencil"></i> {{ trans('iprofile::profiles.button.create user') }}
                     </a>
                 </div>
             </div>
@@ -29,23 +29,26 @@
                         <table class="data-table table table-bordered table-hover">
                             <thead>
                             <tr>
+                                <th data-sortable="false">id</th>
+                                <th>{{ trans('iprofile::profiles.table.fullName')}}</th>
+                                <th>{{ trans('iprofile::profiles.table.email')}}</th>
                                 <th>{{ trans('core::core.table.created at') }}</th>
                                 <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php if (isset($userfields)): ?>
-                            <?php foreach ($userfields as $userfield): ?>
+                            <?php if (isset($users)): ?>
+                            <?php foreach ($users as $user): ?>
                             <tr>
                                 <td>
-                                    <a href="{{ route('admin.iprofile.userfield.edit', [$userfield->id]) }}">
-                                        {{ $userfield->created_at }}
+                                    <a href="{{ route('admin.iprofile.profiles.edit', [$user->id]) }}">
+                                        {{ $user->created_at }}
                                     </a>
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('admin.iprofile.userfield.edit', [$userfield->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.iprofile.userfield.destroy', [$userfield->id]) }}"><i class="fa fa-trash"></i></button>
+                                        <a href="{{ route('admin.iprofile.profiles.edit', [$user->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.iprofile.profiles.destroy', [$user->id]) }}"><i class="fa fa-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -75,7 +78,7 @@
 @section('shortcuts')
     <dl class="dl-horizontal">
         <dt><code>c</code></dt>
-        <dd>{{ trans('iprofile::userfields.title.create userfield') }}</dd>
+        <dd>{{ trans('iprofile::profiles.title.create user') }}</dd>
     </dl>
 @stop
 
@@ -84,7 +87,7 @@
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [
-                    { key: 'c', route: "<?= route('admin.iprofile.userfield.create') ?>" }
+                    { key: 'c', route: "<?= route('admin.iprofile.profiles.create') ?>" }
                 ]
             });
         });

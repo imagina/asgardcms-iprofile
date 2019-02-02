@@ -20,12 +20,6 @@ class UserField extends Model
     protected $fillable = ['user_id','name','plain_value','value','is_translatable','type'];
 
     protected static $entityNamespace = 'asgardcms/user_field';
-    /**
-     * @var array
-     */
-    protected $cast = [
-        'status' => 'int'
-    ];
 
     /**
      * @return mixed
@@ -43,7 +37,7 @@ class UserField extends Model
      */
     public function getMain_imageAttribute()
     {
-       if($this->name=='mainimage'){
+       if($this->name=='main_image'){
            $image= url($this->plain_value.'?'.strtotime($this->updated_at));
        }else{
            $image=url('modules/iprofile/img/default.jpg');

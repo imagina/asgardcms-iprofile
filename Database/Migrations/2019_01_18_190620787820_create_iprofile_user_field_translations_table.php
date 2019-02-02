@@ -15,7 +15,7 @@ class CreateIprofileUserFieldTranslationsTable extends Migration
         Schema::create('iprofile__user_field_translations', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('value')->nullable();
+            $table->text('value')->nullable();
             $table->integer('user_field_id')->unsigned();
             $table->string('locale')->index();
             $table->unique(['user_field_id', 'locale']);

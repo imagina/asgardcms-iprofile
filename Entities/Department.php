@@ -4,10 +4,14 @@ namespace Modules\Iprofile\Entities;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Dimsav\Translatable\Translatable;
+use Modules\Core\Traits\NamespacedEntity;
+use Laracasts\Presenter\PresentableTrait;
+
 
 class Department extends Model
 {
-    use Translatable;
+    use Translatable, NamespacedEntity;
 
     protected $table = 'iprofile__departments';
     protected $fillable = ['parent_id','options','name'];

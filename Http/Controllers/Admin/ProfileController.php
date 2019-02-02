@@ -4,28 +4,34 @@ namespace Modules\Iprofile\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Iprofile\Entities\UserField;
-use Modules\Iprofile\Http\Requests\CreateUserFieldRequest;
-use Modules\Iprofile\Http\Requests\UpdateUserFieldRequest;
-use Modules\Iprofile\Repositories\UserFieldRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
+use Modules\Iprofile\Repositories\UserFieldRepository;
+use Modules\Iprofile\Repositories\UserRepository;
+use Modules\Iprofile\Transformers\FieldTrasnformer;
+use Modules\Iprofile\Transformers\UserProfileTransformer;
+use Modules\User\Http\Requests\CreateUserRequest;
+use Modules\User\Http\Requests\UpdateUserRequest;
+use Modules\User\Repositories\RoleRepository;
+use Illuminate\Support\Carbon;
+
 
 class ProfileController extends AdminBaseController
 {
     /**
      * @var UserFieldRepository
      */
-    private $userfield;
+
     private $user;
     private $role;
+    private $userField;
 
-    public function __construct(UserFieldRepository $userfield, UserRepository $user, RoleRepository $role)
+    public function __construct(UserRepository $user, RoleRepository $role, UserFieldRepository $userField)
     {
         parent::__construct();
 
-        $this->userfield = $userfield;
-        $this->user=$user;
-        $this->role=$role;
+        $this->user = $user;
+        $this->role = $role;
+        $this->userField=$userField;
     }
 
     /**
@@ -35,8 +41,10 @@ class ProfileController extends AdminBaseController
      */
     public function index()
     {
-        $user=$this->user->all();
-        return view('iprofile::admin.users.index', compact('user'));
+        $users = $this->user->all();
+       // $user= $this->user->getItemsBy((object)['take'=>false,'filter'=>['field'=>['name'=>'type_request','value'=>'nuevo']],'include'=>[]]);
+
+        return view('iprofile::admin.users.index', compact('users'));
     }
 
     /**
@@ -46,6 +54,7 @@ class ProfileController extends AdminBaseController
      */
     public function create()
     {
+        $fields=json_decode(json_encode(new FieldTrasnformer(config('asgard.iprofile.config.fields'))));
 
         return view('iprofile::admin.users.create');
     }
@@ -53,55 +62,66 @@ class ProfileController extends AdminBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  CreateUserFieldRequest $request
+     * @param CreateUserRequest $request
      * @return Response
      */
     public function store(CreateUserRequest $request)
     {
+        $this->user->createWithRoles($request->all(), $request->roles, true);
 
-        $this->user->createWithRoles($request, $request->roles, true);
-
-        return redirect()->route('admin.iprofile.users.index')
+        return redirect()->route('admin.iprofile.profiles.index')
             ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('iprofile::userfields.title.user')]));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  UserField $userfield
+     * @param $user_id
      * @return Response
      */
     public function edit($user_id)
     {
-        $user=$this->user->find($user_id);
-        return view('iprofile::admin.users.edit', compact('user'));
+        $user = json_decode(json_encode(new UserProfileTransformer($this->user->find($user_id))));
+        $fields=json_decode(json_encode(new FieldTrasnformer(config('asgard.iprofile.config.fields'))));
+        $trans  = 'iprofile::profile.form';
+      //  $fields2=config('asgard.iprofile.config.fields');
+
+      //  dd($fields,$fields2);
+        return view('iprofile::admin.users.edit', compact('user','fields','trans'));
     }
 
-    public function me($user_id)
+    public function me()
     {
-        $user=$this->auth->user();
+        $this->user->find($this->auth->user()->id);
+
         return view('iprofile::admin.users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  UserField $userfield
-     * @param  UpdateUserFieldRequest $request
+     * @param $user_id
+     * @param Request $request
      * @return Response
      */
-    public function update($user_id, UpdateUserFieldRequest $request)
+    public function update($user_id, Request $request)
     {
-        $this->user->updateAndSyncRoles($user_id, $request, $request->roles);
+        $data = $request->all();
+        if (isset($data['validate']) && $data['validate']) {
+            $timeUpdate= config()->get('asgard.iprofile.config.time_update');
+            $data['date_update']=\Carbon::now()->addday(1);
+        }
+        $user=$this->user->find($user_id);
+        $this->user->update($user, $request->all());
 
-        return redirect()->route('admin.iprofile.users.index')
-            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('iprofile::userfields.title.user')]));
+        return redirect()->route('admin.iprofile.profiles.index')
+            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('iprofile::user.title.user')]));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  UserField $userfield
+     * @param $user_id
      * @return Response
      */
     public function destroy($user_id)
@@ -109,7 +129,7 @@ class ProfileController extends AdminBaseController
         $this->user->delete($user_id);
 
         return redirect()->route('admin.iprofile.users.index')
-            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('iprofile::userfields.title.user')]));
+            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('iprofile::profiles.title.user')]));
     }
 
     public function sendResetPassword($user, Authentication $auth)

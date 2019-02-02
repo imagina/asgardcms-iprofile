@@ -6,9 +6,6 @@ use Illuminate\Routing\Router;
 $router->group(['prefix' =>'/iprofile'], function (Router $router) {
 
     $router->group(['prefix' =>'/profiles'], function (Router $router) {
-        $router->bind('user_id', function ($id) {
-            return app('Modules\Iprofile\Repositories\UserRepository')->find($id);
-        });
         $router->get('/', [
             'as' => 'admin.iprofile.profiles.index',
             'uses' => 'ProfileController@index',
@@ -35,12 +32,12 @@ $router->group(['prefix' =>'/iprofile'], function (Router $router) {
             'middleware' => 'can:user.users.edit'
         ]);
         $router->put('{user_id}', [
-            'as' => 'admin.iprofile.department.update',
+            'as' => 'admin.iprofile.profiles.update',
             'uses' => 'ProfileController@update',
             'middleware' => 'can:user.users.edit'
         ]);
         $router->delete('{user_id}', [
-            'as' => 'admin.iprofile.department.destroy',
+            'as' => 'admin.iprofile.profiles.destroy',
             'uses' => 'ProfileController@destroy',
             'middleware' => 'can:user.users.destroy'
         ]);

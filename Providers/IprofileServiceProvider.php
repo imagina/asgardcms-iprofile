@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Events\LoadingBackendTranslations;
+use Modules\Iprofile\Console\ProfileValidated;
 use Modules\Iprofile\Events\Handlers\RegisterIprofileSidebar;
 use Modules\Iprofile\Repositories\UserRepository;
 
@@ -35,10 +36,8 @@ class IprofileServiceProvider extends ServiceProvider
             $event->load('departments', array_dot(trans('iprofile::departments')));
             $event->load('addresses', array_dot(trans('iprofile::addresses')));
             // append translations
-
-
-
         });
+        $this->registerCommands();
     }
 
     public function boot()
@@ -69,8 +68,7 @@ class IprofileServiceProvider extends ServiceProvider
             'Modules\Iprofile\Repositories\UserFieldRepository',
             function () {
                 $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentUserFieldRepository(new \Modules\Iprofile\Entities\UserField());
-
-                if (! config('app.cache')) {
+                if (!config('app.cache')) {
                     return $repository;
                 }
 
@@ -82,7 +80,7 @@ class IprofileServiceProvider extends ServiceProvider
             function () {
                 $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentDepartmentRepository(new \Modules\Iprofile\Entities\Department());
 
-                if (! config('app.cache')) {
+                if (!config('app.cache')) {
                     return $repository;
                 }
 
@@ -94,16 +92,30 @@ class IprofileServiceProvider extends ServiceProvider
             function () {
                 $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentAddressRepository(new \Modules\Iprofile\Entities\Address());
 
-                if (! config('app.cache')) {
+                if (!config('app.cache')) {
                     return $repository;
                 }
 
                 return new \Modules\Iprofile\Repositories\Cache\CacheAddressDecorator($repository);
             }
         );
-// add bindings
 
+    }
+    /**
+     * Register all commands for this module
+     */
+    private function registerCommands()
+    {
+        $this->registerCacheClearCommand();
+    }
 
+    /**
+     * Register the refresh thumbnails command
+     */
+    private function registerCacheClearCommand()
+    {
 
+        $this->app['command.iprofile.profilevalidate'] = $this->app->make(ProfileValidated::class);;
+        $this->commands(['command.iprofile.profilevalidate']);
     }
 }

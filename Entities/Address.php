@@ -3,11 +3,14 @@
 namespace Modules\Iprofile\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Ilocations\Entities\City;
+use Modules\Ilocations\Entities\Province;
+use Modules\Ilocations\Entities\Country;
 
 class Address extends Model
 {
     protected $table = 'iprofile__addresses';
-    protected $fillable = ['first_name', 'last_name','company','address_1','address_2','city','zip_code','country', 'province','type'];
+    protected $fillable = ['first_name', 'last_name','company','address_1','address_2','city_id','zip_code','country_id', 'province_id','type', 'user_id'];
 
     /**
      * @return mixed
@@ -17,6 +20,22 @@ class Address extends Model
         $driver = config('asgard.user.config.driver');
 
         return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+
+    }
+    public function province()
+    {
+        return $this->belongsTo(Province::class, 'province_id');
+
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id');
+
     }
 
     /**

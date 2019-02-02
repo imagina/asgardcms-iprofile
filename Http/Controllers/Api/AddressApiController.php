@@ -1,15 +1,17 @@
 <?php
 
-namespace Modules\Profile\Http\Controllers\Api;
+namespace Modules\Iprofile\Http\Controllers\Api;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
-use Modules\Profile\Transformers\AddressesTransformer;
-use Modules\Profile\Http\Requests\CreateAddressRequest;
-use Modules\Profile\Http\Requests\UpdateAddressRequest;
-use Modules\Profile\Repositories\AddressRepository;
+use Modules\Iprofile\Transformers\AddressTransformer;
+use Modules\Iprofile\Http\Requests\CreateAddressRequest;
+use Modules\Iprofile\Http\Requests\UpdateAddressRequest;
+use Modules\Iprofile\Repositories\AddressRepository;
+
 
 class AddressApiController extends BaseApiController
 {
@@ -29,29 +31,28 @@ class AddressApiController extends BaseApiController
 
   public function index(Request $request)
   {
-    try {
+   // try {
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $addresses = $this->address->getItemsBy($params);
-      
       //Response
       $response = [
-        "data" => AddressesTransformer::collection($addresses)
+        "data" => AddressTransformer::collection($addresses)
       ];
-      
+
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($addresses)] : false;
-    } catch (\Exception $e) {
-      $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
-    }
-    
+   // } catch (\Exception $e) {
+     // $status = $this->getStatusError($e->getCode());
+      //$response = ["errors" => $e->getMessage()];
+    //}
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * GET A ITEM
    *
@@ -71,7 +72,7 @@ class AddressApiController extends BaseApiController
       if (!$address) throw new Exception('Item not found', 404);
       
       //Response
-      $response = ["data" => new AddressesTransformer($address)];
+      $response = ["data" => new AddressTransformer($address)];
       
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($address)] : false;
@@ -90,7 +91,7 @@ class AddressApiController extends BaseApiController
    * @param Request $request
    * @return mixed
    */
-  public function create(CreateAddressRequest $request)
+  public function create(Request $request)
   {
     \DB::beginTransaction();
     try {
@@ -99,7 +100,7 @@ class AddressApiController extends BaseApiController
       
       //Validate Request
       $this->validateRequestApi(new CreateAddressRequest($data));
-      
+
       //Create item
       $address=$this->address->create($data);
       
@@ -139,16 +140,15 @@ class AddressApiController extends BaseApiController
     \DB::beginTransaction(); //DB Transaction
     try {
       //Get data
-      $data = $request->attributes;
-      
+      $data = $request->input('attributes');
       //Validate Request
-      $this->validateRequestApi(new UpdateAddressRequest($data));
+      $this->validateRequestApi(new CreateAddressRequest($data));
       
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+        $address = $this->address->getItem($criteria, $params);
       //Request to Repository
-      $this->address->updateBy($criteria, $data, $params);
+      $this->address->update($address, $data);
       
       //Response
       $response = ["data" => 'Item Updated'];

@@ -13,4 +13,15 @@ class CacheAddressDecorator extends BaseCacheDecorator implements AddressReposit
         $this->entityName = 'iprofile.addresses';
         $this->repository = $address;
     }
+
+
+    public function getItemsBy($params = false)
+    {
+        // TODO: Implement getItemsBy() method.
+    }
+
+    public function getItem($criteria, $params = false)
+    {
+        // TODO: Implement getItem() method.
+    }
 }

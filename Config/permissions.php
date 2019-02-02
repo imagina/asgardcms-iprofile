@@ -1,7 +1,16 @@
 <?php
 
 return [
+    'iprofile.api' => [
+        'login' => 'iprofile::profiles.api.login',
+    ],
     'iprofile.user_fields' => [
+        'index' => 'iprofile::user_fields.list resource',
+        'create' => 'iprofile::user_fields.create resource',
+        'edit' => 'iprofile::user_fields.edit resource',
+        'destroy' => 'iprofile::user_fields.destroy resource',
+    ],
+    'iprofile.profiles' => [
         'index' => 'iprofile::user_fields.list resource',
         'create' => 'iprofile::user_fields.create resource',
         'edit' => 'iprofile::user_fields.edit resource',

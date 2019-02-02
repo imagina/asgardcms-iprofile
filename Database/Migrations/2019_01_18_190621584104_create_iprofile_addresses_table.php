@@ -20,10 +20,10 @@ class CreateIprofileAddressesTable extends Migration
             $table->string('company')->nullable();
             $table->text('address_1')->nullable();
             $table->text('address_2')->nullable();
-            $table->string('city')->nullable();
+            $table->string('city_id')->nullable();
             $table->string('zip_code')->nullable();
-            $table->string('country')->nullable();
-            $table->string('province')->nullable();
+            $table->string('country_id')->nullable();
+            $table->string('province_id')->nullable();
             $table->string('type')->nullable();
             $table->integer('user_id')->unsigned()->nullable();
             $table->timestamps();
