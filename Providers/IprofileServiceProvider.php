@@ -106,13 +106,13 @@ class IprofileServiceProvider extends ServiceProvider
      */
     private function registerCommands()
     {
-        $this->registerCacheClearCommand();
+        //$this->registerProfileValidateCommand();
     }
 
     /**
      * Register the refresh thumbnails command
      */
-    private function registerCacheClearCommand()
+    private function registerProfileValidateCommand()
     {
 
         $this->app['command.iprofile.profilevalidate'] = $this->app->make(ProfileValidated::class);;

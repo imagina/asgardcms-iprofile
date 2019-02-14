@@ -116,7 +116,7 @@ class AddressApiController extends BaseApiController
                   'id' => $address->id
               ]
           ]
-      ];;
+      ];
       \DB::commit(); //Commit to Data Base
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
