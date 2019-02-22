@@ -16,6 +16,17 @@ return [
     'table' => [
     ],
     'form' => [
+        'type_document'     => 'Type document',
+        'first_name'        => 'First name',
+        'last_name'         => 'Last name',
+        'email'             => 'Email',
+        'city'              => 'City',
+        'branch_office'     => 'Branch office',
+        'type_request'      => 'Type request',
+        'entailment'        => 'Class entailment',
+        'entailment_other'  => 'Other entailment',
+
+        'created_at' => 'Created',
     ],
     'messages' => [
         'Update Profile'=> 'Update Profile',

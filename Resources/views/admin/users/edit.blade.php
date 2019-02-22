@@ -14,10 +14,137 @@
 @stop
 
 @section('content')
+    {{-- 
+    Para que el modulo de construccion de campos dinamico funcione se debe incluir @include('iprofile::admin.users.partials.fieldsConstruct') en cualquier parte de @section('content') antes de los @stack.
+    Para colocar los campos dentro de la vista se debe utilizar @stack('personal'),@stack('phones') y @stack('financieros'), cada uno en la seccion que se requiera
+    --}}
+    @include('iprofile::admin.users.partials.fieldsConstruct')
 
-    {{ dd(config('asgard.iprofile.config.fields')) }}
+    @php
+        $prueba = ((array) $user);
+    @endphp
 
-    {!! Form::open(['route' => ['admin.iprofile.profiles.update', $user->id], 'method' => 'put']) !!}
+    {!! Form::model($user,['route' => ['admin.iprofile.profiles.update', $user->id], 'method' => 'put']) !!}
+
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    @isset($user->main_image)
+                    <img class="profile-user-img img-responsive img-circle" src="{{ Theme::url($user->main_image) }}" alt="User profile picture">
+                    @endisset
+                    <h3 class="profile-username text-center">{{ $user->first_name }} {{ $user->last_name }}</h3>
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                        <b>{{ trans('iprofile::profiles.form.email') }}</b> <a class="pull-right">{{ $user->email }}</a>
+                        </li>
+                        <li class="list-group-item">
+                        <b>{{ trans('iprofile::profiles.form.created_at') }}</b> <a class="pull-right">{{ $user->created_at }}</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+            </div>
+             <!-- /.box -->
+        </div>
+    
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a href="#personal" data-toggle="tab">Personal</a></li>
+                  <li><a href="#financiero" data-toggle="tab">Financiero</a></li>
+                  <li><a href="#tab_peps" data-toggle="tab">PEP'S</a></li>
+                  <li><a href="#tab_fonds_origin" data-toggle="tab">Origen de Fondos</a></li>
+                  <li><a href="#tab_activity_international_operations" data-toggle="tab">Operaciones Internacionales</a></li>
+                  <li><a href="#tab_attachments" data-toggle="tab">Archivos Adjuntos</a></li>
+                  <li><a href="#tab_password" data-toggle="tab">Clave usuario</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="personal">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="box box-primary">
+                                    <div class="box-header">
+                                        <h4>Formulario unico de conocimiento de terceros</h4>
+                                    </div>
+                                    <div class="box-body ">
+                                    @stack('conocimiento_terceros')
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="box box-primary">
+                                    <div class="box-header">
+                                        <h4>Persona Natural</h4>
+                                    </div>
+                                    <div class="box-body ">
+                                    @stack('personal')
+                                    @stack('phones')
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="financiero">
+                        <div class="row">
+                            @stack('financieros')
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_peps">
+                        <div class="row">
+                            @stack('peps')
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_fonds_origin">
+                        <div class="row">
+                            @stack('fonds_origin')
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_activity_international_operations">
+                        <div class="row">
+                            @stack('activity_international_operations')
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_attachments">
+                        <div class="row">
+                            @stack('attachments')
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_password">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class='form-group{{ $errors->has("password") ? ' has-error' : '' }}'>
+                                    {!! Form::label("password", trans('user::auth.password') ) !!}
+                                    <input type="password" name="password" class="form-control"
+                                            placeholder="{{ trans('user::auth.password') }}">
+                                    {!! $errors->first("password", '<span class="help-block">:message</span>') !!}
+                                </div>
+                                <div class='form-group{{ $errors->has("confirm_password") ? ' has-error' : '' }}'>
+                                    {!! Form::label("password_confirmation", trans('user::auth.password confirmation')) !!}
+                                    <input type="password" name="password_confirmation" class="form-control"
+                                            placeholder="{{ trans('user::auth.password confirmation') }}">
+                                    {!! $errors->first("password_confirmation", '<span class="help-block">:message</span>') !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-xs-12 col-md-9">
             <div class="row">
@@ -43,63 +170,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="box box-primary">
-                        <div class="box-header">
-                        </div>
-                        <div class="box-body ">
-                            <div class='form-group{{ $errors->has("first_name") ? ' has-error' : '' }}'>
-                                {!! Form::label("first_name", trans('iprofile::profile.form.first_name')) !!}
-                                {!! Form::text("first_name", old("first_name"), ['class' => 'form-control', 'placeholder' => trans('iprofile::profile.form.first_name')]) !!}
-                                {!! $errors->first("first_name", '<span class="help-block">:message</span>') !!}
-                            </div>
-                            <div class='form-group{{ $errors->has("last_name") ? ' has-error' : '' }}'>
-                                {!! Form::label("last_name", trans('iprofile::profile.form.last_name')) !!}
-                                {!! Form::text("last_name", old("last_name"), ['class' => 'form-control', 'placeholder' => trans('iprofile::profile.form.last_name')]) !!}
-                                {!! $errors->first("last_name", '<span class="help-block">:message</span>') !!}
-                            </div>
-                            <div class='form-group{{ $errors->has("email") ? ' has-error' : '' }}'>
-                                {!! Form::label("email", trans('user::auth.email') ) !!}
-                                {!! Form::text("email", old("email"), ['class' => 'form-control', 'placeholder' => trans('iprofile::profile.form.email')]) !!}
-                                {!! $errors->first("email", '<span class="help-block">:message</span>') !!}
-                            </div>
-                            <div class='form-group{{ $errors->has("password") ? ' has-error' : '' }}'>
-                                {!! Form::label("password", trans('user::auth.password') ) !!}
-                                <input type="password" name="password" class="form-control"
-                                       placeholder="{{ trans('user::auth.password') }}">
-                                {!! $errors->first("password", '<span class="help-block">:message</span>') !!}
-                            </div>
-                            <div class='form-group{{ $errors->has("confirm_password") ? ' has-error' : '' }}'>
-                                {!! Form::label("password_confirmation", trans('user::auth.password confirmation')) !!}
-                                <input type="password" name="password_confirmation" class="form-control"
-                                       placeholder="{{ trans('user::auth.password confirmation') }}">
-                                {!! $errors->first("password_confirmation", '<span class="help-block">:message</span>') !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="box box-primary">
-                        <div class="box-header">
-                        </div>
-                        <div class="box-body ">
-                            <div class='form-group{{ $errors->has("birthdate") ? ' has-error' : '' }}'>
-                                {!! Form::label("birthdate", trans('iprofile::profile.form.birthdate')) !!}
-                                {!! Form::text("birthdate", old("birthdate"), ['class' => 'form-control', 'data-slug' => 'source', 'placeholder' => trans('iprofile::profile.form.birthdate')]) !!}
-                                {!! $errors->first("birthdate", '<span class="help-block">:message</span>') !!}
-                            </div>
-                            <div class='form-group{{ $errors->has("cel") ? ' has-error' : '' }}'>
-                                {!! Form::label("cel", trans('iprofile::profile.form.cel')) !!}
-                                {!! Form::text("cel", old("cel"), ['class' => 'form-control', 'data-slug' => 'source', 'placeholder' => trans('iprofile::profile.form.cel')]) !!}
-                                {!! $errors->first("cel", '<span class="help-block">:message</span>') !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{-- Fin de crear los campos --}}
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.update') }}</button>
                 <a class="btn btn-danger pull-right btn-flat" href="{{ route('admin.iprofile.profiles.index')}}"><i

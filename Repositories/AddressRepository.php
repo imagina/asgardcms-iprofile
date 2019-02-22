@@ -10,5 +10,4 @@ interface AddressRepository extends BaseRepository
 
     public function getItem($criteria, $params = false);
 
-
 }

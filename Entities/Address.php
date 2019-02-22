@@ -10,7 +10,7 @@ use Modules\Ilocations\Entities\Country;
 class Address extends Model
 {
     protected $table = 'iprofile__addresses';
-    protected $fillable = ['first_name', 'last_name','company','address_1','address_2','city_id','zip_code','country_id', 'province_id','type', 'user_id'];
+    protected $fillable = ['first_name', 'last_name','company','address_1','address_2','city_id','zip_code','country_id', 'province_id','type', 'user_id', 'default'];
 
     /**
      * @return mixed

@@ -82,12 +82,13 @@ class ProfileController extends AdminBaseController
     public function edit($user_id)
     {
         $user = json_decode(json_encode(new UserProfileTransformer($this->user->find($user_id))));
+        $user2 = $this->user->find($user_id);
         $fields=json_decode(json_encode(new FieldTrasnformer(config('asgard.iprofile.config.fields'))));
-        $trans  = 'iprofile::profile.form';
+        $trans  = 'iprofile::profiles.form';
       //  $fields2=config('asgard.iprofile.config.fields');
 
       //  dd($fields,$fields2);
-        return view('iprofile::admin.users.edit', compact('user','fields','trans'));
+        return view('iprofile::admin.users.edit', compact('user','fields','trans','user2'));
     }
 
     public function me()

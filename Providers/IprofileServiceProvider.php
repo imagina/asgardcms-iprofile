@@ -106,7 +106,7 @@ class IprofileServiceProvider extends ServiceProvider
      */
     private function registerCommands()
     {
-        //$this->registerProfileValidateCommand();
+        $this->registerProfileValidateCommand();
     }
 
     /**

@@ -8,7 +8,7 @@ use Modules\Iprofile\Repositories\UserRepository;
 use Modules\Iprofile\Transformers\UserProfileTransformer;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Contracts\Mail\Mailer;
+use Illuminate\Support\Facades\Mail;
 
 class ProfileValidated extends Command
 {
@@ -34,7 +34,7 @@ class ProfileValidated extends Command
      * @param UserRepository $user
      * @param Mailer $mail
      */
-    public function __construct(UserRepository $user, Mailer $mail)
+    public function __construct(UserRepository $user, Mail $mail)
     {
         parent::__construct();
         $this->user = $user;

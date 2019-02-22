@@ -1,0 +1,162 @@
+.container-profile
+{
+    padding-top: 30px;
+    background-image: url(http://brandio.io/envato/iofrm/html/images/graphic2.svg);
+    background-position: left;
+    background-repeat: no-repeat;
+    background-color: #f7f7f7;
+    .login-box
+    {
+        margin: auto;
+        width: auto;
+        height: 100%;
+        background-color: white;
+    }
+    .form-body {
+        padding: 35px 30px;
+        border-radius: 10px;
+        background-color: #fff;
+        -webkit-box-shadow: 0 6px 15px rgba(0, 0, 0, 0.16);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.16);
+        margin-bottom: 15px;
+
+        .form-content
+        {
+            input:not([type="submit"]),
+            .dropdown-toggle.btn-default {
+                width: 100%;
+                padding: 9px 20px;
+                text-align: left;
+                outline: 0;
+                border-radius: 6px;
+                font-size: 15px;
+                font-weight: 300;
+                -webkit-transition: all 0.3s ease 0s;
+                transition: all 0.3s ease 0s;
+                margin-bottom: 14px;
+                border: 0;
+                background-color: #F7F7F7;
+                color: #000000;
+            }
+            .page-links a
+            {
+                position: relative;
+                display: inline-block;
+                text-decoration: none;
+                font-weight: 300;
+                font-size: 15px;
+                margin-right: 20px;
+                -webkit-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                transition: all 0.3s ease;
+                color: #333;
+
+                &:after {
+                    position: absolute;
+                    content: "";
+                    width: 100%;
+                    height: 2px;
+                    left: 0;
+                    bottom: -4px;
+                    background-color: rgba(255, 255, 255, 0.5);
+                    -webkit-transition: all 0.3s ease;
+                    transition: all 0.3s ease;
+                    background-color: rgba(222, 222, 222, 0.7);
+                }
+
+                &:hover:after,
+                &:focus:after {
+                    background-color: #23394A;
+                }
+            }
+
+            .form-button
+            {
+                margin-top: 10px;
+                input
+                {
+                    margin-right: 10px;
+                }
+                a {
+                    font-weight: 300;
+                    font-size: 13px;
+                    color: #000;
+                    &:hover {
+                        text-decoration: underline; 
+                    }
+                }
+            }
+
+            .other-links {
+                margin-top: 15px;
+                margin-bottom: 15px;
+                a {
+                    display: inline-block;
+                    padding: 5px;
+                    border-radius: 2px;
+                    color: #000;
+                    background-color: #F7F7F7;
+                    font-size: 12px;
+                    font-weight: 700;
+                    margin-right: 10px;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                    i {
+                        display: inline-block;
+                        width: 20px;
+                        height: 20px;
+                        background-color: #000;
+                        color: #fff;
+                        border-radius: 25px;
+                        text-align: center;
+                        padding-top: 3px;
+                        font-size: 14px;
+                        margin: 0 5px;
+                        -webkit-transition: all 0.3s ease;
+                        transition: all 0.3s ease;
+                        &[class*="fa-facebook"] {
+                            background-color: #3b5998;
+                        }
+                        &[class*="fa-google"] {
+                            background-color: #dd4b39;
+                        }
+                        &[class*="fa-linkedin"] {
+                            background-color: #007bb6;
+                        }
+                        &:hover,
+                        &:focus {
+                            opacity: 0.8;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .form-group{
+        margin-bottom: 10px;
+        position: relative;
+        &.has-error .help-block
+        {
+            margin-top: -15px;
+            margin-bottom: 0px;
+            font-size: 11px;
+            color: $red;
+            position: absolute;
+        }
+    }
+    .login-logo
+    {
+        font-size: 28px;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+    .alert
+    {
+        margin-bottom: 8px;
+        padding: 5px 10px 5px 10px;        
+        &.fade.in {
+            opacity: 1;
+        }
+    }
+}

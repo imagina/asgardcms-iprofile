@@ -176,12 +176,12 @@ class AddressApiController extends BaseApiController
     try {
       //Get params
       $params = $this->getParamsRequest($request);
-      
+        $address = $this->address->getItem($criteria, $params);
       //call Method delete
-      $this->address->deleteBy($criteria, $params);
+      $this->address->delete($address, $params);
       
       //Response
-      $response = ["data" => ""];
+      $response = ["data" => 'Item Updated'];
       \DB::commit();//Commit to Data Base
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base

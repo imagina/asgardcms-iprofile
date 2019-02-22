@@ -24,6 +24,7 @@ class AddressTransformer extends Resource
             'city_id'=>$this->when( $this->city_id, $this->city_id),
             'province_id'=>$this->when( $this->province_id, $this->province_id),
             'country_id'=>$this->when( $this->country_id, $this->country_id),
+            'default'=>$this->when( $this->default, $this->default),
             'city'=> new CityTransformer($this->whenLoaded('city')),
             'province'=>new ProvinceTransformer($this->whenLoaded('province')),
             'country'=>new CountryTransformer($this->whenLoaded('country')),

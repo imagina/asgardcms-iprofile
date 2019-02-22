@@ -35,14 +35,16 @@ class EloquentAddressRepository extends EloquentBaseRepository implements Addres
             if (isset($date->to))//to a date
               $query->whereDate($date->field, '<=', $date->to);
           }
-
+            if (isset($filter->default)) {
+                $query->where('default', $filter->default);//Add order to query
+            }
+        }
           //Order by
           if (isset($filter->order)) {
             $orderByField = $filter->order->field ?? 'created_at';//Default field
             $orderWay = $filter->order->way ?? 'desc';//Default way
             $query->orderBy($orderByField, $orderWay);//Add order to query
           }
-        }
 
         /*== FIELDS ==*/
         if (isset($params->fields) && count($params->fields))

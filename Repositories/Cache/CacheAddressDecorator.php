@@ -17,11 +17,15 @@ class CacheAddressDecorator extends BaseCacheDecorator implements AddressReposit
 
     public function getItemsBy($params = false)
     {
-        // TODO: Implement getItemsBy() method.
+        return $this->remember(function () use ($params) {
+            return $this->repository->getItemsBy($params);
+        });
     }
 
     public function getItem($criteria, $params = false)
     {
-        // TODO: Implement getItem() method.
+        return $this->remember(function () use ($criteria, $params) {
+            return $this->repository->getItem($criteria, $params);
+        });
     }
 }
