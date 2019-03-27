@@ -34,7 +34,6 @@ class EloquentUserRepository extends SentinelUserRepository implements UserRepos
      */
     public function create(array $data, $activated = false)
     {
-
         $user = parent::create($data, $activated);
         event(new ProfileWasCreated($user, $data));
 

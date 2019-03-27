@@ -18,7 +18,7 @@ class RegisterFieldUser
     public function handle(ProfileWasCreated $event)
     {
         $fields = array_diff_key($event->data, ['password_confirmation'=>true,'_token'=>true,'email'=>true, 'password'=>true, 'permissions'=>true, 'first_name'=>true, 'last_name'=>true]);
-        $labels=config()->get('asgad.iprofile.config.fields');
+        $labels=config()->get('asgard.iprofile.config.fields');
         if (count($fields)) {
             foreach ($fields as $index => $field) {
                 $type = array_get($labels,$index.'.type');

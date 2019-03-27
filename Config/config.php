@@ -3,6 +3,8 @@
 return [
     'name' => 'Iprofile',
     'time_update' => 6,
+    'autoCreate'=>true,
+    'default_mail_provider'=>'gmail.com',
     'fields' => [
         ['name' => '',
             'tipe' => '',

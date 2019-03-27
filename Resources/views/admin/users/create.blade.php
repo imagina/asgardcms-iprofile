@@ -75,25 +75,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="box box-primary">
-                            <div class="box-header">
-                            </div>
-                            <div class="box-body ">
-                                <div class='form-group{{ $errors->has("birthdate") ? ' has-error' : '' }}'>
-                                    {!! Form::label("birthdate", trans('iprofile::profile.form.birthdate')) !!}
-                                    {!! Form::text("birthdate", old("birthdate"), ['class' => 'form-control', 'data-slug' => 'source', 'placeholder' => trans('iprofile::profile.form.birthdate')]) !!}
-                                    {!! $errors->first("birthdate", '<span class="help-block">:message</span>') !!}
-                                </div>
-                                <div class='form-group{{ $errors->has("cel") ? ' has-error' : '' }}'>
-                                    {!! Form::label("cel", trans('iprofile::profile.form.cel')) !!}
-                                    {!! Form::text("cel", old("cel"), ['class' => 'form-control', 'data-slug' => 'source', 'placeholder' => trans('iprofile::profile.form.cel')]) !!}
-                                    {!! $errors->first("cel", '<span class="help-block">:message</span>') !!}
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-xs-12">
+                  <div class="box box-primary">
+                    <div class="box-header">
                     </div>
+                    <div class="box-body ">
+                      <div class='form-group{{ $errors->has("birthdate") ? ' has-error' : '' }}'>
+                        {!! Form::label("birthdate", trans('iprofile::profile.form.birthdate')) !!}
+                        {!! Form::text("birthdate", old("birthdate"), ['class' => 'form-control', 'data-slug' => 'source', 'placeholder' => trans('iprofile::profile.form.birthdate')]) !!}
+                        {!! $errors->first("birthdate", '<span class="help-block">:message</span>') !!}
+                      </div>
+                      <div class='form-group{{ $errors->has("cel") ? ' has-error' : '' }}'>
+                        {!! Form::label("cel", trans('iprofile::profile.form.cel')) !!}
+                        {!! Form::text("cel", old("cel"), ['class' => 'form-control', 'data-slug' => 'source', 'placeholder' => trans('iprofile::profile.form.cel')]) !!}
+                        {!! $errors->first("cel", '<span class="help-block">:message</span>') !!}
+                      </div>
+                    </div>
+                  </div>
                 </div>
             </div>
             <div class="row">

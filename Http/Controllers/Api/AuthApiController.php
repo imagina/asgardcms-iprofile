@@ -17,14 +17,14 @@ class AuthApiController extends BasePublicController
   private $user;
 
   private $department;
-  
+
   public function __construct(
     DepartmentRepository $department)
   {
     $this->department = $department;
   }
-  
-  
+
+
   /**
    * @param Request $request
    * [
@@ -42,11 +42,11 @@ class AuthApiController extends BasePublicController
       'email' => $request->input('username'),
       'password' => $request->input('password')
     ];
-    
+
     if (Auth::attempt($credentials)) {
       $user = Auth::user();
       $role = $user->roles()->first();
-      
+
      // $this->logout($request); //Revoke all tokens from this user
       $token = $user->createToken('Laravel Password Grant Client');
       $departments ='';
@@ -64,13 +64,13 @@ class AuthApiController extends BasePublicController
           'default_route' => $defaultRoute ?? '/',
         ]
       ];
-      
+
       return response($response, 200);
     } else {
       return response('User or Password invalid', 401);
     }
   }
-  
+
   /**
    * Logout passport
    * @param Request $request
@@ -84,13 +84,13 @@ class AuthApiController extends BasePublicController
       $id = (new Parser())->parse($value)->getHeader('jti');
       $token = Auth::user()->tokens->find($id);
       $token->revoke();*/
-      
+
       //Delete all tokens of this user
       $user = Auth::user();
       DB::table('oauth_access_tokens')->where('user_id',$user->id)->delete();
     }
-    
+
     return response('You have been successfully logged out!', 200);
   }
-  
+
 }

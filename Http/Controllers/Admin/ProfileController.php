@@ -55,8 +55,8 @@ class ProfileController extends AdminBaseController
     public function create()
     {
         $fields=json_decode(json_encode(new FieldTrasnformer(config('asgard.iprofile.config.fields'))));
-
-        return view('iprofile::admin.users.create');
+        // dd($fields);
+        return view('iprofile::admin.users.create',['fields'=>$fields]);
     }
 
     /**
@@ -67,6 +67,7 @@ class ProfileController extends AdminBaseController
      */
     public function store(CreateUserRequest $request)
     {
+      dd($request->all());
         $this->user->createWithRoles($request->all(), $request->roles, true);
 
         return redirect()->route('admin.iprofile.profiles.index')

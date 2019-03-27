@@ -102,12 +102,17 @@ class UserApiController extends BaseApiController
         try {
             //Get data
             $data = $request->input('attributes');
-
+            if(config('asgard.iprofile.config.autoCreate')){
+              if(isset($data['number_document'])){
+                $data['email']=strtolower($data['number_document'].'@'.config('asgard.iprofile.config.default_mail_provider'));
+                $data['password']=\Illuminate\Support\Str::random(32);
+                $data['password_confirmation']=$data['password'];
+              }//if isset full_name
+            }//if cdaModule is active.
             //Validate Request
             $this->validateRequestApi(new CreateUserRequest($data));
-
+            //Validate if exists
             $exist = \DB::table('users')->where('email', $data["email"])->first();
-
 
             if (!$exist) {
                 //Create item
@@ -116,14 +121,15 @@ class UserApiController extends BaseApiController
 
                 $status = 200;
                 $response = [
-                    'susses' => [
+                    'succes' => [
                         'code' => '201',
                         "source" => [
                             "pointer" => url($request->path())
                         ],
                         "title" => trans('core::core.messages.resource created', ['name' => trans('imonitor::common.singular')]),
                         "detail" => [
-                            'id' => $user->id
+                            'id' => $user->id,
+                            'recoverPassword'=>route('api.user.user.sendResetPassword',[$user->id])
                         ]
                     ]
                 ];

@@ -14,12 +14,12 @@ use Modules\Profile\Repositories\FieldRepository;
 class FieldApiController extends BaseApiController
 {
   private $field;
-  
+
   public function __construct(FieldRepository $field)
   {
     $this->field = $field;
   }
-  
+
   /**
    * GET ITEMS
    *
@@ -30,26 +30,26 @@ class FieldApiController extends BaseApiController
     try {
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $fields = $this->field->getItemsBy($params);
-      
+
       //Response
       $response = [
         "data" => FieldTransformer::collection($fields)
       ];
-      
+
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($fields)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * GET A ITEM
    *
@@ -61,27 +61,27 @@ class FieldApiController extends BaseApiController
     try {
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $field = $this->field->getItem($criteria, $params);
-      
+
       //Break if no found item
       if (!$field) throw new Exception('Item not found', 404);
-      
+
       //Response
       $response = ["data" => new FieldTransformer($field)];
-      
+
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($field)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * CREATE A ITEM
    *
@@ -94,13 +94,13 @@ class FieldApiController extends BaseApiController
     try {
       //Get data
       $data = $request->input('attributes');
-      
+
       //Validate Request
       $this->validateRequestApi(new CreateCustomFieldRequest($data));
-      
+
       //Create item
       $this->field->create($data);
-      
+
       //Response
       $response = ["data" => ""];
       \DB::commit(); //Commit to Data Base
@@ -112,7 +112,7 @@ class FieldApiController extends BaseApiController
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * UPDATE ITEM
    *
@@ -126,16 +126,16 @@ class FieldApiController extends BaseApiController
     try {
       //Get data
       $data = $request->input('attributes');
-      
+
       //Validate Request
       $this->validateRequestApi(new UpdateCustomFieldRequest($data));
-      
+
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $this->field->updateBy($criteria, $data, $params);
-      
+
       //Response
       $response = ["data" => ''];
       \DB::commit();//Commit to DataBase
@@ -144,11 +144,11 @@ class FieldApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * DELETE A ITEM
    *
@@ -161,10 +161,10 @@ class FieldApiController extends BaseApiController
     try {
       //Get params
       $params = $this->getParamsRequest($request);
-      
+
       //call Method delete
       $this->field->deleteBy($criteria, $params);
-      
+
       //Response
       $response = ["data" => ""];
       \DB::commit();//Commit to Data Base
@@ -173,7 +173,7 @@ class FieldApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
