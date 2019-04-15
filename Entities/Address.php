@@ -4,33 +4,30 @@ namespace Modules\Iprofile\Entities;
 
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Fhia\Entities\BranchOffice;
+use Modules\User\Entities\Sentinel\User;
 
 class Address extends Model
 {
+    protected $table = 'iprofile__addresses';
 
-  protected $table = 'iprofile__addresses';
-  protected $fillable = [
-    'profile_id',
-    'firstname',
-    'lastname',
-    'company',
-    'address_1',
-    'address_2',
-    'city',
-    'postcode',
-    'country',
-    'zone',
-    'type'
-  ];
+    protected $fillable = [
+      'user_id',
+      'first_name',
+      'last_name',
+      'company',
+      'address_1',
+      'address_2',
+      'city',
+      'zip_code',
+      'country',
+      'state',
+      'app_suit',
+      'type'
+    ];
   
-  /**
-   * @return array
-   */
-  public function profile()
-  {
-    $driver = config('asgard.user.config.driver');
-    
-    return $this->belongsTo(Profile::class);
+  
+  public function user(){
+    $this->belognsTo(User::class);
   }
- 
 }

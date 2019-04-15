@@ -4,27 +4,24 @@ namespace Modules\Iprofile\Transformers;
 
 use Illuminate\Http\Resources\Json\Resource;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use Modules\User\Transformers\UserTransformer;
+use Modules\Ihelpers\Transformers\BaseApiTransformer;
 
-class DepartmentTransformer extends Resource
+class DepartmentTransformer extends BaseApiTransformer
 {
   public function toArray($request)
   {
-    
-    $result = [
-      "id" => $this->id,
-      "value" => $this->id,
-      "title" => $this->title,
-      "label" => $this->title,
-      "users" => UserTransformer::collection($this->users),
-      "created_at" => $this->created_at,
-      "updated_at" => $this->updated_at,
+    $settings = $this->settings()->get();
+    return [
+      'id' => $this->when($this->id,$this->id),
+      'title' => $this->when($this->title,$this->title),
+      'parentId' => $this->when($this->parent_id,$this->parent_id),
+      'options' => $this->when($this->options,$this->options),
+      'users' => UserTransformer::collection($this->whenLoaded('users')),
+      'settings' => SettingTransformer::collection($settings),
+      'createdAt' => $this->when($this->created_at, $this->created_at),
+      'updatedAt' => $this->when($this->updated_at, $this->updated_at),
     ];
-
-    if($this->settings)
-      $result["settings"] = $this->settings;
-
-    return $result;
+  
   }
   
 }

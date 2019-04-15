@@ -5,17 +5,9 @@ namespace Modules\Iprofile\Providers;
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Core\Events\BuildingSidebar;
+use Modules\Core\Events\LoadingBackendTranslations;
 use Modules\Iprofile\Events\Handlers\RegisterIprofileSidebar;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel as SentinelCartalyst;
-
-use Modules\Iprofile\Repositories\ApiUserRepository;
-use Modules\Iprofile\Repositories\Eloquent\EloquentApiUserRepository;
-use Modules\Iprofile\Repositories\Cache\CacheApiUserDecorator;
-use Modules\User\Entities\Sentinel\User;
-
-use Modules\Iprofile\Repositories\ApiRoleRepository;
-use Modules\Iprofile\Repositories\Eloquent\EloquentApiRoleRepository;
-use Modules\Iprofile\Repositories\Cache\CacheApiRoleDecorator;
 
 class IprofileServiceProvider extends ServiceProvider
 {
@@ -36,14 +28,19 @@ class IprofileServiceProvider extends ServiceProvider
   {
     $this->registerBindings();
     $this->app['events']->listen(BuildingSidebar::class, RegisterIprofileSidebar::class);
+    $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
+      $event->load('fields', array_dot(trans('iprofile::fields')));
+      $event->load('addresses', array_dot(trans('iprofile::addresses')));
+      $event->load('departments', array_dot(trans('iprofile::departments')));
+      $event->load('settings', array_dot(trans('iprofile::settings')));
+      $event->load('userdepartments', array_dot(trans('iprofile::userdepartments')));
+    });
   }
 
   public function boot()
   {
     $this->publishConfig('iprofile', 'permissions');
     $this->publishConfig('iprofile', 'config');
-    $this->publishConfig('iprofile', 'settings');
-
     $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
   }
 
@@ -60,27 +57,22 @@ class IprofileServiceProvider extends ServiceProvider
   private function registerBindings()
   {
     $this->app->bind(
-      'Modules\Iprofile\Repositories\ProfileRepository',
+      'Modules\Iprofile\Repositories\FieldRepository',
       function () {
-        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentProfileRepository(new \Modules\Iprofile\Entities\Profile());
-
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentFieldRepository(new \Modules\Iprofile\Entities\Field());
         if (!config('app.cache')) {
           return $repository;
         }
-
-        return new \Modules\Iprofile\Repositories\Cache\CacheProfileDecorator($repository);
+        return new \Modules\Iprofile\Repositories\Cache\CacheFieldDecorator($repository);
       }
     );
-
     $this->app->bind(
       'Modules\Iprofile\Repositories\AddressRepository',
       function () {
         $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentAddressRepository(new \Modules\Iprofile\Entities\Address());
-
         if (!config('app.cache')) {
           return $repository;
         }
-
         return new \Modules\Iprofile\Repositories\Cache\CacheAddressDecorator($repository);
       }
     );
@@ -88,36 +80,51 @@ class IprofileServiceProvider extends ServiceProvider
       'Modules\Iprofile\Repositories\DepartmentRepository',
       function () {
         $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentDepartmentRepository(new \Modules\Iprofile\Entities\Department());
-
         if (!config('app.cache')) {
           return $repository;
         }
-
         return new \Modules\Iprofile\Repositories\Cache\CacheDepartmentDecorator($repository);
       }
     );
-
-    //Repository User Api
-    $this->app->bind(ApiUserRepository::class, function () {
-      $repository = new EloquentApiUserRepository(new User());
-
-      if (!config('app.cache')) {
-        return $repository;
-      }
-
-      return new CacheApiUserDecorator($repository);
-    });
-
-    //Repository User Api
-    $this->app->bind(ApiRoleRepository::class,
+    $this->app->bind(
+      'Modules\Iprofile\Repositories\SettingRepository',
       function () {
-        $repository = new EloquentApiRoleRepository(SentinelCartalyst::getRoleRepository()->createModel());
-
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentSettingRepository(new \Modules\Iprofile\Entities\Setting());
         if (!config('app.cache')) {
           return $repository;
         }
-
-        return new CacheApiRoleDecorator($repository);
-      });
+        return new \Modules\Iprofile\Repositories\Cache\CacheSettingDecorator($repository);
+      }
+    );
+    $this->app->bind(
+      'Modules\Iprofile\Repositories\UserDepartmentRepository',
+      function () {
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentUserDepartmentRepository(new \Modules\Iprofile\Entities\UserDepartment());
+        if (!config('app.cache')) {
+          return $repository;
+        }
+        return new \Modules\Iprofile\Repositories\Cache\CacheUserDepartmentDecorator($repository);
+      }
+    );
+    $this->app->bind(
+      'Modules\Iprofile\Repositories\RoleApiRepository',
+      function () {
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentRoleApiRepository(new \Modules\Iprofile\Entities\Role());
+        if (!config('app.cache')) {
+          return $repository;
+        }
+        return new \Modules\Iprofile\Repositories\Cache\CacheRoleApiDecorator($repository);
+      }
+    );
+    $this->app->bind(
+      'Modules\Iprofile\Repositories\UserApiRepository',
+      function () {
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentUserApiRepository(new \Modules\User\Entities\Sentinel\User());
+        if (!config('app.cache')) {
+          return $repository;
+        }
+        return new \Modules\Iprofile\Repositories\Cache\CacheUserApiDecorator($repository);
+      }
+    );
   }
 }

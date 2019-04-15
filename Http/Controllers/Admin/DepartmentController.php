@@ -33,7 +33,7 @@ class DepartmentController extends AdminBaseController
     {
         //$departments = $this->department->all();
 
-        return view('iprofile::admin.departments.index', compact(''));
+        return view('Iprofile::admin.departments.index', compact(''));
     }
 
     /**
@@ -43,7 +43,7 @@ class DepartmentController extends AdminBaseController
      */
     public function create()
     {
-        return view('iprofile::admin.departments.create');
+        return view('Iprofile::admin.departments.create');
     }
 
     /**
@@ -56,8 +56,8 @@ class DepartmentController extends AdminBaseController
     {
         $this->department->create($request->all());
 
-        return redirect()->route('admin.iprofile.department.index')
-            ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('iprofile::departments.title.departments')]));
+        return redirect()->route('admin.Iprofile.department.index')
+            ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('Iprofile::departments.title.departments')]));
     }
 
     /**
@@ -68,7 +68,7 @@ class DepartmentController extends AdminBaseController
      */
     public function edit(Department $department)
     {
-        return view('iprofile::admin.departments.edit', compact('department'));
+        return view('Iprofile::admin.departments.edit', compact('department'));
     }
 
     /**
@@ -82,8 +82,8 @@ class DepartmentController extends AdminBaseController
     {
         $this->department->update($department, $request->all());
 
-        return redirect()->route('admin.iprofile.department.index')
-            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('iprofile::departments.title.departments')]));
+        return redirect()->route('admin.Iprofile.department.index')
+            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('Iprofile::departments.title.departments')]));
     }
 
     /**
@@ -96,7 +96,7 @@ class DepartmentController extends AdminBaseController
     {
         $this->department->destroy($department);
 
-        return redirect()->route('admin.iprofile.department.index')
-            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('iprofile::departments.title.departments')]));
+        return redirect()->route('admin.Iprofile.department.index')
+            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('Iprofile::departments.title.departments')]));
     }
 }

@@ -2,11 +2,11 @@
 
 @section('content-header')
     <h1>
-        {{ trans('iprofile::addresses.title.addresses') }}
+        {{ trans('Iprofile::addresses.title.addresses') }}
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-        <li class="active">{{ trans('iprofile::addresses.title.addresses') }}</li>
+        <li class="active">{{ trans('Iprofile::addresses.title.addresses') }}</li>
     </ol>
 @stop
 
@@ -15,8 +15,8 @@
         <div class="col-xs-12">
             <div class="row">
                 <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
-                    <a href="{{ route('admin.iprofile.address.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
-                        <i class="fa fa-pencil"></i> {{ trans('iprofile::addresses.button.create address') }}
+                    <a href="{{ route('admin.Iprofile.address.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
+                        <i class="fa fa-pencil"></i> {{ trans('Iprofile::addresses.button.create address') }}
                     </a>
                 </div>
             </div>
@@ -38,14 +38,14 @@
                             <?php foreach ($addresses as $address): ?>
                             <tr>
                                 <td>
-                                    <a href="{{ route('admin.iprofile.address.edit', [$address->id]) }}">
+                                    <a href="{{ route('admin.Iprofile.address.edit', [$address->id]) }}">
                                         {{ $address->created_at }}
                                     </a>
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('admin.iprofile.address.edit', [$address->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.iprofile.address.destroy', [$address->id]) }}"><i class="fa fa-trash"></i></button>
+                                        <a href="{{ route('admin.Iprofile.address.edit', [$address->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.Iprofile.address.destroy', [$address->id]) }}"><i class="fa fa-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -75,7 +75,7 @@
 @section('shortcuts')
     <dl class="dl-horizontal">
         <dt><code>c</code></dt>
-        <dd>{{ trans('iprofile::addresses.title.create address') }}</dd>
+        <dd>{{ trans('Iprofile::addresses.title.create address') }}</dd>
     </dl>
 @stop
 
@@ -84,7 +84,7 @@
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [
-                    { key: 'c', route: "<?= route('admin.iprofile.address.create') ?>" }
+                    { key: 'c', route: "<?= route('admin.Iprofile.address.create') ?>" }
                 ]
             });
         });
