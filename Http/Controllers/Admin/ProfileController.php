@@ -67,7 +67,6 @@ class ProfileController extends AdminBaseController
      */
     public function store(CreateUserRequest $request)
     {
-      dd($request->all());
         $this->user->createWithRoles($request->all(), $request->roles, true);
 
         return redirect()->route('admin.iprofile.profiles.index')
@@ -109,11 +108,16 @@ class ProfileController extends AdminBaseController
     public function update($user_id, Request $request)
     {
         $data = $request->all();
+        $user=$this->user->find($user_id);
+        $roles=$user->roles;
         if (isset($data['validate']) && $data['validate']) {
             $timeUpdate= config()->get('asgard.iprofile.config.time_update');
             $data['date_update']=\Carbon::now()->addday(1);
+            $roleProvider = $this->role->findByName('Proveedor');
+            $roles=[$roleProvider->id];
         }
-        $user=$this->user->find($user_id);
+
+        $this->user->updateAndSyncRoles($user->id,$request->all(),$roles);
         $this->user->update($user, $request->all());
 
         return redirect()->route('admin.iprofile.profiles.index')

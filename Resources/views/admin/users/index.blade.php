@@ -42,6 +42,21 @@
                             <tr>
                                 <td>
                                     <a href="{{ route('admin.iprofile.profiles.edit', [$user->id]) }}">
+                                        {{ $user->id}}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.iprofile.profiles.edit', [$user->id]) }}">
+                                        {{ $user->present()->fullName()}}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.iprofile.profiles.edit', [$user->id]) }}">
+                                        {{ $user->email }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.iprofile.profiles.edit', [$user->id]) }}">
                                         {{ $user->created_at }}
                                     </a>
                                 </td>

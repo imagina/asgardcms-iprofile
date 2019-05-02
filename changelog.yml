@@ -1,5 +1,16 @@
 url: https://github.com/imagina/asgardcms-icommerce
 versions:
+  "1.0.1":
+    added:
+      - view frontend
+      - langs field 'es'
+      - ProfileController
+    changed:
+      - lang 'en' profile
+      - Admin ProfileController
+      - apiUserController
+      - AuthController
+
   "1.0.0":
     added:
       - Initial version 1.0.0

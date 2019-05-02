@@ -14,7 +14,7 @@ return [
         'create profile' => 'Create a profile',
     ],
     'table' => [
-        'fullName'=>'Nombre Completo',
+        'fullName'=>'Full Name',
         'email'=>'Email'
     ],
     'form' => [
@@ -27,11 +27,11 @@ return [
         'type_request'      => 'Type request',
         'entailment'        => 'Class entailment',
         'entailment_other'  => 'Other entailment',
-        'Education'=> 'Educacion',
-        'bio'=>'Biografia',
-        'Not fount'=> 'Agregar',
-        'About Me'=>'Sobre Mi',
-        'created_at' => 'Creado',
+        'Education'=> 'Education',
+        'bio'=>'Biobraphy',
+        'Not fount'=> 'Not fount',
+        'About Me'=>'About me',
+        'created_at' => 'Created',
     ],
     'messages' => [
         'Update Profile'=> 'Update Profile',

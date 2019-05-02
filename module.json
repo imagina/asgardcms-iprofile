@@ -3,7 +3,7 @@
     "alias": "iprofile",
     "description": "User management, profiles and capabilities, offering a user interface (UI) for the powerful profile system",
     "keywords": ["user","profile","address"],
-    "version": "1.0.0",
+    "version": "1.0.1",
 	"active": 1,
     "order": 1,
     "providers": [

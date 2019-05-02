@@ -104,7 +104,8 @@ class UserApiController extends BaseApiController
             $data = $request->input('attributes');
             if(config('asgard.iprofile.config.autoCreate')){
               if(isset($data['number_document'])){
-                $data['email']=strtolower($data['number_document'].'@'.config('asgard.iprofile.config.default_mail_provider'));
+                if(!isset($data['email']))
+                  $data['email']=strtolower($data['number_document'].'@'.config('asgard.iprofile.config.default_mail_provider'));
                 $data['password']=\Illuminate\Support\Str::random(32);
                 $data['password_confirmation']=$data['password'];
               }//if isset full_name
@@ -116,7 +117,13 @@ class UserApiController extends BaseApiController
 
             if (!$exist) {
                 //Create item
-
+                if($data['public_form']){
+                    /*
+                    if  field public_form in request is true
+                    then role user is provider (id:6)
+                    */
+                    $data["roles"] = [6];
+                }
                 $user = $this->user->createWithRoles($data, $data["roles"], $data["status"]);
 
                 $status = 200;
@@ -134,7 +141,7 @@ class UserApiController extends BaseApiController
                     ]
                 ];
             } else {
-                $status = 400;
+                $status = 500;
                 $response = ["error" => $data["email"] . ' | User Name already exist'];
             }
 

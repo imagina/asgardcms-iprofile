@@ -17,9 +17,8 @@ use Modules\User\Repositories\RoleRepository;
 use Socialite;
 use Laravel\Socialite\Contracts\User as ProviderUser;
 use Illuminate\Support\MessageBag;
-
+use Modules\User\Entities\Sentinel\User;
 use Modules\Iprofile\Http\Requests\LoginRequestProfile;
-
 
 class AuthProfileController extends AuthController
 
@@ -84,7 +83,7 @@ class AuthProfileController extends AuthController
             }
 
         }
-        $roleCustomer = $this->role->findByName('Customers');
+        $roleCustomer = $this->role->findByName('User');
         $user = User::where("email", $request->email)->first();
 
         if(isset($user->email) && !empty($user->email)){
@@ -103,10 +102,15 @@ class AuthProfileController extends AuthController
             }
         }else{
             $user = $this->user->createWithRolesFromCli($request->all(), $roleCustomer, true);
-            $this->createProfile($request,$user);
+            // creating request
+            $credentials=['email' => $user->email,'password' => $request->password,];
 
-            return redirect()->route('account.register')
-                ->withSuccess(trans('user::messages.account created check email for activation'));
+            $remember = (bool) $request->get('remember_me', false);
+
+            $error = $this->auth->login($credentials, $remember);
+
+            return redirect()->intended(route(config('asgard.user.config.redirect_route_after_login')))
+                ->withSuccess(trans('user::messages.successfully logged in'));
         }
 
     }
