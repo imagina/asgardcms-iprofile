@@ -394,4 +394,110 @@ class UserApiController extends BaseApiController
     return response()->json($response ?? ["data" => "Password updated"], $status ?? 200);
 
   }
+
+    /**
+     * Upload media files
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function mediaUpload(Request $request)
+    {
+        try {
+            $auth = \Auth::user();
+            $data = $request->all();//Get data
+            $user_id = $data['user'];
+            $name = $data['nameFile'];
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $nameFile = $name . '.' . $extension;
+            $allowedextensions = array('JPG', 'JPEG', 'PNG', 'GIF', 'ICO', 'BMP', 'PDF', 'DOC', 'DOCX', 'ODT', 'MP3', '3G2', '3GP', 'AVI', 'FLV', 'H264', 'M4V', 'MKV', 'MOV', 'MP4', 'MPG', 'MPEG', 'WMV');
+            $destination_path = 'assets/iprofile/profile/files/' . $user_id . '/' . $nameFile;
+            $disk = 'publicmedia';
+            if (!in_array(strtoupper($extension), $allowedextensions)) {
+                throw new Exception(trans('iprofile::profile.messages.file not allowed'));
+            }
+            if ($user_id == $auth->id || $auth->hasAccess('user.users.create')) {
+
+                if (in_array(strtoupper($extension), ['JPG', 'JPEG'])) {
+                    $image = \Image::make($file);
+
+                    \Storage::disk($disk)->put($destination_path, $image->stream($extension, '90'));
+                } else {
+
+                    \Storage::disk($disk)->put($destination_path, \File::get($file));
+                }
+
+                $status = 200;
+                $response = ["data" => ['url' => $destination_path]];
+
+
+            } else {
+                $status = 403;
+                $response = [
+                    'error' => [
+                        'code' => '403',
+                        "title" => trans('iprofile::profile.messages.access denied'),
+                    ]
+                ];
+            }
+
+        } catch (\Exception $e) {
+            \Log::Error($e);
+            $status = $this->getStatusError($e->getCode());
+            $response = ["errors" => $e->getMessage()];
+        }
+
+        return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+    }
+
+    /**
+     * delete media
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function mediaDelete(Request $request)
+    {
+        try {
+            $disk = "publicmedia";
+            $auth = \Auth::user();
+            $data = $request->all();//Get data
+            $user_id = $data['user'];
+            $dirdata = $request->input('file');
+
+            if ($user_id == $auth->id || $auth->hasAccess('user.users.create')) {
+
+                \Storage::disk($disk)->delete($dirdata);
+
+                $status = 200;
+                $response = [
+                    'susses' => [
+                        'code' => '201',
+                        "source" => [
+                            "pointer" => url($request->path())
+                        ],
+                        "title" => trans('core::core.messages.resource delete'),
+                        "detail" => [
+                        ]
+                    ]
+                ];
+            } else {
+                $status = 403;
+                $response = [
+                    'error' => [
+                        'code' => '403',
+                        "title" => trans('iprofile::profile.messages.access denied'),
+                    ]
+                ];
+            }
+
+        } catch (\Exception $e) {
+            \Log::Error($e);
+            $status = $this->getStatusError($e->getCode());
+            $response = ["errors" => $e->getMessage()];
+        }
+
+        return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+    }
 }

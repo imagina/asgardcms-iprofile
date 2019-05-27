@@ -35,4 +35,14 @@ $router->group(['prefix' => '/users'], function (Router $router) {
     'uses' => 'UserApiController@show',
     'middleware' => ['auth:api']
   ]);
+    $router->post('/media/upload', [
+        'as' => 'api.profile.users.media.upload',
+        'uses' => 'UserApiController@mediaUpload',
+        'middleware' => ['auth:api']
+    ]);
+    $router->post('/media/delete', [
+        'as' => 'api.profile.users.media.delete',
+        'uses' => 'UserApiController@mediaDelete',
+        'middleware' => ['auth:api']
+    ]);
 });

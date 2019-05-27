@@ -14,6 +14,15 @@ return [
     'identification' => true,
     'business' => false
   ],
+    'file_remove' => [
+        'rut' => ' ',
+        'camaracomercio' => ' ',
+        'revenue' => '',
+        'patrimony' => '',
+        'expenses' => '',
+        'other_revenue' => '',
+        'concept_other_revenue' => '',
+    ],
   'iprofile' => [
     /*
     |--------------------------------------------------------------------------
