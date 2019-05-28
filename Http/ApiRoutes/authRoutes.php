@@ -10,6 +10,10 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
     'as' => $locale .'api.iprofile.login',
     'uses' => 'AuthApiController@login',
   ]);
+    $router->post('register', [
+        'as' => $locale .'api.auth.register',
+        'uses' => 'AuthApiController@register',
+    ]);
 
   /** @var Router $router */
   $router->get('me', [

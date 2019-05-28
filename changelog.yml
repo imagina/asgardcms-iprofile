@@ -1,0 +1,8 @@
+url: https://github.com/imagina/asgardcms-icommerce
+versions:
+  "2.0.1":
+    added:
+      - SettingMidelware for settings
+      - requeride  pasport,
+    changed:
+      - name Composer to imagina/iprofile-module
