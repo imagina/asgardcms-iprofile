@@ -7,38 +7,140 @@ use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 
 class EloquentAddressRepository extends EloquentBaseRepository implements AddressRepository
 {
-    public function findByProfileId($id){
-        return $this->model->where('profile_id',$id)->get();
+  public function getItemsBy($params = false)
+  {
+    /*== initialize query ==*/
+    $query = $this->model->query();
+    
+    /*== RELATIONSHIPS ==*/
+    if (in_array('*', $params->include)) {//If Request all relationships
+      $query->with([]);
+    } else {//Especific relationships
+      $includeDefault = [];//Default relationships
+      if (isset($params->include))//merge relations with default relationships
+        $includeDefault = array_merge($includeDefault, $params->include);
+      $query->with($includeDefault);//Add Relationships to query
     }
-    public function deleteAllAddress($profile_id){
-        $this->model->where('profile_id',$profile_id)->delete();
-        return 1;
+    
+    /*== FILTERS ==*/
+    if (isset($params->filter)) {
+      $filter = $params->filter;//Short filter
+      
+      //Filter by date
+      if (isset($filter->date)) {
+        $date = $filter->date;//Short filter date
+        $date->field = $date->field ?? 'created_at';
+        if (isset($date->from))//From a date
+          $query->whereDate($date->field, '>=', $date->from);
+        if (isset($date->to))//to a date
+          $query->whereDate($date->field, '<=', $date->to);
+      }
+      
+      //Order by
+      if (isset($filter->order)) {
+        $orderByField = $filter->order->field ?? 'created_at';//Default field
+        $orderWay = $filter->order->way ?? 'desc';//Default way
+        $query->orderBy($orderByField, $orderWay);//Add order to query
+      }
     }
-    public function updateMassiveById($arrayAddress,$profile_id){
-        $addresses= $this->model->where('profile_id',$profile_id)->get();
-        foreach($addresses as $key){
-            $band=0;
-            foreach($arrayAddress[0] as $key2){
-                if($key->id==$key2['id']){
-                    $key->address_1=$key2['address_1'];
-                    $key->firstname=$key2['firstname'];
-                    $key->lastname=$key2['lastname'];
-                    $key->city=$key2['city'];
-                    $key->company=$key2['company'];
-                    $key->postcode=$key2['postcode'];
-                    $key->address_2=$key2['address_2'];
-                    $key->type=$key2['type'];
-                    $key->zone=$key2['zone'];
-                    $key->country=$key2['country'];
-                    $key->update();
-                    $band=1;
-                    break;
-                }else
-                    $band=0;
-            }//foreachWithAddressToUpdate
-            if($band==0)
-                $key->delete();
-        }//foreach address actually
-        return $this->model->where('profile_id',$profile_id)->get();
+    
+    /*== FIELDS ==*/
+    if (isset($params->fields) && count($params->fields))
+      $query->select($params->fields);
+    
+    /*== REQUEST ==*/
+    if (isset($params->page) && $params->page) {
+      return $query->paginate($params->take);
+    } else {
+      $params->take ? $query->take($params->take) : false;//Take
+      return $query->get();
     }
+  }
+  
+  public function getItem($criteria, $params = false)
+  {
+    //Initialize query
+    $query = $this->model->query();
+    
+    /*== RELATIONSHIPS ==*/
+    if (in_array('*', $params->include)) {//If Request all relationships
+      $query->with([]);
+    } else {//Especific relationships
+      $includeDefault = [];//Default relationships
+      if (isset($params->include))//merge relations with default relationships
+        $includeDefault = array_merge($includeDefault, $params->include);
+      $query->with($includeDefault);//Add Relationships to query
+    }
+    
+    /*== FILTER ==*/
+    if (isset($params->filter)) {
+      $filter = $params->filter;
+      
+      if (isset($filter->field))//Filter by specific field
+        $field = $filter->field;
+    }
+    
+    /*== FIELDS ==*/
+    if (isset($params->fields) && count($params->fields))
+      $query->select($params->fields);
+    
+    /*== REQUEST ==*/
+    return $query->where($field ?? 'id', $criteria)->first();
+  }
+  
+  public function create($data)
+  {
+    $address = $this->model->create($data);
+  
+    $newData = $address->toArray();
+    return $address;
+  }
+  
+  public function updateBy($criteria, $data, $params = false)
+  {
+    /*== initialize query ==*/
+    $query = $this->model->query();
+    
+    /*== FILTER ==*/
+    if (isset($params->filter)) {
+      $filter = $params->filter;
+      
+      //Update by field
+      if (isset($filter->field))
+        $field = $filter->field;
+    }
+    
+    /*== REQUEST ==*/
+    $model = $query->where($field ?? 'id', $criteria)->first();
+  
+    if($model) {
+      $oldData = $model->toArray();
+      $model->update($data);
+      $newData = $model->toArray();
+    }
+    return $model;
+  }
+  
+  public function deleteBy($criteria, $params = false)
+  {
+    /*== initialize query ==*/
+    $query = $this->model->query();
+    
+    /*== FILTER ==*/
+    if (isset($params->filter)) {
+      $filter = $params->filter;
+      
+      if (isset($filter->field))//Where field
+        $field = $filter->field;
+    }
+    
+    /*== REQUEST ==*/
+    $model = $query->where($field ?? 'id', $criteria)->first();
+  
+    if($model) {
+      $oldData = $model->toArray();
+      $model->delete();
+    
+    }
+  }
 }

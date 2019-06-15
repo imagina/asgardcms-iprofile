@@ -1,45 +1,65 @@
 <?php
 
 return [
-  'iprofile.api' => [
-    'login' => 'iprofile::profiles.api.login',
+  'profile.api' => [
+    'login' => 'profile::profiles.api.login',
   ],
 
-  'iprofile.api.user' => [
-    'index' => 'iprofile::user.api.list resource',
-    'create' => 'iprofile::user.api.create resource',
-    'edit' => 'iprofile::user.api.edit resource',
-    'destroy' => 'iprofile::user.api.destroy resource',
-    'permission' => 'iprofile::user.api.permission resource',
-    'deparment' => 'iprofile::user.api.deparment resource',
+  'profile.user' => [
+    'manage' => 'profile::user.manage resource',
+    'index' => 'profile::user.list resource',
+    'index-by-department' => 'profile::user.list resource',
+    'create' => 'profile::user.create resource',
+    'edit' => 'profile::user.edit resource',
+    'destroy' => 'profile::user.destroy resource',
+    'department' => 'profile::user.department resource',
   ],
 
-  'iprofile.profiles' => [
-    'index' => 'iprofile::profiles.list resource',
-    'create' => 'iprofile::profiles.create resource',
-    'edit' => 'iprofile::profiles.edit resource',
-    'destroy' => 'iprofile::profiles.destroy resource',
-  ],
-  'iprofile.departments' => [
-    'index' => 'iprofile::departments.list resource',
-    'create' => 'iprofile::departments.create resource',
-    'edit' => 'iprofile::departments.edit resource',
-    'destroy' => 'iprofile::departments.destroy resource',
+  'profile.permissions' => [
+    'manage' => 'profile::permissions.manage resource',
   ],
 
-  'iprofile.bulkload' => [
-    'import' => 'iprofile::profiles.bulkload.import',
-    'export' => 'iprofile::profiles.bulkload.export',
+  'profile.fields' => [
+    'index' => 'profile::fields.list resource',
+    'create' => 'profile::fields.create resource',
+    'edit' => 'profile::fields.edit resource',
+    'destroy' => 'profile::fields.destroy resource',
   ],
 
-    'iprofile.customfields' => [
-        'index' => 'iprofile::customfields.list resource',
-        'create' => 'iprofile::customfields.create resource',
-        'edit' => 'iprofile::customfields.edit resource',
-        'destroy' => 'iprofile::customfields.destroy resource',
-    ],
-// append
+  'profile.addresses' => [
+    'index' => 'profile::addresses.list resource',
+    'create' => 'profile::addresses.create resource',
+    'edit' => 'profile::addresses.edit resource',
+    'destroy' => 'profile::addresses.destroy resource',
+  ],
 
+  'profile.departments' => [
+    'manage' => 'profile::departments.manage resource',
+    'index' => 'profile::departments.list resource',
+    'create' => 'profile::departments.create resource',
+    'edit' => 'profile::departments.edit resource',
+    'destroy' => 'profile::departments.destroy resource',
+  ],
 
+  'profile.settings' => [
+    'index' => 'profile::settings.list resource',
+    'create' => 'profile::settings.create resource',
+    'edit' => 'profile::settings.edit resource',
+    'destroy' => 'profile::settings.destroy resource',
+  ],
 
+  'profile.user-departments' => [
+    'index' => 'profile::user-departments.list resource',
+    'create' => 'profile::user-departments.create resource',
+    'edit' => 'profile::user-departments.edit resource',
+    'destroy' => 'profile::user-departments.destroy resource',
+  ],
+
+  'profile.role' => [
+    'manage' => 'profile::role.manage resource',
+    'index' => 'profile::roleapis.list resource',
+    'create' => 'profile::roleapis.create resource',
+    'edit' => 'profile::roleapis.edit resource',
+    'destroy' => 'profile::roleapis.destroy resource',
+  ]
 ];

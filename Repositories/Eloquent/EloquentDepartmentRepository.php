@@ -4,106 +4,167 @@ namespace Modules\Iprofile\Repositories\Eloquent;
 
 use Modules\Iprofile\Repositories\DepartmentRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
-use Illuminate\Support\Facades\DB;
 
 class EloquentDepartmentRepository extends EloquentBaseRepository implements DepartmentRepository
 {
-  public function updateById($id, $fields)
+  
+  public function getItemsBy($params = false)
   {
-    $this->model->where('id', $id)->update($fields);
-  }
-
-  public function index($page, $take, $filter, $include, $fields)
-  {
-    $includeDefault = ['users'];
-
-    /*Initialize Query*/
+    /*== initialize query ==*/
     $query = $this->model->query();
-
+    
     /*== RELATIONSHIPS ==*/
-    if (count($include)) {
-      $query->with(array_merge($includeDefault, $include));
-    } else {
-      $query->with($includeDefault);
+    if (in_array('*', $params->include)) {//If Request all relationships
+      $query->with([]);
+    } else {//Especific relationships
+      $includeDefault = [];//Default relationships
+      if (isset($params->include))//merge relations with default relationships
+        $includeDefault = array_merge($includeDefault, $params->include);
+      $query->with($includeDefault);//Add Relationships to query
     }
-
-    /*== FILTER ==*/
-    if ($filter) {
-      /*filter by user*/
-      if (isset($filter->user_id)) {
-        $query->whereIn('id', function ($query) use ($filter) {
-          $query->select('iprofile__user_departments.department_id')
-            ->from('iprofile__user_departments')
-            ->where('fhia__user_department.user_id', $filter->user_id);
-        });
+  
+    /*=== SETTINGS ===*/
+    if (isset($params->settings)) {
+      if (isset($params->settings['assignedDepartments']) && !empty($params->settings['assignedDepartments'])) {
+        $assignedDepartments = $params->settings['assignedDepartments'];
+        $query->whereIn('id', $assignedDepartments)
+          ->orWhereIn('parent_id', $assignedDepartments);
       }
+    }
+  
+ 
+    /*== FILTERS ==*/
+    if (isset($params->filter)) {
+      $filter = $params->filter;//Short filter
+  
       //add filter by search
-      if (!empty($filter->search)) {
-
-        //find search in columns Customer_name and Customer_Last_Name
+      if (isset($filter->search)) {
+        //find search in columns
         $query->where(function ($query) use ($filter) {
-          $query->where('id', $filter->search)
-            ->orWhere('title', 'like', '%' . $filter->search . '%');
-
+          $query->where('id', 'like', '%' . $filter->search . '%')
+            ->orWhere('title', 'like', '%' . $filter->search . '%')
+            ->orWhere('updated_at', 'like', '%' . $filter->search . '%')
+            ->orWhere('created_at', 'like', '%' . $filter->search . '%');
         });
       }
+  
+      
+      //Filter by date
+      if (isset($filter->date)) {
+        $date = $filter->date;//Short filter date
+        $date->field = $date->field ?? 'created_at';
+        if (isset($date->from))//From a date
+          $query->whereDate($date->field, '>=', $date->from);
+        if (isset($date->to))//to a date
+          $query->whereDate($date->field, '<=', $date->to);
+      }
+  
+      //Order by
+      if (isset($filter->order)) {
+        $orderByField = $filter->order->field ?? 'created_at';//Default field
+        $orderWay = $filter->order->way ?? 'desc';//Default way
+        $query->orderBy($orderByField, $orderWay);//Add order to query
+      }
+      
     }
-
+    
     /*== FIELDS ==*/
-    if ($fields) {
-      /*filter by user*/
-      $query->select($fields);
-    }
+    if (isset($params->fields) && count($params->fields))
+      $query->select($params->fields);
 
-    /*=== REQUEST ===*/
-    $query->orderBy('id', 'asc'); // Order By
-
-    //Return request with pagination
-    if ($page) {
-      $take ? true : $take = 12; //If no specific take, query take 12 for default
-
-      return $query->paginate($take);
-    }
-
-    //Return request without pagination
-    if (!$page) {
-      $take ? $query->take($take) : false; //if request to take a limit
-
+    /*== REQUEST ==*/
+    if (isset($params->page) && $params->page) {
+      return $query->paginate($params->take);
+    } else {
+      $params->take ? $query->take($params->take) : false;//Take
       return $query->get();
-
     }
-
-
   }
-
-  public function show($filter, $include, $fields, $id)
+  
+  public function getItem($criteria, $params = false)
   {
-    $includeDefault = [];
-    //Initialize Query
-    $query = $this->model->where('id', $id);
-
-
+    //Initialize query
+    $query = $this->model->query();
+    
     /*== RELATIONSHIPS ==*/
-    if (count($include))
-      $query->with(array_merge($includeDefault, $include));
-    else
-      $query->with($includeDefault);
-
-
-    /*== FILTER ==*/
-    /*
-    if ($filter) {
-
-
-    }*/
-
-    /*== FIELDS ==*/
-    if ($fields) {
-      /*filter by user*/
-      $query->select($fields);
+    if (in_array('*', $params->include)) {//If Request all relationships
+      $query->with([]);
+    } else {//Especific relationships
+      $includeDefault = [];//Default relationships
+      if (isset($params->include))//merge relations with default relationships
+        $includeDefault = array_merge($includeDefault, $params->include);
+      $query->with($includeDefault);//Add Relationships to query
     }
-
-    return $query->first();
-
+    
+    /*== FILTER ==*/
+    if (isset($params->filter)) {
+      $filter = $params->filter;
+      
+      if (isset($filter->field))//Filter by specific field
+        $field = $filter->field;
+    }
+    
+    /*== FIELDS ==*/
+    if (isset($params->fields) && count($params->fields))
+      $query->select($params->fields);
+    
+    /*== REQUEST ==*/
+    return $query->where($field ?? 'id', $criteria)->first();
+  }
+  
+  public function create($data)
+  {
+    $department = $this->model->create($data);
+    $newData = $department->toArray();
+    return $department;
+  }
+  
+  public function updateBy($criteria, $data, $params = false)
+  {
+    /*== initialize query ==*/
+    $query = $this->model->query();
+    
+    /*== FILTER ==*/
+    if (isset($params->filter)) {
+      $filter = $params->filter;
+      
+      //Update by field
+      if (isset($filter->field))
+        $field = $filter->field;
+    }
+    
+    /*== REQUEST ==*/
+    $model = $query->where($field ?? 'id', $criteria)->first();
+  
+    if($model) {
+      $oldData = $model->toArray();
+      $model->update($data);
+      $newData = $model->toArray();
+    }
+    return $model;
+  }
+  
+  
+  public function deleteBy($criteria, $params = false)
+  {
+    /*== initialize query ==*/
+    $query = $this->model->query();
+    
+    /*== FILTER ==*/
+    if (isset($params->filter)) {
+      $filter = $params->filter;
+      
+      if (isset($filter->field))//Where field
+        $field = $filter->field;
+    }
+    
+    /*== REQUEST ==*/
+    $model = $query->where($field ?? 'id', $criteria)->first();
+  
+    if($model) {
+      $oldData = $model->toArray();
+      $model->delete();
+    
+    }
   }
 }

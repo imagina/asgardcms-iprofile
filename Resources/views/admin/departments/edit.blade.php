@@ -2,17 +2,17 @@
 
 @section('content-header')
     <h1>
-        {{ trans('iprofile::departments.title.edit department') }}
+        {{ trans('Iprofile::departments.title.edit department') }}
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-        <li><a href="{{ route('admin.iprofile.department.index') }}">{{ trans('iprofile::departments.title.departments') }}</a></li>
-        <li class="active">{{ trans('iprofile::departments.title.edit department') }}</li>
+        <li><a href="{{ route('admin.Iprofile.department.index') }}">{{ trans('Iprofile::departments.title.departments') }}</a></li>
+        <li class="active">{{ trans('Iprofile::departments.title.edit department') }}</li>
     </ol>
 @stop
 
 @section('content')
-    {!! Form::open(['route' => ['admin.iprofile.department.update', $department->id], 'method' => 'put']) !!}
+    {!! Form::open(['route' => ['admin.Iprofile.department.update', $department->id], 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="nav-tabs-custom">
@@ -22,13 +22,13 @@
                     @foreach (LaravelLocalization::getSupportedLocales() as $locale => $language)
                         <?php $i++; ?>
                         <div class="tab-pane {{ locale() == $locale ? 'active' : '' }}" id="tab_{{ $i }}">
-                            @include('iprofile::admin.departments.partials.edit-fields', ['lang' => $locale])
+                            @include('Iprofile::admin.departments.partials.edit-fields', ['lang' => $locale])
                         </div>
                     @endforeach
 
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.update') }}</button>
-                        <a class="btn btn-danger pull-right btn-flat" href="{{ route('admin.iprofile.department.index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
+                        <a class="btn btn-danger pull-right btn-flat" href="{{ route('admin.Iprofile.department.index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
                     </div>
                 </div>
             </div> {{-- end nav-tabs-custom --}}
@@ -52,7 +52,7 @@
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [
-                    { key: 'b', route: "<?= route('admin.iprofile.department.index') ?>" }
+                    { key: 'b', route: "<?= route('admin.Iprofile.department.index') ?>" }
                 ]
             });
         });
