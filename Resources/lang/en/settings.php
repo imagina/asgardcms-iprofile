@@ -13,6 +13,9 @@ return [
     'button' => [
         'create departmentsetting' => 'Create a departmentsetting',
     ],
+    'registerUsers' => 'Can register users',
+    'registerExtraFields' => 'Register Extra Fields',
+    'addressesExtraFields' => 'Address Extra Fields',
     'table' => [
     ],
     'form' => [

@@ -39,8 +39,9 @@ class IprofileServiceProvider extends ServiceProvider
 
   public function boot()
   {
-    $this->publishConfig('iprofile', 'permissions');
     $this->publishConfig('iprofile', 'config');
+    $this->publishConfig('iprofile', 'permissions');
+    $this->publishConfig('iprofile', 'settings');
     $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
   }
 

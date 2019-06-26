@@ -5,6 +5,11 @@ use Illuminate\Routing\Router;
 /*=== AUTH ===*/
 $router->group(['prefix' => '/auth'], function (Router $router) {
   $locale = \LaravelLocalization::setLocale() ?: \App::getLocale();
+  $router->post('register', [
+    'as' => $locale .'api.auth.register',
+    'uses' => 'UserApiController@register',
+  ]);
+
   /** @var Router $router */
   $router->post('login', [
     'as' => $locale . 'api.iprofile.login',

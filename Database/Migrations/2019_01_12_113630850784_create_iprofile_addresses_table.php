@@ -27,7 +27,6 @@ class CreateIprofileAddressesTable extends Migration
       $table->string('country')->nullable();
       $table->string('state')->nullable();
       $table->string('type')->nullable();
-      $table->boolean('app_suit')->default(false);
       $table->timestamps();
     });
   }

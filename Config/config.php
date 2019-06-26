@@ -3,18 +3,26 @@
 
 return [
   'name' => 'Iprofile',
-  'frontendVersion' => '0.0.1',
-  'register-active-user' => true,
+  'fields' =>[
+    "cellularPhone",
+    "birthday",
+    "identification",
+    "contacts",
+    "socialNetworks",
+    "mainImage"
+  ],
+  'addressesExtraFields' =>[
+    "firstName",
+    "lastName",
+    "type"
+  ],
   'modules-to-manage-permissions' => [
     "Iprofile",
   ],
   'imagesize' => ['width' => 800, 'height' => 800],
   'mediumthumbsize' => ['width' => 400, 'height' => 400],
   'smallthumbsize' => ['width' => 100, 'height' => 100],
-  'fields_register' => [
-    'identification' => true,
-    'business' => false
-  ],
+  
     'file_remove' => [
         'rut' => ' ',
         'camaracomercio' => ' ',

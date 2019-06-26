@@ -22,7 +22,6 @@ class Address extends Model
       'zip_code',
       'country',
       'state',
-      'app_suit',
       'type'
     ];
   

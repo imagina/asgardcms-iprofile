@@ -91,10 +91,19 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
   
   public function create($data)
   {
-    $field = $this->model->create($data);
+    //find if exist with the same name
+    $model = $this->findByAttributes(["name" => $data["name"]]);
+    
+    if(!$model){
+      $field = $this->model->create($data);
   
-    $newData = $field->toArray();
-    return $field;
+      $newData = $field->toArray();
+      return $field;
+    }else{
+      return $this->updateBy($data["name"],$data,(object)["filter" => (object)["field" => "name"]]);
+    }
+    
+    
   }
   
   public function updateBy($criteria, $data, $params = false)
