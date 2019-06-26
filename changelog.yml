@@ -1,5 +1,12 @@
 url: https://github.com/imagina/asgardcms-icommerce
 versions:
+  "2.0.3":
+    added: fields, addressesExtraFields configs
+    added: settings: registerUsers
+                   registerExtraFields
+                   userAddressesExtraFields,
+    deleted: app_suit address column
+    changed: custom fields created and updated by config
   "2.0.1":
     added:
       - SettingMidelware for settings
