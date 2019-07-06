@@ -14,6 +14,7 @@ return [
         'create departmentsetting' => 'Create a departmentsetting',
     ],
     'registerUsers' => 'Can register users',
+    'validateRegisterWithEmail' => 'Validate register with email',
     'registerExtraFields' => 'Register Extra Fields',
     'addressesExtraFields' => 'Address Extra Fields',
     'table' => [

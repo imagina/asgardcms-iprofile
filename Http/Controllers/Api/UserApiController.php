@@ -16,6 +16,7 @@ use Modules\Iprofile\Transformers\UserTransformer;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Http\Requests\RegisterRequest;
 use Modules\User\Services\UserRegistration;
+use Modules\Setting\Contracts\Setting;
 
 class UserApiController extends BaseApiController
 {
@@ -25,12 +26,14 @@ class UserApiController extends BaseApiController
   private $setting;
   private $userRepository;
   private $fhaOld;
+  private $settingAsgard;
 
   public function __construct(
     UserApiRepository $user,
     FieldApiController $field,
     AddressApiController $address,
     SettingApiController $setting,
+    Setting $settingAsgard,
     UserRepository $userRepository)
   {
     parent::__construct();
@@ -39,6 +42,7 @@ class UserApiController extends BaseApiController
     $this->address = $address;
     $this->setting = $setting;
     $this->userRepository = $userRepository;
+    $this->settingAsgard = $settingAsgard;
   }
 
   /**
@@ -119,7 +123,7 @@ class UserApiController extends BaseApiController
     try {
       $data = (object)$request->input('attributes');//Get data from request
       $filter = [];//define filters
-      $activateUser = config('asgard.iprofile.config.register-active-user');
+      $validateEmail = $this->settingAsgard->get('iprofile::validateRegisterWithEmail');
 
       //Validate custom Request user
       $this->validateRequestApi(new CreateUserApiRequest((array)$data));
@@ -129,15 +133,16 @@ class UserApiController extends BaseApiController
         'attributes' => [
           'first_name' => $data->first_name,
           'last_name' => $data->last_name,
+          'fields' => $data->fields,
           'email' => $data->email,
           'password' => $data->password,
           'password_confirmation' => $data->password_confirmation,
           'departments' => [1],//Default departme is USERS, ID 1
           'roles' => [2],//Default role is USER, ID 2
-          'activated' => $activateUser ? true : false
+          'activated' => (int)$validateEmail ? false : true
         ],
         'filter' => json_encode([
-          'checkEmail' => $activateUser ? 0 : 1
+          'checkEmail' => (int)$validateEmail ? 1 : 0
         ])
       ];
 
@@ -145,7 +150,7 @@ class UserApiController extends BaseApiController
       $user = $this->validateResponseApi($this->create(new Request($params)));
 
       //Response and especific if user required check email
-      $response = ["data" => ['checkEmail' => $activateUser ? false : true]];
+      $response = ["data" => ['checkEmail' => (int)$validateEmail ? true : false]];
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
@@ -173,12 +178,12 @@ class UserApiController extends BaseApiController
       $data = $request->input('attributes');
       $data["email"] = strtolower($data["email"]);//Parse email to lowercase
       $params = $this->getParamsRequest($request);
-      $checkEmail = $params->filter->checkEmail;
+      $checkEmail = isset($params->filter->checkEmail) ? $params->filter->checkEmail : false;
 
       $this->validateRequestApi(new RegisterRequest ($data));//Validate Request User
       $this->validateRequestApi(new CreateUserApiRequest($data));//Validate custom Request user
 
-      if ($params->filter->checkEmail) //Create user required validate email
+      if ($checkEmail) //Create user required validate email
         $user = app(UserRegistration::class)->register($data);
       else //Create user activated
         $user = $this->userRepository->createWithRoles($data, $data["roles"], $data["activated"]);

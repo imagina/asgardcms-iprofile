@@ -2,22 +2,31 @@
 
 
 return [
-  
   //Register Users
   'registerUsers' => [
     'description' => 'iprofile::settings.registerUsers',
     'view' => 'checkbox',
   ],
-  
+
+  //Validete register with email
+  'validateRegisterWithEmail' => [
+    'description' => 'iprofile::settings.validateRegisterWithEmail',
+    'view' => 'checkbox',
+  ],
+
   //Register Users
   'registerExtraFields' => [
     'custom' => true,
     'description' => 'iprofile::settings.registerExtraFields',
     'view' => 'register-extra-fields',
-    'fields' => config('asgard.iprofile.config.fields'),
+    'fields' => [
+      "cellularPhone",
+      "birthday",
+      "identification",
+      "mainImage"
+    ],
     'default' => []
   ],
-
 
   //User Addresses Extra Fields
   'userAddressesExtraFields' => [
