@@ -8,6 +8,8 @@ use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Events\LoadingBackendTranslations;
 use Modules\Iprofile\Events\Handlers\RegisterIprofileSidebar;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel as SentinelCartalyst;
+use Modules\Iprofile\Http\Middleware\AuthCan;
+use Modules\Iprofile\Http\Middleware\SettingMiddleware;
 
 class IprofileServiceProvider extends ServiceProvider
 {
@@ -18,7 +20,12 @@ class IprofileServiceProvider extends ServiceProvider
    * @var bool
    */
   protected $defer = false;
-
+  
+  
+  protected $middleware = [
+    'setting-can' => SettingMiddleware::class,
+    'auth-can' => AuthCan::class,
+  ];
   /**
    * Register the service provider.
    *
@@ -39,6 +46,7 @@ class IprofileServiceProvider extends ServiceProvider
 
   public function boot()
   {
+    $this->registerMiddleware();
     $this->publishConfig('iprofile', 'config');
     $this->publishConfig('iprofile', 'permissions');
     $this->publishConfig('iprofile', 'settings');
@@ -127,5 +135,12 @@ class IprofileServiceProvider extends ServiceProvider
         return new \Modules\Iprofile\Repositories\Cache\CacheUserApiDecorator($repository);
       }
     );
+  }
+  
+  private function registerMiddleware()
+  {
+    foreach ($this->middleware as $name => $class) {
+      $this->app['router']->aliasMiddleware($name, $class);
+    }
   }
 }
