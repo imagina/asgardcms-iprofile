@@ -17,11 +17,10 @@ class DepartmentTransformer extends BaseApiTransformer
       'parentId' => $this->when($this->parent_id,$this->parent_id),
       'options' => $this->when($this->options,$this->options),
       'users' => UserTransformer::collection($this->whenLoaded('users')),
+      'parent' => new DepartmentTransformer($this->whenLoaded('parent')),
       'settings' => SettingTransformer::collection($settings),
       'createdAt' => $this->when($this->created_at, $this->created_at),
       'updatedAt' => $this->when($this->updated_at, $this->updated_at),
     ];
-  
   }
-  
 }

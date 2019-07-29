@@ -13,6 +13,7 @@ return [
     'edit' => 'profile::user.edit resource',
     'destroy' => 'profile::user.destroy resource',
     'department' => 'profile::user.department resource',
+    'impersonate' => 'profile::user.impersonate resource',
   ],
 
   'profile.permissions' => [

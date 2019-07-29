@@ -6,7 +6,7 @@ use Illuminate\Routing\Router;
 $router->group(['prefix' => '/auth'], function (Router $router) {
   $locale = \LaravelLocalization::setLocale() ?: \App::getLocale();
   $router->post('register', [
-    'as' => $locale .'api.auth.register',
+    'as' => $locale . 'api.auth.register',
     'uses' => 'UserApiController@register',
   ]);
 
@@ -27,7 +27,6 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
   $router->get('logout', [
     'as' => $locale . 'api.iprofile.logout',
     'uses' => 'AuthApiController@logout',
-    'middleware' => ['auth:api']
   ]);
 
   /** @var Router $router */
@@ -40,6 +39,19 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
   $router->get('must-change-password', [
     'as' => $locale . 'api.iprofile.me.must.change.password',
     'uses' => 'AuthApiController@mustChangePassword',
+    'middleware' => ['auth:api']
+  ]);
+
+  /** @var Router $router */
+  $router->get('impersonate', [
+    'as' => $locale . 'api.profile.impersonate',
+    'uses' => 'AuthApiController@impersonate',
+  ]);
+
+  /** @var Router $router */
+  $router->get('refresh-token', [
+    'as' => $locale . 'api.iprofile.refresh.token',
+    'uses' => 'AuthApiController@refreshToken',
     'middleware' => ['auth:api']
   ]);
 });
