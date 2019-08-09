@@ -16,5 +16,6 @@ class IprofileDatabaseSeeder extends Seeder
   {
     $this->call(DepartmentTableSeeder::class);
     $this->call(UserDepartmentTableSeeder::class);
+    $this->call(RolePermissionsSeeder::class);
   }
 }
