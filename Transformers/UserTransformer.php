@@ -15,8 +15,8 @@ class UserTransformer extends Resource
     $mainImage = $this->fields()->where('name','mainImage')->first();
     $contacts = $this->fields()->where('name','contacts')->first();
     $socialNetworks = $this->fields()->where('name','socialNetworks')->first();
+    $defaultImage = \URL::to('/modules/iprofile/img/default.jpg');
 
-    
     return [
       'id' => $this->when($this->id, $this->id),
       'firstName' => $this->when($this->first_name, $this->first_name),
@@ -29,11 +29,13 @@ class UserTransformer extends Resource
       'createdAt' => $this->when($this->created_at, $this->created_at),
       'updatedAt' => $this->when($this->updated_at, $this->updated_at),
       'lastLoginDate' => $this->when($this->last_login, $this->last_login),
-      
-      'smallImage' => isset($mainImage->value) ? 'assets/iprofiles/'.$this->id.'_smallThumb.jpg?'.$this->updated_at : 'modules/iprofile/img/default.jpg',
-      'mediumImage' => isset($mainImage->value) ? 'assets/iprofiles/'.$this->id.'_mediumThumb.jpg?'.$this->updated_at : 'modules/iprofile/img/default.jpg',
-      'mainImage' => isset($mainImage->value) ? $mainImage->value.'?'.$this->updated_at : 'modules/iprofile/img/default.jpg',
-      
+
+      'smallImage' => isset($mainImage->value) ?
+        str_replace('.jpg', '_smallThumb.jpg?' . now(), $mainImage->value) : $defaultImage,
+      'mediumImage' => isset($mainImage->value) ?
+        str_replace('.jpg', '_mediumThumb.jpg?' . now(), $mainImage->value) : $defaultImage,
+      'mainImage' => isset($mainImage->value) ? $mainImage->value . '?' . now() : $defaultImage,
+
       'contacts' => isset($contacts->value) ? new FieldTransformer($contacts) : ["name"=>"contacts","value" =>[]],
       'socialNetworks' => isset($socialNetworks->value) ? new FieldTransformer($socialNetworks) : ["name"=>"socialNetworks","value" =>[]],
 
