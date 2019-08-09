@@ -6,21 +6,21 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
-use Modules\Iprofile\Transformers\AddressesTransformer;
+use Modules\Iprofile\Transformers\AddressTransformer;
 use Modules\Iprofile\Http\Requests\CreateAddressRequest;
 use Modules\Iprofile\Http\Requests\UpdateAddressRequest;
 use Modules\Iprofile\Repositories\AddressRepository;
 
 class AddressApiController extends BaseApiController
 {
-  
+
   private $address;
-  
+
   public function __construct(AddressRepository $address)
   {
     $this->address = $address;
   }
-  
+
   /**
    * GET ITEMS
    *
@@ -31,26 +31,26 @@ class AddressApiController extends BaseApiController
     try {
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $addresses = $this->address->getItemsBy($params);
-      
+
       //Response
       $response = [
-        "data" => AddressesTransformer::collection($addresses)
+        "data" => AddressTransformer::collection($addresses)
       ];
-      
+
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($addresses)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * GET A ITEM
    *
@@ -62,27 +62,27 @@ class AddressApiController extends BaseApiController
     try {
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $address = $this->address->getItem($criteria, $params);
-      
+
       //Break if no found item
       if (!$address) throw new Exception('Item not found', 404);
-      
+
       //Response
-      $response = ["data" => new AddressesTransformer($address)];
-      
+      $response = ["data" => new AddressTransformer($address)];
+
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($address)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * CREATE A ITEM
    *
@@ -95,13 +95,13 @@ class AddressApiController extends BaseApiController
     try {
       //Get data
       $data = $request->input('attributes');
-      
+
       //Validate Request
       $this->validateRequestApi(new CreateAddressRequest((array)$data));
-      
+
       //Create item
       $this->address->create($data);
-      
+
       //Response
       $response = ["data" => ""];
       \DB::commit(); //Commit to Data Base
@@ -113,7 +113,7 @@ class AddressApiController extends BaseApiController
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * UPDATE ITEM
    *
@@ -127,16 +127,16 @@ class AddressApiController extends BaseApiController
     try {
       //Get data
       $data = $request->input('attributes');
-      
+
       //Validate Request
       $this->validateRequestApi(new UpdateAddressRequest((array)$data));
-      
+
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $this->address->updateBy($criteria, $data, $params);
-      
+
       //Response
       $response = ["data" => 'Item Updated'];
       \DB::commit();//Commit to DataBase
@@ -145,11 +145,11 @@ class AddressApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * DELETE A ITEM
    *
@@ -162,10 +162,10 @@ class AddressApiController extends BaseApiController
     try {
       //Get params
       $params = $this->getParamsRequest($request);
-      
+
       //call Method delete
       $this->address->deleteBy($criteria, $params);
-      
+
       //Response
       $response = ["data" => ""];
       \DB::commit();//Commit to Data Base
@@ -174,9 +174,9 @@ class AddressApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
 }
