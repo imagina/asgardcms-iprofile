@@ -7,7 +7,8 @@ return [
     "identification",
     "contacts",
     "socialNetworks",
-    "mainImage"
+    "mainImage",
+    "user_type_id",
   ],
   'addressesExtraFields' =>[
     "firstName",
