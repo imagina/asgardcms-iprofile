@@ -54,4 +54,27 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
     'uses' => 'AuthApiController@refreshToken',
     'middleware' => ['auth:api']
   ]);
+
+  #==================================================== Reset Password
+  $router->post('reset-password', [
+    'as' => $locale . 'api.iprofile.reset.password',
+    'uses' => 'AuthApiController@resetPassword'
+  ]);
+
+  $router->post('reset-completed/{id}/{code}', [
+    'as' => $locale . 'api.iprofile.reset.completed',
+    'uses' => 'AuthApiController@resetCompleted'
+  ]);
+
+  #==================================================== Social
+  $router->get('social/{provider}', [
+    'as' => $locale . 'api.iprofile.social.auth',
+    'uses' => 'AuthApiController@getSocialAuth'
+  ]);
+
+  $router->get('social/callback/{provider}', [
+    'as' =>  $locale . 'api.iprofile.social.callback',
+    'uses' => 'AuthApiController@getSocialAuthCallback'
+  ]);
+
 });

@@ -12,6 +12,17 @@ use Modules\Core\Http\Controllers\BasePublicController;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Modules\Iprofile\Events\ImpersonateEvent;
 
+// Reset
+use Modules\User\Http\Requests\ResetRequest;
+use Modules\User\Http\Requests\ResetCompleteRequest;
+use Modules\User\Services\UserResetter;
+use Modules\User\Exceptions\UserNotFoundException;
+use Modules\User\Exceptions\InvalidOrExpiredResetCode;
+
+// Socialite
+use Socialite;
+use Laravel\Socialite\Contracts\User as ProviderUser;
+use Modules\Iprofile\Entities\ProviderAccount;
 //Controllers
 
 class AuthApiController extends BaseApiController
@@ -238,6 +249,93 @@ class AuthApiController extends BaseApiController
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
 
+  //Reset Password
+  public function resetPassword(ResetRequest $request)
+  {
+      
+    try {
+
+        app(UserResetter::class)->startReset($request->all());
+
+        $response = ['data' => [
+          'msj' => trans('user::messages.check email to reset password')
+        ]];
+       
+    } catch(UserNotFoundException $ex){
+      $status = $this->getStatusError($ex->getCode());
+      $response = ["errors" => trans('user::messages.no user found')];
+    } catch (\Exception $e) {
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
+    }
+
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+   
+  }
+
+  //Reset Completed
+  public function resetCompleted(ResetCompleteRequest $request,$userId, $code)
+  {
+     try {
+
+        app(UserResetter::class)->finishReset(
+          array_merge($request->all(), ['userId' => $userId, 'code' => $code])
+        );
+
+        $response = ['data' => [
+          'userId' => $userId
+        ]];
+
+      }catch (UserNotFoundException $e) {
+        $status = $this->getStatusError($e->getCode());
+        $response = ["errors" => trans('user::messages.user no longer exists')];
+      }catch (InvalidOrExpiredResetCode $e) {
+        $status = $this->getStatusError($e->getCode());
+        $response = ["errors" => trans('user::messages.invalid reset code')];
+      }catch(\Exception $e){
+        $status = $this->getStatusError($e->getCode());
+        $response = ["errors" => $e->getMessage()];
+      }
+
+      return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+  }
+
+   // Get Social
+  public function getSocialAuth(Request $request, $provider)
+  {
+
+    try {
+
+      /*
+      if(!empty($request->query('redirect'))) {
+        \Session::put('redirect',$request->query('redirect'));
+      }
+      */
+
+      if (!config("services.$provider")) 
+        throw new \Exception('Error - Config Services {$provider} - Not defined', 204);
+    
+      $redirect = Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
+
+      //Response
+      $response = ["data" => [
+        'redirect' => $redirect
+      ]];
+     
+    } catch (\Exception $e) {
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
+
+    }
+
+    return response()->json($response, $status ?? 200);
+
+  }
+
+  public function getSocialAuthCallback($provider = null)
+  {
+      dd("callback");
+  }
 
 
   /*======== Private Methods ========*/

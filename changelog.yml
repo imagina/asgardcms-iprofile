@@ -1,5 +1,7 @@
 url: https://github.com/imagina/asgardcms-icommerce
 versions:
+  "2.0.10":
+    added: Reset password API
   "2.0.4":
     added: auth-can middleware to replace the nateive token-can
   "2.0.3":
