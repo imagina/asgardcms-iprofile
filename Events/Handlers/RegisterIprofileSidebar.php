@@ -37,11 +37,11 @@ class RegisterIprofileSidebar implements \Maatwebsite\Sidebar\SidebarExtender
   public function extendWith(Menu $menu)
   {
     $menu->group(trans('core::sidebar.content'), function (Group $group) {
-      $group->item(trans('iprofile::iprofiles.title.iprofiles'), function (Item $item) {
+        /* $group->item(trans('iprofile::iprofiles.title.iprofiles'), function (Item $item) {
         $item->icon('fa fa-copy');
         $item->weight(10);
         $item->authorize(
-        /* append */
+            $this->auth->hasAccess('iprofile.fields.index') || $this->auth->hasAccess('iprofile.departments.index')
         );
         $item->item(trans('iprofile::fields.title.fields'), function (Item $item) {
           $item->icon('fa fa-copy');
@@ -106,7 +106,7 @@ class RegisterIprofileSidebar implements \Maatwebsite\Sidebar\SidebarExtender
             $this->auth->hasAccess('iprofile.userapis.index')
           );
         });
-      });
+      });*/
     });
 
     return $menu;

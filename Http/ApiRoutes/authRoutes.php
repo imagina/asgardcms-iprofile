@@ -16,6 +16,16 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
     'uses' => 'AuthApiController@login',
   ]);
 
+    /** @var Router $router */
+    $router->post('reset', [
+        'as' => $locale . 'api.iprofile.reset',
+        'uses' => 'AuthApiController@reset',
+    ]);
+    /** @var Router $router */
+    $router->post('reset-complete', [
+        'as' => $locale . 'api.iprofile.reset-complete',
+        'uses' => 'AuthApiController@resetComplete',
+    ]);
   /** @var Router $router */
   $router->get('me', [
     'as' => $locale . 'api.iprofile.me',
@@ -53,17 +63,6 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
     'as' => $locale . 'api.iprofile.refresh.token',
     'uses' => 'AuthApiController@refreshToken',
     'middleware' => ['auth:api']
-  ]);
-
-  #==================================================== Reset Password
-  $router->post('reset-password', [
-    'as' => $locale . 'api.iprofile.reset.password',
-    'uses' => 'AuthApiController@resetPassword'
-  ]);
-
-  $router->post('reset-completed/{id}/{code}', [
-    'as' => $locale . 'api.iprofile.reset.completed',
-    'uses' => 'AuthApiController@resetCompleted'
   ]);
 
   #==================================================== Social

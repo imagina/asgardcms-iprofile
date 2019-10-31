@@ -1,16 +1,25 @@
 url: https://github.com/imagina/asgardcms-icommerce
 versions:
+  "2.0.11":
+    changed:
+      - Fix routes and methods of resset password in AuhtApìController
+    deleted:
+      - sidebar methods menu
   "2.0.10":
-    added: Reset password API
+    added:
+      - Reset password API
   "2.0.4":
-    added: auth-can middleware to replace the nateive token-can
+    added:
+      - auth-can middleware to replace the nateive token-can
   "2.0.3":
-    added: fields, addressesExtraFields configs
-    added: settings: registerUsers
-                   registerExtraFields
-                   userAddressesExtraFields,
-    deleted: app_suit address column
-    changed: custom fields created and updated by config
+    added:
+      - fields, addressesExtraFields configs
+    added:
+      - settings registerUsers, registerExtraFields, userAddressesExtraFields,
+    deleted:
+      - app_suit address column
+    changed:
+      - custom fields created and updated by config
   "2.0.1":
     added:
       - SettingMidelware for settings
