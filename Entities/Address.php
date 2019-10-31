@@ -19,9 +19,14 @@ class Address extends Model
       'address_1',
       'address_2',
       'city',
+      'city_id',
       'zip_code',
       'country',
+      'country_id',
       'state',
+      'state_id',
+      'neighborhood',
+      'neighborhood_id',
       'type'
     ];
   
