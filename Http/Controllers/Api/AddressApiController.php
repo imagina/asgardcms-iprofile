@@ -100,10 +100,10 @@ class AddressApiController extends BaseApiController
       $this->validateRequestApi(new CreateAddressRequest((array)$data));
 
       //Create item
-      $this->address->create($data);
+      $entity=$this->address->create($data);
 
       //Response
-      $response = ["data" => ""];
+      $response = ["data" => $entity];
       \DB::commit(); //Commit to Data Base
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
