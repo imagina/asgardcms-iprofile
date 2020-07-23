@@ -1,5 +1,8 @@
 url: https://github.com/imagina/asgardcms-icommerce
 versions:
+  "2.0.13":
+    changed:
+      -Added return entity with transformer after created address
   "2.0.12":
     deleted:
       - Menu backend registerIprofileSidebar
