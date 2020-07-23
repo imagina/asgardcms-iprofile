@@ -103,7 +103,7 @@ class AddressApiController extends BaseApiController
       $entity=$this->address->create($data);
 
       //Response
-      $response = ["data" => $entity];
+      $response = ["data" => new AddressTransformer($entity)];
       \DB::commit(); //Commit to Data Base
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
