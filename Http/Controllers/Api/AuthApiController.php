@@ -207,10 +207,14 @@ class AuthApiController extends BaseApiController
         try {
             $user = Auth::user();//Get user loged
 
+            //add: custom user includes from config (slim)
+            $customUserIncludes = config('asgard.iprofile.config.customUserIncludes');
+            \Log::info('Includes: '.$customUserIncludes);
+
             //Find user with relationships
             $userData = $this->validateResponseApi(
                 $this->userApiController->show($user->id, new Request([
-                        'include' => 'fields,departments,addresses,settings,roles']
+                        'include' => 'fields,departments,addresses,settings,roles'.($customUserIncludes!==null?','.$customUserIncludes:'')]
                 ))
             );
 

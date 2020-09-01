@@ -8,8 +8,14 @@ return [
     "contacts",
     "socialNetworks",
     "mainImage",
+    "state",
+    "city",
     "user_type_id",
   ],
+  //add: custom user includes and custom user transformer (if they are null iprofile module will be using default includes and  custom user transformer) (slim)
+  'customUserIncludes'=>'logisticOrders,businesses,business',
+  'customUserTransformer'=>'Modules\Ibusiness\Transformers\BusinessUserTransformer',
+  //end custom includes and transformers
   'addressesExtraFields' =>[
     "firstName",
     "lastName",
@@ -21,7 +27,7 @@ return [
   'imagesize' => ['width' => 800, 'height' => 800],
   'mediumthumbsize' => ['width' => 400, 'height' => 400],
   'smallthumbsize' => ['width' => 100, 'height' => 100],
-  
+
     'file_remove' => [
         'rut' => ' ',
         'camaracomercio' => ' ',

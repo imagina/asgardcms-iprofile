@@ -4,12 +4,21 @@ use Illuminate\Routing\Router;
 
 $router->group(['prefix' => '/users'], function (Router $router) {
   $locale = \LaravelLocalization::setLocale() ?: \App::getLocale();
+  $setting = app('Modules\Setting\Contracts\Setting');
+  $activateCaptcha = $setting->get('iprofile::activateCaptchaRegistration');
 
-  $router->post('/register', [
-    'as' => $locale . 'api.iprofile.users.register',
-    'uses' => 'UserApiController@register',
-    'middleware' => ['captcha']
-  ]);
+  if($activateCaptcha) {
+    $router->post('/register', [
+      'as' => $locale . 'api.iprofile.users.register',
+      'uses' => 'UserApiController@register',
+      'middleware' => ['captcha']
+    ]);
+  }else{
+    $router->post('/register', [
+      'as' => $locale . 'api.iprofile.users.register',
+      'uses' => 'UserApiController@register',
+    ]);
+  }
   $router->post('/', [
     'as' => $locale . 'api.iprofile.users.create',
     'uses' => 'UserApiController@create',
