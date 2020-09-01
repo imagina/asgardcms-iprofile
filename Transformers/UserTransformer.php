@@ -17,7 +17,7 @@ class UserTransformer extends Resource
     $socialNetworks = $this->fields()->where('name','socialNetworks')->first();
     $defaultImage = \URL::to('/modules/iprofile/img/default.jpg');
 
-    return [
+    $data = [
       'id' => $this->when($this->id, $this->id),
       'firstName' => $this->when($this->first_name, $this->first_name),
       'lastName' => $this->when($this->last_name, $this->last_name),
@@ -45,5 +45,20 @@ class UserTransformer extends Resource
       'addresses' => AddressTransformer::collection($this->whenLoaded('addresses')),
       'roles' => RoleTransformer::collection($this->whenLoaded('roles')),
     ];
+
+    $customUserIncludes = config('asgard.iprofile.config.customUserIncludes');
+
+    \Log::info(print_r($customUserIncludes,true));
+
+    foreach ($customUserIncludes as $include=>$customUserInclude){
+      if($customUserInclude['multiple']){
+        $data[$include] = $customUserInclude['path']::collection($this->whenLoaded($include));
+      }else{
+        $data[$include] = new $customUserInclude['path']($this->whenLoaded($include));
+      }
+    }
+
+    return $data;
+
   }
 }

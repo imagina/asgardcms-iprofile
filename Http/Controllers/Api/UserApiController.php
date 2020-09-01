@@ -66,17 +66,8 @@ class UserApiController extends BaseApiController
             //Request to Repository
             $users = $this->user->getItemsBy($params);
 
-            //ADD: optional custom user transformer from config
-            $customUserTransformer = config('asgard.iprofile.config.customUserTransformer');
-
-            if($customUserTransformer!=null){
-              //Response
-              $response = ["data" => $customUserTransformer::collection($users)];
-            }else{
-              //Response
-              $response = ["data" => UserTransformer::collection($users)];
-            }
-
+            //Response
+            $response = ["data" => UserTransformer::collection($users)];
 
             //If request pagination add meta-page
             $params->page ? $response["meta"] = ["page" => $this->pageTransformer($users)] : false;
@@ -108,15 +99,7 @@ class UserApiController extends BaseApiController
             if (!$user) throw new \Exception('Item not found', 400);
 
             //Response
-
-            //ADD: optional custom transformer from config
-            $customUserTransformer = config('asgard.iprofile.config.customUserTransformer');
-
-            if($customUserTransformer!==null){
-              $response = ["data" => new $customUserTransformer($user)];
-            }else {
-              $response = ["data" => new UserTransformer($user)];
-            }
+            $response = ["data" => new UserTransformer($user)];
 
             //If request pagination add meta-page
             $params->page ? $response["meta"] = ["page" => $this->pageTransformer($user)] : false;
