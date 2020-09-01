@@ -8,13 +8,11 @@ return [
     "contacts",
     "socialNetworks",
     "mainImage",
-    "state",
-    "city",
     "user_type_id",
   ],
   //add: custom user includes and custom user transformer (if they are null iprofile module will be using default includes and  custom user transformer) (slim)
-  'customUserIncludes'=>'logisticOrders,businesses,business',
-  'customUserTransformer'=>'Modules\Ibusiness\Transformers\BusinessUserTransformer',
+  'customUserIncludes'=>null,
+  'customUserTransformer'=>null,
   //end custom includes and transformers
   'addressesExtraFields' =>[
     "firstName",
