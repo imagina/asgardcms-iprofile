@@ -66,8 +66,18 @@ class UserApiController extends BaseApiController
             //Request to Repository
             $users = $this->user->getItemsBy($params);
 
-            //Response
-            $response = ["data" => UserTransformer::collection($users)];
+            //ADD: optional custom user transformer from config
+            $customUserTransformer = config('asgard.iprofile.config.customUserTransformer');
+            \Log::info('Transformer: '.$customUserTransformer);
+
+            if($customUserTransformer!=null){
+              //Response
+              $response = ["data" => $customUserTransformer::collection($users)];
+            }else{
+              //Response
+              $response = ["data" => UserTransformer::collection($users)];
+            }
+
 
             //If request pagination add meta-page
             $params->page ? $response["meta"] = ["page" => $this->pageTransformer($users)] : false;
@@ -99,7 +109,16 @@ class UserApiController extends BaseApiController
             if (!$user) throw new \Exception('Item not found', 400);
 
             //Response
-            $response = ["data" => new UserTransformer($user)];
+
+            //ADD: optional custom transformer from config
+            $customUserTransformer = config('asgard.iprofile.config.customUserTransformer');
+            \Log::info('Transformer: '.$customUserTransformer);
+
+            if($customUserTransformer!==null){
+              $response = ["data" => new $customUserTransformer($user)];
+            }else {
+              $response = ["data" => new UserTransformer($user)];
+            }
 
             //If request pagination add meta-page
             $params->page ? $response["meta"] = ["page" => $this->pageTransformer($user)] : false;
@@ -125,6 +144,9 @@ class UserApiController extends BaseApiController
             $filter = [];//define filters
             $validateEmail = $this->settingAsgard->get('iprofile::validateRegisterWithEmail');
 
+            //TODO: validate register for admin > slim
+            $adminNeedsToActivateNewUsers = $this->settingAsgard->get('iprofile::adminNeedsToActivateNewUsers');
+
             //Validate custom Request user
             $this->validateRequestApi(new CreateUserApiRequest((array)$data));
 
@@ -142,12 +164,34 @@ class UserApiController extends BaseApiController
                     'activated' => (int)$validateEmail ? false : true
                 ],
                 'filter' => json_encode([
-                    'checkEmail' => (int)$validateEmail ? 1 : 0
+                    'checkEmail' => (int)$validateEmail ? 1 : 0,
+                    'checkAdminActivate' => (int)$adminNeedsToActivateNewUsers ? 1 : 0,
                 ])
             ];
 
             //Create user
             $user = $this->validateResponseApi($this->create(new Request($params)));
+
+            $userParams = (object)[
+              "include"=>["*"],
+              "filter"=>(object)[
+                "roleId" => 1
+              ],
+              "take"=>false,
+            ];
+
+            $adminUsers = $this->user->getItemsBy($userParams);
+
+            foreach($adminUsers as $adminUser){
+              $this->notification->type(['broadcast','push'])->to($adminUser->id)->push([
+                "title" => "Nuevo Usuario registrado en el sistema: ".$user,
+                "message" => "El Usuario ".$user." se ha regitrado en el sistema de ".$this->settingAsgard->get('core::site-name').". Favor verificar datos para su activación.",
+                "icon_class" => "fas fa-user-plus",
+                "setting" => [
+                  "saveInDatabase" => 1 // now, the notifications with type broadcast need to be save in database to really send the notification
+                ]
+              ]);
+            }
 
             //Response and especific if user required check email
             $response = ["data" => ['checkEmail' => (int)$validateEmail ? true : false]];
@@ -179,14 +223,25 @@ class UserApiController extends BaseApiController
             $data["email"] = strtolower($data["email"]);//Parse email to lowercase
             $params = $this->getParamsRequest($request);
             $checkEmail = isset($params->filter->checkEmail) ? $params->filter->checkEmail : false;
+            $checkAdminActivate = isset($params->filter->checkAdminActivate) ? $params->filter->checkAdminActivate : false; //TODO: check if admin needs to activate new users > slim
 
             $this->validateRequestApi(new RegisterRequest ($data));//Validate Request User
             $this->validateRequestApi(new CreateUserApiRequest($data));//Validate custom Request user
+            if ($checkEmail) { //Create user required validate email
+              $user = app(UserRegistration::class)->register($data);
+            }else{ //Create user activated
+               $user = $this->userRepository->createWithRoles($data, $data["roles"], $data["activated"]);
+            }
 
-            if ($checkEmail) //Create user required validate email
-                $user = app(UserRegistration::class)->register($data);
-            else //Create user activated
-                $user = $this->userRepository->createWithRoles($data, $data["roles"], $data["activated"]);
+            if($checkAdminActivate){
+              \Log::info('CheckAdmin Complete: '.$user->id);
+                $this->update($user->id, new Request(
+                  ['attributes' => [
+                    'id' => $user->id,
+                    'activated' => false
+                  ]]
+                ));
+            }
 
             // sync tables
             if (isset($data["departments"]) && count($data["departments"])) {
