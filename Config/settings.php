@@ -14,6 +14,19 @@ return [
     'view' => 'checkbox',
   ],
 
+  //Admin needs to activate any new user - Slim:
+  'adminNeedsToActivateNewUsers' => [
+    'description' => 'iprofile::settings.adminNeedsToActivateNewUsers',
+    'view' => 'checkbox',
+  ],
+
+  //Activate google captcha registration
+  'activateCaptchaRegistration' => [
+    'description' => 'iprofile::settings.adminNeedsToActivateNewUsers',
+    'view' => 'checkbox',
+  ],
+
+
   //Register Users
   'registerExtraFields' => [
     'custom' => true,
