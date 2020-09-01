@@ -20,13 +20,6 @@ return [
     'view' => 'checkbox',
   ],
 
-  //Activate google captcha registration
-  'activateCaptchaRegistration' => [
-    'description' => 'iprofile::settings.activateCaptchaRegistration',
-    'view' => 'checkbox',
-  ],
-
-
   //Register Users
   'registerExtraFields' => [
     'custom' => true,
