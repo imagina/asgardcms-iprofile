@@ -68,7 +68,6 @@ class UserApiController extends BaseApiController
 
             //ADD: optional custom user transformer from config
             $customUserTransformer = config('asgard.iprofile.config.customUserTransformer');
-            \Log::info('Transformer: '.$customUserTransformer);
 
             if($customUserTransformer!=null){
               //Response
@@ -112,7 +111,6 @@ class UserApiController extends BaseApiController
 
             //ADD: optional custom transformer from config
             $customUserTransformer = config('asgard.iprofile.config.customUserTransformer');
-            \Log::info('Transformer: '.$customUserTransformer);
 
             if($customUserTransformer!==null){
               $response = ["data" => new $customUserTransformer($user)];
@@ -234,7 +232,6 @@ class UserApiController extends BaseApiController
             }
 
             if($checkAdminActivate){
-              \Log::info('CheckAdmin Complete: '.$user->id);
                 $this->update($user->id, new Request(
                   ['attributes' => [
                     'id' => $user->id,
