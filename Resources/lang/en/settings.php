@@ -16,7 +16,6 @@ return [
     'registerUsers' => 'Can register users',
     'validateRegisterWithEmail' => 'Validate register with email',
     'adminNeedsToActivateNewUsers' => 'Admin needs to activate any new user',
-    'activateCaptchaRegistration' => 'Activate google captcha registration',
     'registerExtraFields' => 'Register Extra Fields',
     'addressesExtraFields' => 'Address Extra Fields',
     'table' => [
