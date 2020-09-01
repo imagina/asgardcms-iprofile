@@ -48,8 +48,6 @@ class UserTransformer extends Resource
 
     $customUserIncludes = config('asgard.iprofile.config.customUserIncludes');
 
-    \Log::info(print_r($customUserIncludes,true));
-
     foreach ($customUserIncludes as $include=>$customUserInclude){
       if($customUserInclude['multiple']){
         $data[$include] = $customUserInclude['path']::collection($this->whenLoaded($include));
