@@ -10,9 +10,8 @@ return [
     "mainImage",
     "user_type_id",
   ],
-  //add: custom user includes and custom user transformer (if they are null iprofile module will be using default includes and  custom user transformer) (slim)
-  'customUserIncludes'=>null,
-  'customUserTransformer'=>null,
+  //add: custom user includes (if they are empty iprofile module will be using default includes) (slim)
+  'customUserIncludes'=>[],
   //end custom includes and transformers
   'addressesExtraFields' =>[
     "firstName",

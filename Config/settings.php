@@ -22,7 +22,7 @@ return [
 
   //Activate google captcha registration
   'activateCaptchaRegistration' => [
-    'description' => 'iprofile::settings.adminNeedsToActivateNewUsers',
+    'description' => 'iprofile::settings.activateCaptchaRegistration',
     'view' => 'checkbox',
   ],
 

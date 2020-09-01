@@ -13,6 +13,9 @@ return [
     'button' => [
         'create departmentsetting' => 'Create a departmentsetting',
     ],
+    'validateRegisterWithEmail' => 'Validar registro con un correo de verificación',
+    'adminNeedsToActivateNewUsers' => 'Administrador necesita activar cualquier usuario nuevo',
+    'activateCaptchaRegistration' => 'Activar registro por google captcha',
     'table' => [
     ],
     'form' => [
