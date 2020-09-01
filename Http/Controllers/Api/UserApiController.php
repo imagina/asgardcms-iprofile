@@ -170,27 +170,6 @@ class UserApiController extends BaseApiController
             //Create user
             $user = $this->validateResponseApi($this->create(new Request($params)));
 
-            $userParams = (object)[
-              "include"=>["*"],
-              "filter"=>(object)[
-                "roleId" => 1
-              ],
-              "take"=>false,
-            ];
-
-            $adminUsers = $this->user->getItemsBy($userParams);
-
-            foreach($adminUsers as $adminUser){
-              $this->notification->type(['broadcast','push'])->to($adminUser->id)->push([
-                "title" => "Nuevo Usuario registrado en el sistema: ".$user,
-                "message" => "El Usuario ".$user." se ha regitrado en el sistema de ".$this->settingAsgard->get('core::site-name').". Favor verificar datos para su activación.",
-                "icon_class" => "fas fa-user-plus",
-                "setting" => [
-                  "saveInDatabase" => 1 // now, the notifications with type broadcast need to be save in database to really send the notification
-                ]
-              ]);
-            }
-
             //Response and especific if user required check email
             $response = ["data" => ['checkEmail' => (int)$validateEmail ? true : false]];
         } catch (\Exception $e) {
