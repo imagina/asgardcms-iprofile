@@ -1,8 +1,11 @@
 url: https://github.com/imagina/asgardcms-icommerce
 versions:
+  "2.0.16":
+    added:
+      - added tag for to update packagist
   "2.0.15":
-    changed:
-      -change idavoll/core-module by imagina/imaginacms-core in the composer.json
+      changed:
+        -change idavoll/core-module by imagina/imaginacms-core in the composer.json
   "2.0.14":
     changed:
       -change barrydh/laravel-cors by fruitcake/laravel-cors in the composer.json
