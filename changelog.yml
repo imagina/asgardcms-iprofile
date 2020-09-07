@@ -1,5 +1,8 @@
 url: https://github.com/imagina/asgardcms-icommerce
 versions:
+  "2.0.14":
+    changed:
+      -change barrydh/laravel-cors by fruitcake/laravel-cors in the composer.json
   "2.0.13":
     changed:
       -Added return entity with transformer after created address
