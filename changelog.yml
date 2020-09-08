@@ -2,7 +2,6 @@ url: https://github.com/imagina/asgardcms-icommerce
 versions:
   "2.0.16":
     added:
-      - module:seed in the post install
       - added tag for to update packagist
   "2.0.15":
       changed:
