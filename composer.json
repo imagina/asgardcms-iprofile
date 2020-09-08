@@ -39,6 +39,11 @@
             }
         }
     },
+    "scripts": {
+      "post-install-cmd": [
+        "@php artisan module:seed iprofile"
+      ]
+    },
     "autoload": {
         "psr-4": {
             "Modules\\Iprofile\\": ""
