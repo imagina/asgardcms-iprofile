@@ -18,7 +18,7 @@ class CreateIprofileDepartmentsTable extends Migration
       // Your fields
       // Your fields
       $table->string('title')->nullable();
-      $table->text('options')->default('')->nullable();
+      $table->text('options')->nullable();
       
       $table->integer('parent_id')->default(0);
       $table->integer('lft')->unsigned()->nullable();

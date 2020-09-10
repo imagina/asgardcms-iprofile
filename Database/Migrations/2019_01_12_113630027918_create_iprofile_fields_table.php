@@ -22,7 +22,7 @@ class CreateIprofileFieldsTable extends Migration
         ->on('users')
         ->onDelete('cascade');
       $table->string('name')->nullable();
-      $table->text('value')->default('');
+      $table->text('value')->nullable();
       $table->string('type')->nullable();
       
       $table->timestamps();
