@@ -21,7 +21,7 @@
             "Modules\\": "Modules/"
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "authors": [
         {
@@ -37,6 +37,9 @@
             "aliases": {
 
             }
+        },
+        "branch-alias": {
+            "dev-master": "4.0.x-dev"
         }
     },
     "autoload": {
