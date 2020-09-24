@@ -46,7 +46,7 @@
     @endphp
 
     {{--################# BANNER #################--}}
-    @include('iprofile::frontend.partials.banner-up',[
+    @includeFirst(['iprofile.partials.banner-up','iprofile::frontend.partials.banner-up'],[
       'title' => $title,
       'imageBg' => $imageBg
     ])

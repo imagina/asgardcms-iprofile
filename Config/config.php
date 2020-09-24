@@ -3,6 +3,7 @@ return [
   'name' => 'Iprofile',
   'fields' =>[
     "cellularPhone",
+    "confirmPolytics",
     "birthday",
     "identification",
     "contacts",
@@ -13,10 +14,17 @@ return [
   //add: custom user includes (if they are empty iprofile module will be using default includes) (slim)
   'customUserIncludes'=>[],
   //end custom includes and transformers
+  
+  'registerExtraFields' =>[
+    "cellularPhone",
+    "birthday",
+    "identification",
+    "mainImage"
+  ],
+  
   'addressesExtraFields' =>[
-    "firstName",
-    "lastName",
-    "type"
+    "company",
+    "zipCode"
   ],
   'modules-to-manage-permissions' => [
     "Iprofile",

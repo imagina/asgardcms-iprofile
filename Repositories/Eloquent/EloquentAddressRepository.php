@@ -95,6 +95,15 @@ class EloquentAddressRepository extends EloquentBaseRepository implements Addres
 
   public function create($data)
   {
+    $defaultAddress = $this->findByAttributes(['user_id' => $data["user_id"], "default" => true, "type" => $data["type"] ?? null]);
+    
+    if (!$defaultAddress) $data["default"] = true;
+    else {
+      if (isset($data["default"]) && $data["default"]) {
+        $defaultAddress->default = false;
+        $defaultAddress->save();
+      }
+    }
     $address = $this->model->create($data);
 
     $newData = $address->toArray();
@@ -119,9 +128,17 @@ class EloquentAddressRepository extends EloquentBaseRepository implements Addres
     $model = $query->where($field ?? 'id', $criteria)->first();
 
     if($model) {
-      $oldData = $model->toArray();
-      $model->update($data);
-      $newData = $model->toArray();
+      if (isset($data["default"]) && $data["default"]) {
+        $defaultAddress = $this->findByAttributes(['user_id' => $data["user_id"], "default" => true, "type" => $data["type"] ?? null]);
+        if ($defaultAddress) {
+            $defaultAddress->default = false;
+            $defaultAddress->save();
+        }
+      }
+      
+      $model->update((array)$data) ;
+    } else{
+      return false;
     }
     return $model;
   }

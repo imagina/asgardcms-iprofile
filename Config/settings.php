@@ -19,18 +19,19 @@ return [
     'description' => 'iprofile::settings.adminNeedsToActivateNewUsers',
     'view' => 'checkbox',
   ],
-
+  
+  'registerUsersWithSocialNetworks' => [
+    'description' => 'iprofile::settings.registerUsersWithSocialNetworks',
+    'view' => 'checkbox',
+    'default' => true,
+  ],
+  
   //Register Users
   'registerExtraFields' => [
     'custom' => true,
     'description' => 'iprofile::settings.registerExtraFields',
     'view' => 'register-extra-fields',
-    'fields' => [
-      "cellularPhone",
-      "birthday",
-      "identification",
-      "mainImage"
-    ],
+    'fields' => config('asgard.iprofile.config.registerExtraFields'),
     'default' => []
   ],
 

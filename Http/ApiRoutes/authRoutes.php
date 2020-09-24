@@ -66,6 +66,7 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
   ]);
 
   #==================================================== Social
+  if(setting("iprofile::registerUsersWithSocialNetworks")){
   $router->get('social/{provider}', [
     'as' => $locale . 'api.iprofile.social.auth',
     'uses' => 'AuthApiController@getSocialAuth'
@@ -76,4 +77,6 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
     'uses' => 'AuthApiController@getSocialAuthCallback'
   ]);
 
+  }
+  
 });

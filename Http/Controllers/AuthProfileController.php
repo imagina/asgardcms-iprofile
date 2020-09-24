@@ -89,6 +89,13 @@ class AuthProfileController extends AuthController
     {
 
         parent::postLogin($request);
+        
+        $data = $request->all();
+        
+        if(isset($data["embedded"]) && $data["embedded"])
+          return redirect()->route($data["embedded"])
+            ->withSuccess(trans('user::messages.successfully logged in'));
+
         return redirect()->intended(route(config('asgard.user.config.redirect_route_after_login')))
             ->withSuccess(trans('user::messages.successfully logged in'));
 
@@ -220,7 +227,7 @@ class AuthProfileController extends AuthController
             echo $t->getMessage();
             exit();
 
-            return redirect()->route('account.profile.index')
+            return redirect()->route($data["embedded"] ?? 'account.profile.index')
                             ->withError($response['message']);
         }
 
@@ -232,7 +239,7 @@ class AuthProfileController extends AuthController
           $autn=\Sentinel::login($user);
         }
 
-        return redirect()->route('account.register')
+        return redirect()->route($data["embedded"] ?? 'account.register')
         ->withSuccess($msj);
 
     }

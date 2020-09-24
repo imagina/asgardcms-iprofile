@@ -18,6 +18,7 @@ class Address extends Model
       'company',
       'address_1',
       'address_2',
+      'telephone',
       'city',
       'city_id',
       'zip_code',
@@ -27,9 +28,16 @@ class Address extends Model
       'state_id',
       'neighborhood',
       'neighborhood_id',
-      'type'
+      'type',
+      'default',
+      'options'
     ];
   
+  protected $fakeColumns = ['options'];
+  
+  protected $casts = [
+    'options' => 'array'
+  ];
   
   public function user(){
     $this->belognsTo(User::class);

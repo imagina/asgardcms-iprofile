@@ -3,6 +3,7 @@
 namespace Modules\Iprofile\Http\Requests;
 
 use Modules\Core\Internationalisation\BaseFormRequest;
+use Modules\Iprofile\Rules\FieldsRule;
 
 class CreateUserApiRequest extends BaseFormRequest
 {
@@ -13,6 +14,7 @@ class CreateUserApiRequest extends BaseFormRequest
         'last_name' => 'required',
         'email' => 'required',
         'password' => 'required',
+        'fields' => new FieldsRule(),
       ];
     }
 

@@ -23,4 +23,5 @@ return [
     ],
     'validation' => [
     ],
+    'registerUsersWithSocialNetworks' => "Users can register with social networks"
 ];

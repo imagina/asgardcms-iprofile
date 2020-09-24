@@ -16,6 +16,17 @@ return [
     'table' => [
     ],
     'form' => [
+      "name" => "Nombre",
+      "address" => "Dirección",
+      "phone" => "Teléfono",
+      "city" => "Ciudad",
+      "state" => "Provincia",
+      "country" => "Country",
+      "default" => "Dirección por defecto",
+      "billing" => "Facturación",
+      "shipping" => "Envío",
+      "company" => "Nombre de la Compañía",
+      "zipCode" => "Código Postal",
     ],
     'messages' => [
     ],

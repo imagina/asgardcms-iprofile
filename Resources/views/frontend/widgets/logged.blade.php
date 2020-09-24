@@ -4,20 +4,22 @@
 $mainImage=\Modules\Iprofile\Entities\Field::where('user_id',Auth::user()->id)->where('name','mainImage')->first();
 @endphp
     <div class="account-menu dropdown mx-1" id="accMenuDrop">
-        <a class="dropdown-toggle" href="#" role="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="btn btn-outline-secondary border-0 dropdown-toggle" href="#" role="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             @if($mainImage)
-                <img class="i-circle" style="margin-top: -5px;"
+                <img class="i-circle" style="margin-top: -5px; width: 20px;"
                      src="{{url($mainImage->value)}}"/>
             @else
-                <img class="i-circle" style="margin-top: -5px;"
+                <img class="i-circle" style="margin-top: -5px; width: 20px;"
                      src="{{url('modules/iprofile/img/default.jpg')}}"/>
             @endif
+
+               {{trans("iprofile::frontend.title.my_account")}}
         </a>
 
         <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">
             <div class="dropdown-item text-center ">
                 <!-- Nombre -->
-                Hola
+                {{trans("iprofile::frontend.title.welcome")}}
                 <span class="username text-truncate aling-middle">
                     <?php if ($user->first_name != ' '): ?>
                         <?= $user->first_name; ?>
@@ -29,6 +31,11 @@ $mainImage=\Modules\Iprofile\Entities\Field::where('user_id',Auth::user()->id)->
             <a class="dropdown-item"  href="{{url('/account')}}">
                 <i class="fa fa-user mr-2"></i>{{trans('iprofile::frontend.title.profiles')}}
             </a>
+            @if(is_module_enabled('Icommerce'))
+            <a class="dropdown-item"  href="{{url('/orders')}}">
+                <i class="fa fa-bars mr-2"></i> {{trans("icommerce::orders.title.orders")}}
+            </a>
+            @endif
             <a class="dropdown-item" href="{{url('/account/logout')}}" data-placement="bottom"
                title="Sign Out">
                 <i class="fa fa-sign-out mr-1"></i>
@@ -38,8 +45,8 @@ $mainImage=\Modules\Iprofile\Entities\Field::where('user_id',Auth::user()->id)->
     </div>
 @else
     <div class="account-menu dropdown" id="accMenuDrop">
-        <a class="dropdown-toggle" href="#" role="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-user i-circle"></i>
+        <a class="btn btn-outline-secondary border-0 dropdown-toggle" href="#" role="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user mr-1"></i>{{trans("iprofile::frontend.title.my_account")}}
         </a>
 
         <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">
