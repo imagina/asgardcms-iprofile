@@ -67,7 +67,7 @@ class AddressApiController extends BaseApiController
       $address = $this->address->getItem($criteria, $params);
 
       //Break if no found item
-      if (!$address) throw new Exception('Item not found', 404);
+      if (!$address) throw new \Exception('Item not found', 404);
 
       //Response
       $response = ["data" => new AddressTransformer($address)];
