@@ -26,7 +26,7 @@ class UserTransformer extends Resource
       'firstName' => $this->when($this->first_name, $this->first_name),
       'lastName' => $this->when($this->last_name, $this->last_name),
       'fullName' => $this->when(($this->first_name && $this->last_name), trim($this->present()->fullname)),
-      'activated' => $this->isActivated() ? 1 : 0,
+      'isActivated' => $this->isActivated() ? "1" : "0",
       'email' => $this->when($this->email, $this->email),
       'permissions' => $this->permissions ?? [],
       'idOld' => $this->when($this->id_old, $this->id_old),

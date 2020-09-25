@@ -176,11 +176,11 @@ class AuthProfileController extends AuthController
         array_push($data['roles'], $roleCustomer->id);
       }
       
-      if (!isset($data["activated"]))
-        $data["activated"] = 1;
+      if (!isset($data["is_activated"]))
+        $data["is_activated"] = 1;
       
       // Create User with Roles
-      $user = $this->user->createWithRoles($data, $data["roles"], $data["activated"]);
+      $user = $this->user->createWithRoles($data, $data["roles"], $data["is_activated"]);
       $checkPointRegister = $this->setting->get('iredeems::points-per-register-user-checkbox');
       if ($checkPointRegister) {
         //Assign points to user

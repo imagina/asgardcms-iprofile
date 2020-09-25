@@ -142,7 +142,7 @@ class UserApiController extends BaseApiController
                     'password_confirmation' => $data->password_confirmation,
                     'departments' => [1],//Default departme is USERS, ID 1
                     'roles' => [2],//Default role is USER, ID 2
-                    'activated' => (int)$validateEmail ? false : true
+                    'is_activated' => (int)$validateEmail ? false : true
                 ],
                 'filter' => json_encode([
                     'checkEmail' => (int)$validateEmail ? 1 : 0,
@@ -190,14 +190,14 @@ class UserApiController extends BaseApiController
             if ($checkEmail) { //Create user required validate email
               $user = app(UserRegistration::class)->register($data);
             }else{ //Create user activated
-               $user = $this->userRepository->createWithRoles($data, $data["roles"], $data["activated"]);
+               $user = $this->userRepository->createWithRoles($data, $data["roles"], $data["is_activated"]);
             }
 
             if($checkAdminActivate){
                 $this->update($user->id, new Request(
                   ['attributes' => [
                     'id' => $user->id,
-                    'activated' => false
+                    'is_activated' => false
                   ]]
                 ));
             }
@@ -277,10 +277,10 @@ class UserApiController extends BaseApiController
                 $oldData = $user->toArray();
 
                 // configuting activate data to audit
-                if (Activation::completed($user) && !$data['activated'])
-                    $oldData['activated'] = 1;
-                if (!Activation::completed($user) && $data['activated'])
-                    $oldData['activated'] = 0;
+                if (Activation::completed($user) && !$data['is_activated'])
+                    $oldData['is_activated'] = 1;
+                if (!Activation::completed($user) && $data['is_activated'])
+                    $oldData['is_activated'] = 0;
 
                 // actually user roles
                 $userRolesIds = $user->roles()->get()->pluck('id')->toArray();
@@ -440,7 +440,7 @@ class UserApiController extends BaseApiController
                     ['attributes' => [
                         'password' => $params['newPassword'],
                         'id' => $user->id,
-                        'activated' => true
+                        'is_activated' => true
                     ]]
                 ))
             );
