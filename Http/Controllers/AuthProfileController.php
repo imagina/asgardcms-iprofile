@@ -232,7 +232,7 @@ class AuthProfileController extends AuthController
         ->withError($response['message']);
     }
     
-    if ($data["activated"] == 0)
+    if ($data["is_activated"] == 0)
       $msj = trans('user::messages.account created check email for activation');
     else {
       $msj = trans('iprofile::frontend.messages.account created');
