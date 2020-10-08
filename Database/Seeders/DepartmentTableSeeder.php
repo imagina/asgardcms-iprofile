@@ -18,9 +18,13 @@ class DepartmentTableSeeder extends Seeder
   public function run()
   {
     Model::unguard();
-    Department::create([
-      'title' => 'Users',
-      'parent_id' => 0
-    ]);
+    
+    $department = Department::where('title', 'Users')->where('parent_id', 0)->first();
+    
+    if(!isset($department->id))
+      Department::create([
+        'title' => 'Users',
+        'parent_id' => 0
+      ]);
   }
 }
