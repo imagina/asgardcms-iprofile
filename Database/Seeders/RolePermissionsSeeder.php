@@ -27,7 +27,10 @@ class RolePermissionsSeeder extends Seeder
   {
     Model::unguard();
     $permissions = $this->permissions->all();
-    $modules = config('asgard.isite.config.modulesToManagePermissions');
+    
+    $this->module = app('modules');
+    $modules = array_keys($this->module->allEnabled());
+    
     $allPermissions = [];
 
 
