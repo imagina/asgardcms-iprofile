@@ -1,16 +1,5 @@
 <?php
 
-//Resgiter extra fields
-$optionsRegisterExtraFields = [];
-foreach (config('asgard.iprofile.config.registerExtraFields') as $fieldName)
-  array_push($optionsRegisterExtraFields, ['label' => $fieldName, 'value' => $fieldName]);
-
-//Address extra fields
-$optionsUserAddressesExtraFields = [];
-foreach (config('asgard.iprofile.config.addressesExtraFields') as $fieldName)
-  array_push($optionsUserAddressesExtraFields, ['label' => $fieldName, 'value' => $fieldName]);
-
-
 return [
   //Register Users
   'registerUsers' => [
@@ -59,9 +48,14 @@ return [
     'type' => 'select',
     'props' => [
       'label' => "iprofile::settings.registerExtraFieldsActive",
-      'options' => $optionsRegisterExtraFields,
       'multiple' => true,
-      'useChips' => true
+      'useChips' => true,
+      'options' => [
+        ['label' => 'cellularPhone', 'value' => 'cellularPhone'],
+        ['label' => 'birthday', 'value' => 'birthday'],
+        ['label' => 'identification', 'value' => 'identification'],
+        ['label' => 'mainImage', 'value' => 'mainImage']
+      ]
     ]
   ],
 
@@ -73,9 +67,14 @@ return [
     'type' => 'select',
     'props' => [
       'label' => "iprofile::settings.registerExtraFieldsRequired",
-      'options' => $optionsRegisterExtraFields,
       'multiple' => true,
-      'useChips' => true
+      'useChips' => true,
+      'options' => [
+        ['label' => 'cellularPhone', 'value' => 'cellularPhone'],
+        ['label' => 'birthday', 'value' => 'birthday'],
+        ['label' => 'identification', 'value' => 'identification'],
+        ['label' => 'mainImage', 'value' => 'mainImage']
+      ]
     ]
   ],
 
@@ -87,9 +86,12 @@ return [
     'type' => 'select',
     'props' => [
       'label' => 'iprofile::settings.addressesExtraFieldsActive',
-      'options' => $optionsRegisterExtraFields,
       'multiple' => true,
-      'useChips' => true
+      'useChips' => true,
+      'options' => [
+        ['label' => 'company', 'value' => 'company'],
+        ['label' => 'zipCode', 'value' => 'zipCode']
+      ]
     ]
   ],
 
@@ -101,9 +103,12 @@ return [
     'type' => 'select',
     'props' => [
       'label' => 'iprofile::settings.addressesExtraFieldsRequired',
-      'options' => $optionsRegisterExtraFields,
       'multiple' => true,
-      'useChips' => true
+      'useChips' => true,
+      'options' => [
+        ['label' => 'company', 'value' => 'company'],
+        ['label' => 'zipCode', 'value' => 'zipCode']
+      ]
     ]
   ],
 ];
