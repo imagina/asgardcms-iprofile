@@ -333,7 +333,7 @@ class AuthProfileController extends AuthController
   {
     try{
       if(!setting("iprofile::registerUsersWithSocialNetworks")){
-        throw new Exception('Users can\'t login with social networks', 401);
+        throw new \Exception('Users can\'t login with social networks', 401);
       }
   
       if (!empty($request->query('redirect'))) {
@@ -341,7 +341,7 @@ class AuthProfileController extends AuthController
       }
       
       if (!config("services.$provider")) {
-        throw new Exception("Error - Config Services {$provider} - Not defined", 404);
+        throw new \Exception("Error - Config Services {$provider} - Not defined", 404);
       }
       
     }catch (\Exception $e) {
@@ -380,7 +380,7 @@ class AuthProfileController extends AuthController
       try {
   
         if(!setting("iprofile::registerUsersWithSocialNetworks")){
-          throw new Exception('Users can\'t login with social networks', 401);
+          throw new \Exception('Users can\'t login with social networks', 401);
         }
   
         $user = $this->_createOrGetUser($provider, $fields);
