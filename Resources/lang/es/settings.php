@@ -13,8 +13,14 @@ return [
     'button' => [
         'create departmentsetting' => 'Create a departmentsetting',
     ],
-    'validateRegisterWithEmail' => 'Validar registro con un correo de verificación',
-    'adminNeedsToActivateNewUsers' => 'Administrador necesita activar cualquier usuario nuevo',
+    'registerUsers' => 'Usuarios se pueden registrar',
+    'validateRegisterWithEmail' => 'Validar registro por email',
+    'adminNeedsToActivateNewUsers' => 'El administrador necesita activar los usuarios',
+    'registerUsersWithSocialNetworks' => 'Permitir registro con redes sociales',
+    'registerExtraFieldsActive' => 'Campos extra activos para el registro',
+    'registerExtraFieldsRequired' => 'Campos extra requeridos para el registro',
+    'addressesExtraFieldsActive' => 'Campos extra de dirección activos',
+    'addressesExtraFieldsRequired' => 'Campos extra de dirección requeridos',
     'table' => [
     ],
     'form' => [
@@ -23,5 +29,4 @@ return [
     ],
     'validation' => [
     ],
-    'registerUsersWithSocialNetworks' => "Users can register with social networks"
 ];
