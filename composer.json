@@ -9,6 +9,7 @@
         "imagina/core-module": "4.0.x-dev",
         "paragonie/random_compat":"2.*",
         "laravel/passport":"~4.0",
+        "laravel/socialite": "4.*",
         "fruitcake/laravel-cors": "1.*"
     },
     "require-dev": {
