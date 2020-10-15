@@ -345,7 +345,7 @@ class AuthProfileController extends AuthController
       }
       
     }catch (\Exception $e) {
-      $status = $this->getStatusError($e->getCode());
+      $status = $e->getCode();
       $response = ["errors" => $e->getMessage()];
     }
   
@@ -400,7 +400,7 @@ class AuthProfileController extends AuthController
         
         
       } catch (\Exception $e) {
-        $status = $this->getStatusError($e->getCode());
+        $status = $e->getCode();
         $response = ["errors" => $e->getMessage()];
       }
     }
