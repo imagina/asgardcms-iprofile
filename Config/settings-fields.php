@@ -7,7 +7,7 @@ return [
     'value' => null,
     'type' => 'checkbox',
     'props' => [
-      'label' => 'iprofile::settings.registerUsers'
+      'label' => '(trans)iprofile::settings.registerUsers'
     ],
   ],
 
@@ -17,7 +17,7 @@ return [
     'value' => null,
     'type' => 'checkbox',
     'props' => [
-      'label' => 'iprofile::settings.validateRegisterWithEmail'
+      'label' => '(trans)iprofile::settings.validateRegisterWithEmail'
     ],
   ],
 
@@ -27,7 +27,7 @@ return [
     'value' => null,
     'type' => 'checkbox',
     'props' => [
-      'label' => 'iprofile::settings.adminNeedsToActivateNewUsers'
+      'label' => '(trans)iprofile::settings.adminNeedsToActivateNewUsers'
     ],
   ],
 
@@ -36,7 +36,7 @@ return [
     'value' => null,
     'type' => 'checkbox',
     'props' => [
-      'label' => 'iprofile::settings.registerUsersWithSocialNetworks'
+      'label' => '(trans)iprofile::settings.registerUsersWithSocialNetworks'
     ],
   ],
 
@@ -47,7 +47,7 @@ return [
     'value' => [],
     'type' => 'select',
     'props' => [
-      'label' => "iprofile::settings.registerExtraFieldsActive",
+      'label' => "(trans)iprofile::settings.registerExtraFieldsActive",
       'multiple' => true,
       'useChips' => true,
       'options' => [
@@ -66,7 +66,7 @@ return [
     'value' => [],
     'type' => 'select',
     'props' => [
-      'label' => "iprofile::settings.registerExtraFieldsRequired",
+      'label' => "(trans)iprofile::settings.registerExtraFieldsRequired",
       'multiple' => true,
       'useChips' => true,
       'options' => [
@@ -85,7 +85,7 @@ return [
     'value' => [],
     'type' => 'select',
     'props' => [
-      'label' => 'iprofile::settings.addressesExtraFieldsActive',
+      'label' => '(trans)iprofile::settings.addressesExtraFieldsActive',
       'multiple' => true,
       'useChips' => true,
       'options' => [
@@ -102,7 +102,7 @@ return [
     'value' => [],
     'type' => 'select',
     'props' => [
-      'label' => 'iprofile::settings.addressesExtraFieldsRequired',
+      'label' => '(trans)iprofile::settings.addressesExtraFieldsRequired',
       'multiple' => true,
       'useChips' => true,
       'options' => [
