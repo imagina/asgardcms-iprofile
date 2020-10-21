@@ -26,8 +26,8 @@ return [
     'default' => true,
   ],
   
-  'registerUserWithPolyticsOfPrivacy' => [
-    'description' => 'iprofile::settings.registerUserWithPolyticsOfPrivacy',
+  'registerUserWithPoliticsOfPrivacy' => [
+    'description' => 'iprofile::settings.registerUserWithPoliticsOfPrivacy',
     'view' => 'checkbox',
     'default' => true,
   ],
