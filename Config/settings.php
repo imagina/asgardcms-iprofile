@@ -26,6 +26,12 @@ return [
     'default' => true,
   ],
   
+  'registerUserWithPolyticsOfPrivacy' => [
+    'description' => 'iprofile::settings.registerUserWithPolyticsOfPrivacy',
+    'view' => 'checkbox',
+    'default' => true,
+  ],
+  
   //Register Users
   'registerExtraFields' => [
     'custom' => true,

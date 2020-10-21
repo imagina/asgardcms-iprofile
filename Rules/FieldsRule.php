@@ -3,6 +3,7 @@
 namespace Modules\Iprofile\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Modules\Core\Contracts\Setting;
 
 class FieldsRule implements Rule
 {
@@ -11,9 +12,14 @@ class FieldsRule implements Rule
      *
      * @return void
      */
-    public function __construct()
+  /**
+   * @var Setting
+   */
+  private $setting;
+    public function __construct(Setting $setting)
     {
-        //
+  
+      $this->setting = $setting;
     }
 
     /**
@@ -27,9 +33,10 @@ class FieldsRule implements Rule
     {
       
       foreach ($value as $field){
-        if($field["name"] == "confirmPolytics" && !$field["value"]){
-          return false;
-        }
+        if($this->setting->get('iprofile::registerUserWithPolyticsOfPrivacy'))
+          if($field["name"] == "confirmPolytics" && !$field["value"]){
+            return false;
+          }
         
     }
       return true;

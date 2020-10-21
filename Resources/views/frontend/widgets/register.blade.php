@@ -73,7 +73,8 @@
                                 toca irlo mejorando-->
                     @php
                         
-                        $registerExtraFields = is_array(setting('iprofile::registerExtraFields')) ? setting('iprofile::registerExtraFields') : is_array(json_decode(setting('iprofile::registerExtraFields'))) ? json_decode(setting('iprofile::registerExtraFields')) : json_decode(json_encode(setting('iprofile::registerExtraFields')));
+                        $registerExtraFields = json_decode(setting('iprofile::registerExtraFields', "[]"));
+                    
                     @endphp
                     @foreach($registerExtraFields as $extraField)
                         @if($extraField->active)
@@ -91,13 +92,15 @@
                 <div class="row">
                     <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }}">
                         
-                        <div class="custom-control custom-radio red mb-3">
-                            <input type="radio" class="custom-control-input"
-                                   id="customradio-select1" name="confirmPolytics" value="1" required>
-                            <label class="custom-control-label" for="customradio-select1">
-                                {!!  trans('icommerce::customer.form.confirmPolytics',["url" => url("/politica-de-privacidad")])  !!}
-                            </label>
-                        </div>
+                        @if(json_decode(setting('iprofile::registerUserWithPoliticsOfPrivacy', null, "true")))
+                            <div class="custom-control custom-radio red mb-3">
+                                <input type="radio" class="custom-control-input"
+                                       id="customradio-select1" name="confirmPolytics" value="1" required>
+                                <label class="custom-control-label" for="customradio-select1">
+                                    {!!  trans('icommerce::customer.form.confirmPolytics',["url" => url("/politica-de-privacidad")])  !!}
+                                </label>
+                            </div>
+                        @endif
                         
                         <div class="custom-control custom-radio red mb-3">
                             <input type="radio" class="custom-control-input"
