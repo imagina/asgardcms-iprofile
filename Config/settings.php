@@ -38,7 +38,7 @@ return [
     'description' => 'iprofile::settings.registerExtraFields',
     'view' => 'register-extra-fields',
     'fields' => config('asgard.iprofile.config.registerExtraFields'),
-    'default' => []
+    'default' => "[]"
   ],
 
   //User Addresses Extra Fields
@@ -47,7 +47,7 @@ return [
     'description' => 'iprofile::settings.addressesExtraFields',
     'view' => 'address-extra-fields',
     'fields' => config('asgard.iprofile.config.addressesExtraFields'),
-    'default' => []
+    'default' => "[]"
   ],
 
 
