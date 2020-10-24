@@ -9,6 +9,10 @@ return [
     "contacts",
     "socialNetworks",
     "mainImage",
+    "company",
+    "documentType",
+    "documentNumber",
+    "extraInfo",
     "user_type_id",
   ],
   //add: custom user includes (if they are empty iprofile module will be using default includes) (slim)
@@ -19,13 +23,19 @@ return [
     "cellularPhone",
     "birthday",
     "identification",
+    "documentType",
+    "documentNumber",
     "mainImage"
   ],
   
   'addressesExtraFields' =>[
     "company",
-    "zipCode"
+    "zipCode",
+    "documentType",
+    "documentNumber",
+    "extraInfo",
   ],
+  
   'modules-to-manage-permissions' => [
     "Iprofile",
   ],

@@ -42,6 +42,7 @@ return [
     "identification" => 'Identification',
     "mainImage" => 'Profile picture',
     "company" => 'Company',
-    "zipCode" => 'Zipcode'
+    "zipCode" => 'Zipcode',
+    "extraInfo" => 'Additional Information',
   ]
 ];

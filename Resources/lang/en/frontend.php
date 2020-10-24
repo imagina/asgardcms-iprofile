@@ -76,6 +76,9 @@ return [
     'login to account' => 'Ingresar',
     'register to account' => 'Registrate',
     'reason'            => 'The reason for my registration ...',
+    'documentType' => 'Document Type',
+    'documentNumber' => 'Document Number',
+    'extraInfo' => 'Extra Info',
   ],
 
   'button' => [

@@ -16,6 +16,20 @@ return [
     'table' => [
     ],
     'form' => [
+      "name" => "Name",
+      "address" => "Address",
+      "phone" => "Phone",
+      "city" => "City",
+      "state" => "Province",
+      "country" => "Country",
+      "default" => "Default Address",
+      "billing" => "Billing",
+      "shipping" => "Shipping",
+      "company" => "Name of the Company",
+      "zipCode" => "Postal Code",
+      'documentType' => 'Document Type',
+      'documentNumber' => 'Document Number',
+      'extraInfo' => 'Extra Info',
     ],
     'messages' => [
     ],

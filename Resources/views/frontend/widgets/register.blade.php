@@ -72,26 +72,108 @@
                     <!--17-09-2020::JCEC, primera version del register extra fields
                                 toca irlo mejorando-->
                     @php
-                        
-                        $registerExtraFields = json_decode(setting('iprofile::registerExtraFields', "[]"));
-                    
+     
+                            $registerExtraFields = json_decode(setting('iprofile::registerExtraFields', "[]"));
+                  
                     @endphp
                     @foreach($registerExtraFields as $extraField)
+        
+                        {{-- if is active--}}
                         @if($extraField->active)
+            
+                            {{-- form group--}}
                             <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} py-2 has-feedback {{ $errors->has($extraField->field) ? ' has-error' : '' }}">
-                                <label>{{trans("iprofile::frontend.form.$extraField->field")}}</label>
-                                {{ Form::text($extraField->field, old($extraField->field),['required'=>$extraField->required,'class'=>"form-control",'placeholder' => '']) }}
-                                {!! $errors->first($extraField->field, '<div class="invalid-feedback">:message</div>') !!}
+                
+                                {{-- label --}}
+                                <label for="{{$extraField->field}}">{{trans("iprofile::frontend.form.$extraField->field")}}</label>
+                
+                                {{-- Generic input --}}
+                                @if( !in_array($extraField->type, ["select","textarea"]) )
+        
+                                    {{-- Text input --}}
+                                    @if(in_array($extraField->type ,["text","number","checkbox","password"]))
+                                      <input  type="{{$extraField->type}}" name="fields[{{$extraField->field}}]" required="{{$extraField->required}}" class ="form-control" id = 'extraField{{$extraField->field}}'/>
+                                    @endif
+        
+                                  
+        
+                                    {{-- Custom documentType input --}}
+                                    @if($extraField->type == "documentType")
+        
+                                            {{-- foreach options --}}
+                                            @if(isset($extraField->availableOptions) && is_array($extraField->availableOptions) && count($extraField->availableOptions))
+                                                @if(isset($extraField->availableOptions) && isset($extraField->options))
+                                                    @php($optionValues = [])
+                                                    @foreach($extraField->availableOptions as $availableOption)
+                                                        {{-- finding if the availableOption exist in the options and get the full option object --}}
+                                                        @foreach ($extraField->options as $option)
+                                                            @if($option->value == $availableOption)
+                                                                @php($optionValues = array_merge($optionValues, [ $option->value => $option->label]))
+                                                            @endif
+                                                        @endforeach
+                                                    @endforeach
+                                                @endif
+                                            @else
+                                                @php($optionValues = $extraField->options)
+                                            @endif
+        
+                                            @if(isset($optionValues))
+                                                {{-- Select --}}
+                                                {{Form::select("fields[$extraField->field]", $optionValues, null, ['id'=>'extraField'.$extraField->field, 'required'=>$extraField->required,'class'=>"form-control",'placeholder' => '']) }}
+                                            @endif
+                                            </div>
+                                            <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} py-2 has-feedback {{ $errors->has($extraField->field) ? ' has-error' : '' }}">
+                                                <label for="extraField-documentNumber">{{trans("iprofile::frontend.form.documentNumber")}}</label>
+                                              <input  type="number" name="fields[documentNumber]" required="{{$extraField->required}}" class ="form-control" id = 'extraFielddocumentNumber'/>
+                                            </div>
+                                    @endif
+                              
+                                @else
+                                    {{-- if is select --}}
+                                    @if($extraField->type == "select")
+                                        
+                                        {{-- foreach options --}}
+                                    @if(isset($extraField->availableOptions) && is_array($extraField->availableOptions) && count($extraField->availableOptions))
+                                        @if(isset($extraField->availableOptions) && isset($extraField->options))
+                                            @php($optionValues = [])
+                                            @foreach($extraField->availableOptions as $availableOption)
+                                                {{-- finding if the availableOption exist in the options and get the full option object --}}
+                                                @foreach ($extraField->options as $option)
+                                                    @if($option->value == $availableOption)
+                                                        @php($optionValues = array_merge($optionValues, [ $option->value => $option->label]))
+                                                    @endif
+                                                @endforeach
+                                            @endforeach
+                                        @endif
+                                    @else
+                                            @php($optionValues = $extraField->options)
+                                    @endif
+                                    
+                                        @if(isset($optionValues))
+                                            {{-- Select --}}
+                                            {{Form::select("fields[$extraField->field]", $optionValues, null, ['id'=>'extraField'.$extraField->field, 'required'=>$extraField->required,'class'=>"form-control",'placeholder' => '']) }}
+                                        @endif
+                                    @else
+                                        {{-- if is textarea --}}
+                                        @if($extraField->type == "textarea")
+                                            {{-- Textarea --}}
+                                            {{ Form::textarea("fields[$extraField->field]", old($extraField->field),['id'=>'extraField'.$extraField->field,'required'=>$extraField->required,'class'=>"form-control",'placeholder' => '', "cols" => 30, "rows" => 3]) }}
+                                  
+                                        @endif {{--- end if is textarea --}}
+                                    @endif {{-- end if is select --}}
+                                @endif {{-- end if is generic input --}}
                             </div>
-                        @endif
+                        @endif {{-- end if is active --}}
                     @endforeach
+                    
+              
                 </div>
                 
                 <hr class="border-top-dotted my-4">
                 
                 <div class="row">
                     <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }}">
-                        
+                       
                         @if(json_decode(setting('iprofile::registerUserWithPoliticsOfPrivacy', null, "true")))
                             <div class="custom-control custom-radio red mb-3">
                                 <input type="radio" class="custom-control-input"

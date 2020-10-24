@@ -76,6 +76,9 @@ return [
     'rol' => 'Rol',
     'login to account' => 'Ingresar',
     'register to account' => 'Registrate',
+    'documentType' => 'Tipo de Documento',
+    'documentNumber' => 'Número de Documento',
+    'extraInfo' => 'Información Extra',
   ],
 
   'button' => [

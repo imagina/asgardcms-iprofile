@@ -12,15 +12,12 @@ class FieldsRule implements Rule
      *
      * @return void
      */
-  /**
-   * @var Setting
-   */
   private $setting;
-    public function __construct(Setting $setting)
-    {
-  
-      $this->setting = $setting;
-    }
+  public function __construct(Setting $setting)
+  {
+    
+    $this->setting = $setting;
+  }
 
     /**
      * Determine if the validation rule passes.
@@ -33,7 +30,7 @@ class FieldsRule implements Rule
     {
       
       foreach ($value as $field){
-        if($this->setting->get('iprofile::registerUserWithPolyticsOfPrivacy'))
+        if($this->setting->get('iprofile::registerUserWithPoliticsOfPrivacy'))
           if($field["name"] == "confirmPolytics" && !$field["value"]){
             return false;
           }

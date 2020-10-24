@@ -41,6 +41,7 @@ return [
     "identification" => 'Identificación',
     "mainImage" => 'Foto de perfil',
     "company" => 'Compañia',
-    "zipCode" => 'Codigo Zip'
+    "zipCode" => 'Codigo Zip',
+    "extraInfo" => 'Información Adicional',
   ]
 ];

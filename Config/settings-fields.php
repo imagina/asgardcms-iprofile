@@ -265,4 +265,30 @@ return [
       ],
     ]
   ],
+  //Address extra field Extra Info
+  'extraInfo' => [
+    'name' => 'iprofile::userAddressesExtraFields',
+    'label' => 'iprofile::settings.settingFields.extraInfo',
+    'group' => 'iprofile::settings.settingGroups.addressesExtraFields',
+    'children' => [
+      'field' => ['name' => 'field', 'value' => 'extraInfo', 'fakeFieldName' => 'extraInfo'],
+      'type' => ['name' => 'type', 'value' => 'textarea', 'fakeFieldName' => 'extraInfo'],
+      'active' => [
+        'name' => 'active',
+        'fakeFieldName' => 'extraInfo',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.enabled']
+      ],
+      'required' => [
+        'name' => 'required',
+        'fakeFieldName' => 'extraInfo',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.required']
+      ],
+    ]
+  ],
 ];

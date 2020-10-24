@@ -130,7 +130,20 @@ class UserApiController extends BaseApiController
 
             //Validate custom Request user
             $this->validateRequestApi(new CreateUserApiRequest((array)$data));
-
+  
+            // registerExtraFields
+            $registerExtraFieldsSetting = json_decode(setting('iprofile::registerExtraFields',null, "[]"));
+            
+            $fields = [];
+            foreach ($registerExtraFieldsSetting as $extraFieldSetting){
+                if($extraFieldSetting->active && isset($data[$extraFieldSetting->field])){
+                  $fields[] = [
+                    "name" => $extraFieldSetting->field,
+                    "value" => $data[$extraFieldSetting->field]
+                  ];
+                }
+            }
+            
             //Format dat ot create user
             $params = [
                 'attributes' => [
@@ -142,6 +155,7 @@ class UserApiController extends BaseApiController
                     'password_confirmation' => $data->password_confirmation,
                     'departments' => [1],//Default departme is USERS, ID 1
                     'roles' => [2],//Default role is USER, ID 2
+                    'fields' => $fields ?? [],
                     'is_activated' => (int)$validateEmail ? false : true
                 ],
                 'filter' => json_encode([
