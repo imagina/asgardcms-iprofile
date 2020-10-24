@@ -1,5 +1,14 @@
 <?php
 
+//Options documents types
+$optionsDocumentsTypes = [
+  ['label' => 'Registro Civil', 'value' => 'RC'],
+  ['label' => 'Tarjeta de identidad', 'value' => 'TI'],
+  ['label' => 'Cédula de ciudadanía', 'value' => 'CC'],
+  ['label' => 'Cédula de extranjería', 'value' => 'CE']
+];
+
+//Fields
 return [
   //Register Users
   'registerUsers' => [
@@ -10,7 +19,6 @@ return [
       'label' => 'iprofile::settings.registerUsers'
     ],
   ],
-
   //Validete register with email
   'validateRegisterWithEmail' => [
     'name' => 'iprofile::validateRegisterWithEmail',
@@ -20,7 +28,6 @@ return [
       'label' => 'iprofile::settings.validateRegisterWithEmail'
     ],
   ],
-
   //Admin needs to activate any new user - Slim:
   'adminNeedsToActivateNewUsers' => [
     'name' => 'iprofile::adminNeedsToActivateNewUsers',
@@ -30,7 +37,7 @@ return [
       'label' => 'iprofile::settings.adminNeedsToActivateNewUsers'
     ],
   ],
-
+  //Enable register with social media
   'registerUsersWithSocialNetworks' => [
     'name' => 'iprofile::registerUsersWithSocialNetworks',
     'value' => null,
@@ -39,82 +46,223 @@ return [
       'label' => 'iprofile::settings.registerUsersWithSocialNetworks'
     ],
   ],
-
-  //Register extra field Active
-  'registerExtraFieldsActive' => [
-    'name' => 'active',
-    'fakeFieldName' => 'iprofile::registerExtraFields',
-    'value' => [],
-    'type' => 'select',
+  //Enable register with social media
+  'registerUserWithPoliticsOfPrivacy' => [
+    'name' => 'iprofile::registerUserWithPoliticsOfPrivacy',
+    'value' => null,
+    'type' => 'checkbox',
     'props' => [
-      'label' => "iprofile::settings.registerExtraFieldsActive",
-      'multiple' => true,
-      'useChips' => true,
-      'options' => [
-        ['label' => 'cellularPhone', 'value' => 'cellularPhone'],
-        ['label' => 'birthday', 'value' => 'birthday'],
-        ['label' => 'identification', 'value' => 'identification'],
-        ['label' => 'mainImage', 'value' => 'mainImage']
-      ]
+      'label' => 'iprofile::settings.registerUserWithPoliticsOfPrivacy'
+    ],
+  ],
+  //Register extra field cellularphone
+  'cellularPhone' => [
+    'name' => 'iprofile::registerExtraFields',
+    'label' => 'iprofile::settings.settingFields.cellularPhone',
+    'group' => 'iprofile::settings.settingGroups.registerExtraFields',
+    'children' => [
+      'field' => ['name' => 'field', 'value' => 'cellularPhone', 'fakeFieldName' => 'cellularPhone'],
+      'type' => ['name' => 'type', 'value' => 'number', 'fakeFieldName' => 'cellularPhone'],
+      'active' => [
+        'name' => 'active',
+        'fakeFieldName' => 'cellularPhone',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.enabled']
+      ],
+      'required' => [
+        'name' => 'required',
+        'fakeFieldName' => 'cellularPhone',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.required']
+      ],
     ]
   ],
-
-  //Register extra field Required
-  'registerExtraFieldsRequired' => [
-    'name' => 'required',
-    'fakeFieldName' => 'iprofile::registerExtraFields',
-    'value' => [],
-    'type' => 'select',
-    'props' => [
-      'label' => "iprofile::settings.registerExtraFieldsRequired",
-      'multiple' => true,
-      'useChips' => true,
-      'options' => [
-        ['label' => 'cellularPhone', 'value' => 'cellularPhone'],
-        ['label' => 'birthday', 'value' => 'birthday'],
-        ['label' => 'identification', 'value' => 'identification'],
-        ['label' => 'mainImage', 'value' => 'mainImage']
-      ]
+  //Register extra field Birtday
+  'birthday' => [
+    'name' => 'iprofile::registerExtraFields',
+    'label' => 'iprofile::settings.settingFields.birthday',
+    'group' => 'iprofile::settings.settingGroups.registerExtraFields',
+    'children' => [
+      'field' => ['name' => 'field', 'value' => 'birthday', 'fakeFieldName' => 'birthday'],
+      'type' => ['name' => 'type', 'value' => 'date', 'fakeFieldName' => 'birthday'],
+      'active' => [
+        'name' => 'active',
+        'fakeFieldName' => 'birthday',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.enabled']
+      ],
+      'required' => [
+        'name' => 'required',
+        'fakeFieldName' => 'birthday',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.required']
+      ],
     ]
   ],
-
-  //User Addresses Extra Fields active
-  'userAddressesExtraFieldsActive' => [
-    'name' => 'active',
-    'fakeFieldName' => 'iprofile::userAddressesExtraFields',
-    'value' => [],
-    'type' => 'select',
-    'props' => [
-      'label' => 'iprofile::settings.addressesExtraFieldsActive',
-      'multiple' => true,
-      'useChips' => true,
-      'options' => [
-        ['label' => 'company', 'value' => 'company'],
-        ['label' => 'zipCode', 'value' => 'zipCode']
-      ]
+  //Register extra field Identification
+  'identificationRegister' => [
+    'name' => 'iprofile::registerExtraFields',
+    'label' => 'iprofile::settings.settingFields.identification',
+    'group' => 'iprofile::settings.settingGroups.registerExtraFields',
+    'children' => [
+      'field' => ['name' => 'field', 'value' => 'identification', 'fakeFieldName' => 'documentType'],
+      'type' => ['name' => 'type', 'value' => 'select', 'fakeFieldName' => 'documentType'],
+      'options' => ['name' => 'options', 'value' => $optionsDocumentsTypes, 'fakeFieldName' => 'documentType'],
+      'active' => [
+        'name' => 'active',
+        'fakeFieldName' => 'documentType',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.enabled']
+      ],
+      'required' => [
+        'name' => 'required',
+        'fakeFieldName' => 'documentType',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.required']
+      ],
+      'availableOptions' => [
+        'name' => 'availableOptions',
+        'fakeFieldName' => 'documentType',
+        'value' => [],
+        'type' => 'select',
+        'columns' => 'col-12',
+        'props' => [
+          'label' => 'Availables Document Type',
+          'options' => $optionsDocumentsTypes,
+          'multiple' => true,
+          'useChips' => true
+        ]
+      ],
     ]
   ],
-
-  //User Addresses Extra Fields required
-  'userAddressesExtraFieldsRequired' => [
-    'name' => 'required',
-    'fakeFieldName' => 'iprofile::userAddressesExtraFields',
-    'value' => [],
-    'type' => 'select',
-    'props' => [
-      'label' => 'iprofile::settings.addressesExtraFieldsRequired',
-      'multiple' => true,
-      'useChips' => true,
-      'options' => [
-        ['label' => 'company', 'value' => 'company'],
-        ['label' => 'zipCode', 'value' => 'zipCode']
-      ]
+  //Register extra field Main image
+  'mainImage' => [
+    'name' => 'iprofile::registerExtraFields',
+    'label' => 'iprofile::settings.settingFields.mainImage',
+    'group' => 'iprofile::settings.settingGroups.registerExtraFields',
+    'children' => [
+      'field' => ['name' => 'field', 'value' => 'mainImage', 'fakeFieldName' => 'mainImage'],
+      'type' => ['name' => 'type', 'value' => 'media', 'fakeFieldName' => 'mainImage'],
+      'active' => [
+        'name' => 'active',
+        'fakeFieldName' => 'mainImage',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.enabled']
+      ],
+      'required' => [
+        'name' => 'required',
+        'fakeFieldName' => 'mainImage',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.required']
+      ],
+    ]
+  ],
+  //Address extra field Company
+  'company' => [
+    'name' => 'iprofile::userAddressesExtraFields',
+    'label' => 'iprofile::settings.settingFields.company',
+    'group' => 'iprofile::settings.settingGroups.addressesExtraFields',
+    'children' => [
+      'field' => ['name' => 'field', 'value' => 'company', 'fakeFieldName' => 'company'],
+      'type' => ['name' => 'type', 'value' => 'text', 'fakeFieldName' => 'company'],
+      'active' => [
+        'name' => 'active',
+        'fakeFieldName' => 'company',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.enabled']
+      ],
+      'required' => [
+        'name' => 'required',
+        'fakeFieldName' => 'company',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.required']
+      ],
+    ]
+  ],
+  //Address extra field Zip code
+  'zipCode' => [
+    'name' => 'iprofile::userAddressesExtraFields',
+    'label' => 'iprofile::settings.settingFields.zipCode',
+    'group' => 'iprofile::settings.settingGroups.addressesExtraFields',
+    'children' => [
+      'field' => ['name' => 'field', 'value' => 'zipCode', 'fakeFieldName' => 'zipCode'],
+      'type' => ['name' => 'type', 'value' => 'number', 'fakeFieldName' => 'zipCode'],
+      'active' => [
+        'name' => 'active',
+        'fakeFieldName' => 'zipCode',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.enabled']
+      ],
+      'required' => [
+        'name' => 'required',
+        'fakeFieldName' => 'zipCode',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.required']
+      ],
+    ]
+  ],
+  //Address extra field Identification
+  'identificationAddress' => [
+    'name' => 'iprofile::userAddressesExtraFields',
+    'label' => 'iprofile::settings.settingFields.identification',
+    'group' => 'iprofile::settings.settingGroups.addressesExtraFields',
+    'children' => [
+      'field' => ['name' => 'field', 'value' => 'identification', 'fakeFieldName' => 'documentType'],
+      'type' => ['name' => 'type', 'value' => 'select', 'fakeFieldName' => 'documentType'],
+      'options' => ['name' => 'options', 'value' => $optionsDocumentsTypes, 'fakeFieldName' => 'documentType'],
+      'active' => [
+        'name' => 'active',
+        'fakeFieldName' => 'documentType',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.enabled']
+      ],
+      'required' => [
+        'name' => 'required',
+        'fakeFieldName' => 'documentType',
+        'value' => null,
+        'type' => 'checkbox',
+        'columns' => 'col-12',
+        'props' => ['label' => 'iprofile::settings.settingFields.required']
+      ],
+      'availableOptions' => [
+        'name' => 'availableOptions',
+        'fakeFieldName' => 'documentType',
+        'value' => [],
+        'type' => 'select',
+        'columns' => 'col-12',
+        'props' => [
+          'label' => 'Availables Document Type',
+          'options' => $optionsDocumentsTypes,
+          'multiple' => true,
+          'useChips' => true
+        ]
+      ],
     ]
   ],
 ];
-
-
-//dd($fields);
-
-//Response
-return $fields;
