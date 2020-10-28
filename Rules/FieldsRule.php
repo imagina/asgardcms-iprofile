@@ -13,10 +13,10 @@ class FieldsRule implements Rule
      * @return void
      */
   private $setting;
-  public function __construct(Setting $setting)
+  public function __construct()
   {
     
-    $this->setting = $setting;
+    $this->setting = app('Modules\Core\Contracts\Setting');
   }
 
     /**
