@@ -3,7 +3,6 @@
 namespace Modules\Iprofile\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Modules\Core\Contracts\Setting;
 
 class FieldsRule implements Rule
 {
@@ -16,7 +15,7 @@ class FieldsRule implements Rule
   public function __construct()
   {
     
-    $this->setting = app('Modules\Core\Contracts\Setting');
+    $this->setting = app('Modules\Setting\Contracts\Setting');
   }
 
     /**
