@@ -8,9 +8,9 @@
         "composer/installers": "~1.0",
         "imagina/core-module": "4.0.x-dev",
         "paragonie/random_compat":"2.*",
-        "laravel/passport":"~4.0",
-        "laravel/socialite": "4.*",
-        "fruitcake/laravel-cors": "1.*"
+        "laravel/passport": "^10.0",
+        "laravel/socialite": "^5.1",
+        "fruitcake/laravel-cors": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",
