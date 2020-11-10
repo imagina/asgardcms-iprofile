@@ -2,11 +2,11 @@
 
 namespace Modules\Iprofile\Transformers;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Modules\Iprofile\Transformers\UserTransformer;
 
-class FieldTransformer extends Resource
+class FieldTransformer extends JsonResource
 {
   public function toArray($request)
   {

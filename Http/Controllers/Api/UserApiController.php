@@ -105,7 +105,7 @@ class UserApiController extends BaseApiController
             $params->page ? $response["meta"] = ["page" => $this->pageTransformer($user)] : false;
         } catch (\Exception $e) {
             $status = $this->getStatusError($e->getCode());
-            $response = ["errors" => $e->getMessage()];
+            $response = ["errors" => $this->getErrorMessage($e)];
         }
 
         //Return response
@@ -130,10 +130,10 @@ class UserApiController extends BaseApiController
 
             //Validate custom Request user
             $this->validateRequestApi(new CreateUserApiRequest((array)$data));
-  
+
             // registerExtraFields
             $registerExtraFieldsSetting = json_decode(setting('iprofile::registerExtraFields',null, "[]"));
-            
+
             $fields = [];
             foreach ($registerExtraFieldsSetting as $extraFieldSetting){
                 if($extraFieldSetting->active && isset($data[$extraFieldSetting->field])){
@@ -143,7 +143,7 @@ class UserApiController extends BaseApiController
                   ];
                 }
             }
-            
+
             //Format dat ot create user
             $params = [
                 'attributes' => [
@@ -218,7 +218,7 @@ class UserApiController extends BaseApiController
 
             // sync tables
             if (isset($data["departments"]) && count($data["departments"])) {
-                $user->departments()->sync(array_get($data, 'departments', []));
+                $user->departments()->sync(Arr::get($data, 'departments', []));
             }
 
             //Create fields

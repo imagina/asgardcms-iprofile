@@ -77,7 +77,7 @@ class FieldApiController extends BaseApiController
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($field)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["errors" => $this->getErrorMessage($e)];
     }
 
     //Return response

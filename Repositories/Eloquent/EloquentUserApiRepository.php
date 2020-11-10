@@ -214,7 +214,7 @@ class EloquentUserApiRepository extends EloquentBaseRepository implements UserAp
 
     if ($model) {
       // sync tables
-      $model->departments()->sync(array_get($data, 'departments', []));
+      $model->departments()->sync(Arr::get($data, 'departments', []));
 
 
     }
@@ -245,7 +245,7 @@ class EloquentUserApiRepository extends EloquentBaseRepository implements UserAp
       $model->update((array)$data);
       $newData = $model->toArray();
       // sync tables
-      $model->departments()->sync(array_get($data, 'departments', []));
+      $model->departments()->sync(Arr::get($data, 'departments', []));
 
     }
 

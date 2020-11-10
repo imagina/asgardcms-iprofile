@@ -2,13 +2,13 @@
 
 namespace Modules\Iprofile\Transformers;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Ihelpers\Http\Controllers\Api\PermissionsApiController;
 use Modules\Ihelpers\Http\Controllers\Api\SettingsApiController;
 use Modules\Ihelpers\Transformers\BaseApiTransformer;
 use Cartalyst\Sentinel\Activations\EloquentActivation as Activation;
 
-class UserTransformer extends Resource
+class UserTransformer extends JsonResource
 {
   public function toArray($request)
   {

@@ -20,8 +20,8 @@ class IprofileServiceProvider extends ServiceProvider
    * @var bool
    */
   protected $defer = false;
-
-
+  
+  
   protected $middleware = [
     'setting-can' => SettingMiddleware::class,
     'auth-can' => AuthCan::class,
@@ -36,11 +36,11 @@ class IprofileServiceProvider extends ServiceProvider
     $this->registerBindings();
     $this->app['events']->listen(BuildingSidebar::class, RegisterIprofileSidebar::class);
     $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
-      $event->load('fields', array_dot(trans('iprofile::fields')));
-      $event->load('addresses', array_dot(trans('iprofile::addresses')));
-      $event->load('departments', array_dot(trans('iprofile::departments')));
-      $event->load('settings', array_dot(trans('iprofile::settings')));
-      $event->load('userdepartments', array_dot(trans('iprofile::userdepartments')));
+      $event->load('fields', Arr::dot(trans('iprofile::fields')));
+      $event->load('addresses', Arr::dot(trans('iprofile::addresses')));
+      $event->load('departments', Arr::dot(trans('iprofile::departments')));
+      $event->load('settings', Arr::dot(trans('iprofile::settings')));
+      $event->load('userdepartments', Arr::dot(trans('iprofile::userdepartments')));
     });
   }
 
@@ -137,7 +137,7 @@ class IprofileServiceProvider extends ServiceProvider
       }
     );
   }
-
+  
   private function registerMiddleware()
   {
     foreach ($this->middleware as $name => $class) {

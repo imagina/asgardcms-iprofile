@@ -147,7 +147,7 @@ class AuthProfileController extends AuthController
     try {
       
       $data = $request->all();
-  
+      
       // Check Exist Roles
       if (isset($data['roles'])) {
         
@@ -181,7 +181,6 @@ class AuthProfileController extends AuthController
       
       // Create User with Roles
       $user = $this->user->createWithRoles($data, $data["roles"], $data["is_activated"]);
-      
       $checkPointRegister = $this->setting->get('iredeems::points-per-register-user-checkbox');
       if ($checkPointRegister) {
         //Assign points to user
@@ -198,7 +197,6 @@ class AuthProfileController extends AuthController
         }//points to assign > 0
       }//Checkpoint per register
       //Extra Fields
-   
       if (isset($data["fields"])) {
         $field = [];
         foreach ($data["fields"] as $key => $value) {
@@ -206,7 +204,7 @@ class AuthProfileController extends AuthController
           $field['user_id'] = $user->id;// Add user Id
           $field['value'] = $value;
           $field['name'] = $key;
-       
+          
           /*
           $this->validateResponseApi(
               $this->field->create(new Request(['attributes' => (array)$field]))
@@ -335,7 +333,7 @@ class AuthProfileController extends AuthController
   {
     try{
       if(!setting("iprofile::registerUsersWithSocialNetworks")){
-        throw new \Exception('Users can\'t login with social networks', 401);
+        throw new Exception('Users can\'t login with social networks', 401);
       }
   
       if (!empty($request->query('redirect'))) {
@@ -343,7 +341,7 @@ class AuthProfileController extends AuthController
       }
       
       if (!config("services.$provider")) {
-        throw new \Exception("Error - Config Services {$provider} - Not defined", 404);
+        throw new Exception("Error - Config Services {$provider} - Not defined", 404);
       }
       
     }catch (\Exception $e) {
@@ -382,7 +380,7 @@ class AuthProfileController extends AuthController
       try {
   
         if(!setting("iprofile::registerUsersWithSocialNetworks")){
-          throw new \Exception('Users can\'t login with social networks', 401);
+          throw new Exception('Users can\'t login with social networks', 401);
         }
   
         $user = $this->_createOrGetUser($provider, $fields);

@@ -2,6 +2,7 @@
 
 namespace Modules\Iprofile\Http\Controllers\Api;
 
+use Exception;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,11 +63,9 @@ class AuthApiController extends BaseApiController
                 'expiresIn' => $token->expiresDate,
                 'userData' => $user->userData
             ]];//Response
-        } catch (\Exception $e) {
-            \Log::error($e);
-            \DB::rollback();//Rollback to Data Base
+        } catch (Exception $e) {
             $status = $this->getStatusError($e->getCode());
-            $response = ["errors" => $e->getMessage()];
+            $response = ["errors" => $this->getErrorMessage($e)];
         }
 
         //Return response
@@ -87,12 +86,9 @@ class AuthApiController extends BaseApiController
             app(UserResetter::class)->startReset($credentials);
             $response = ["data" => ["data" => "Request successful"]];//Response
         } catch (UserNotFoundException $e) {
-            \Log::error($e);
             $status = $this->getStatusError(404);
             $response = ["errors" => trans('user::messages.no user found')];
-        } catch (\Exception $e) {
-            \Log::error($e);
-            \DB::rollback();//Rollback to Data Base
+        } catch (Exception $e) {
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -130,9 +126,7 @@ class AuthApiController extends BaseApiController
         } catch (InvalidOrExpiredResetCode $e) {
             $status = $this->getStatusError(402);
             $response = ["errors" => trans('user::messages.invalid reset code')];
-        } catch (\Exception $e) {
-            \Log::error($e);
-            \DB::rollback();//Rollback to Data Base
+        } catch (Exception $e) {
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -149,9 +143,10 @@ class AuthApiController extends BaseApiController
      */
     public function authAttempt($credentials)
     {
-        \DB::beginTransaction(); //DB Transaction
+
         try {
             $credentials = (object)$credentials;
+
 
             try {
                 //Find email in users fields
@@ -167,7 +162,7 @@ class AuthApiController extends BaseApiController
 
                 //If exist email in users fields, change email of credentials
                 if (isset($field->user)) $credentials->email = $field->user->email;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
             }
 
             //Try login
@@ -181,15 +176,13 @@ class AuthApiController extends BaseApiController
                     "expiresDate" => $token->token->expires_at,
                 ]];
             } else {
-                throw new \Exception('User or Password invalid', 401);
+                throw new Exception('User or Password invalid', 401);
             }
 
-            \DB::commit();//Commit to DataBase
-        } catch (\Exception $e) {
-            \Log::error($e);
-            \DB::rollback();//Rollback to Data Base
+
+        } catch (Exception $e) {
             $status = $this->getStatusError($e->getCode());
-            $response = ["errors" => $e->getMessage()];
+            $response = ["errors" => $this->getErrorMessage($e)];
             if ($e->getMessage() === 'Your account has not been activated yet.') $status = 401;
         }
 
@@ -222,11 +215,9 @@ class AuthApiController extends BaseApiController
             $response = ["data" => [
                 'userData' => $userData
             ]];
-        } catch (\Exception $e) {
-            \Log::error($e);
-            \DB::rollback();//Rollback to Data Base
+        } catch (Exception $e) {
             $status = $this->getStatusError($e->getCode());
-            $response = ["errors" => $e->getMessage()];
+            $response = ["errors" => $this->getErrorMessage($e)];
         }
 
         //Return response
@@ -241,14 +232,10 @@ class AuthApiController extends BaseApiController
      */
     public function logout(Request $request)
     {
-        \DB::beginTransaction(); //DB Transaction
         try {
             $token = $this->validateResponseApi($this->getRequestToken($request));//Get Token
             DB::table('oauth_access_tokens')->where('id', $token->id)->delete();//Delete Token
-            \DB::commit();//Commit to DataBase
-        } catch (\Exception $e) {
-            \Log::error($e);
-            \DB::rollback();//Rollback to Data Base
+        } catch (Exception $e) {
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -265,17 +252,13 @@ class AuthApiController extends BaseApiController
      */
     public function logoutAllSessions(Request $request)
     {
-        \DB::beginTransaction(); //DB Transaction
         try {
             $userId = $request->input('userId');//Get user ID form request
             if (isset($userId)) {
                 //Delete all tokens of this user
                 DB::table('oauth_access_tokens')->where('user_id', $userId)->delete();
-                \DB::commit();//Commit to DataBase
             }
-        } catch (\Exception $e) {
-            \Log::error($e);
-            \DB::rollback();//Rollback to Data Base
+        } catch (Exception $e) {
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -318,10 +301,8 @@ class AuthApiController extends BaseApiController
                     'expiresIn' => $token->token->expires_at,
                     'userData' => $user->userData
                 ]];
-            } else throw new \Exception('Unauthorized', 403);
-        } catch (\Exception $e) {
-            \Log::error($e);
-            \DB::rollback();//Rollback to Data Base
+            } else throw new Exception('Unauthorized', 403);
+        } catch (Exception $e) {
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -350,9 +331,7 @@ class AuthApiController extends BaseApiController
             ]);
 
             $response = ['data' => ['expiresIn' => $expiresIn]];
-        } catch (\Exception $e) {
-            \Log::error($e);
-            \DB::rollback();//Rollback to Data Base
+        } catch (Exception $e) {
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -380,7 +359,7 @@ class AuthApiController extends BaseApiController
             */
 
             if (!config("services.$provider"))
-                throw new \Exception('Error - Config Services {$provider} - Not defined', 204);
+                throw new Exception('Error - Config Services {$provider} - Not defined', 204);
 
             $redirect = Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
 
@@ -389,8 +368,7 @@ class AuthApiController extends BaseApiController
                 'redirect' => $redirect
             ]];
 
-        } catch (\Exception $e) {
-            \Log::error($e);
+        } catch (Exception $e) {
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
 
@@ -414,7 +392,6 @@ class AuthApiController extends BaseApiController
      */
     private function getRequestToken($request)
     {
-        \DB::beginTransaction(); //DB Transaction
         try {
             $value = $request->bearerToken();//Get from request
             if ($value) {
@@ -434,15 +411,13 @@ class AuthApiController extends BaseApiController
                 //Revoke Token if is invalid
                 if (!$success) {
                     if (isset($token)) $token->delete();//Delete token
-                    throw new \Exception('Unauthorized', 401);//Throw unautorize
+                    throw new Exception('Unauthorized', 401);//Throw unautorize
                 }
 
                 $response = ['data' => $token];//Response Token ID decode
                 \DB::commit();//Commit to DataBase
-            } else throw new \Exception('Unauthorized', 401);//Throw unautorize
-        } catch (\Exception $e) {
-            \Log::error($e);
-            \DB::rollback();//Rollback to Data Base
+            } else throw new Exception('Unauthorized', 401);//Throw unautorize
+        } catch (Exception $e) {
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }

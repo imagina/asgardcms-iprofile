@@ -2,7 +2,7 @@
 
 namespace Modules\Iprofile\Transformers;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Ihelpers\Transformers\BaseApiTransformer;
 use Modules\Iprofile\Entities\Role;
 
