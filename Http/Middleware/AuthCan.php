@@ -31,7 +31,7 @@ class AuthCan extends BaseApiController
     $this->auth = $auth;
     $this->passportToken = $passportToken;
   }
-  
+
   /**
    * @param Request $request
    * @param \Closure $next
@@ -40,42 +40,44 @@ class AuthCan extends BaseApiController
    */
   public function handle(Request $request, \Closure $next, $permission)
   {
-    
+
     if ($request->header('Authorization') === null) {
       return new Response('Forbidden', Response::HTTP_FORBIDDEN);
     }
-    
+
     $user = $this->getUserFromToken($request->header('Authorization'));
-    
-    
+
+
     //Get Parameters from URL.
     $params = $this->getParamsRequest($request);
-    
+
     if (!isset($params->permissions[$permission]) || $params->permissions[$permission] === false) {
       return response('Unauthorized.', 403);
     }
-    
+
     return $next($request);
   }
-  
+
   /**
    * @param string $token
    * @return UserInterface
    */
-  private function getUserFromToken($token)
-  {
-    $found = $this->userToken->findByAttributes(['access_token' => $this->parseToken($token)]);
-    
-    // imagina patch: add validate with passport token
-    if($found === null){
-      $id = (new Parser())->parse($this->parseToken($token))->getHeader('jti');
-      $found = $this->passportToken->find($id);
-      if ($found === null)
-        return false;
+    private function getUserFromToken($token)
+    {
+        $found = $this->userToken->findByAttributes(['access_token' => $this->parseToken($token)]);
+
+        // imagina patch: add validate with passport token
+        if($found === null){
+            //$id = (new Parser())->parse($this->parseToken($token))->getClaim('aud' );
+            $user = auth('api')->user();//$this->passportToken->find($id);
+            if ($user === null)
+                return false;
+        }else
+            $user = $found->user;
+
+        return $user;
     }
-    return $found->user;
-  }
-  
+
   /**
    * @param string $token
    * @return string
