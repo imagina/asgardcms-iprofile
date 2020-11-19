@@ -232,7 +232,7 @@ return [
     'group' => 'iprofile::settings.settingGroups.addressesExtraFields',
     'children' => [
       'field' => ['name' => 'field', 'value' => 'identification', 'fakeFieldName' => 'documentType'],
-      'type' => ['name' => 'type', 'value' => 'select', 'fakeFieldName' => 'documentType'],
+      'type' => ['name' => 'type', 'value' => 'documentType', 'fakeFieldName' => 'documentType'],
       'options' => ['name' => 'options', 'value' => $optionsDocumentsTypes, 'fakeFieldName' => 'documentType'],
       'active' => [
         'name' => 'active',
