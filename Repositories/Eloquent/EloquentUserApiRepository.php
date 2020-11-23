@@ -2,6 +2,7 @@
 
 namespace Modules\Iprofile\Repositories\Eloquent;
 
+use Illuminate\Support\Arr;
 use Modules\Iprofile\Repositories\UserApiRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;

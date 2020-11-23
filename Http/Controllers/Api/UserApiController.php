@@ -3,6 +3,7 @@
 namespace Modules\Iprofile\Http\Controllers\Api;
 
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
