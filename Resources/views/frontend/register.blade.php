@@ -15,20 +15,8 @@
             @include('partials.widgets.menu-categories')
         @endif
 
-        @if(View::exists('iprofile::frontend.widgets.breadcrumb'))
-            <div class="banner mb-5" style="background-image: url(/modules/iprofile/img/banner-register.jpg)">
-      
-            </div>
-        @endif
-
+    <!--TODO: crear un setting para administrar un banner en la cabecera del register-->
     @includeFirst(["iprofile.widgets.register","iprofile::frontend.widgets.register"])
-
-
-        {{--
-        <div class="container mx-auto text-center my-5">
-            {!!ibanner(5,'ibanners.widgets.carousel.banners')!!}
-        </div>
-        --}}
 
 
     </div>
