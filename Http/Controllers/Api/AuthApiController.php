@@ -119,7 +119,7 @@ class AuthApiController extends BaseApiController
             $response = ["data" => ['email' => $user->email]];//Response
 
         } catch (UserNotFoundException $e) {
-            \Log::error($e);
+            \Log::error($e->getMessage());
             $status = $this->getStatusError(404);
             $response = ["errors" => trans('user::messages.no user found')];
 

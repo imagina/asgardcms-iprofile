@@ -69,7 +69,7 @@ class ProfileValidated extends Command
             }
             $this->info($cont . ' users notified');
         }catch (\Exception $e){
-            \Log::error($e);
+            \Log::error($e->getMessage());
             $this->info($e->getMessage());
         }
 

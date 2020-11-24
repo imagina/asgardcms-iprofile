@@ -525,7 +525,7 @@ class UserApiController extends BaseApiController
             }
 
         } catch (\Exception $e) {
-            \Log::Error($e);
+            \Log::error($e->getMessage());
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -575,7 +575,7 @@ class UserApiController extends BaseApiController
             }
 
         } catch (\Exception $e) {
-            \Log::Error($e);
+            \Log::error($e->getMessage());
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
