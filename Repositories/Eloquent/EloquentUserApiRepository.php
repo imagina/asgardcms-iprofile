@@ -19,7 +19,7 @@ class EloquentUserApiRepository extends EloquentBaseRepository implements UserAp
     if (in_array('*', $params->include)) {//If Request all relationships
       $query->with([]);
     } else {//specific relationships
-      $includeDefault = [];//Default relationships
+      $includeDefault = ['fields','settings'];//Default relationships
       if (isset($params->include))//merge relations with default relationships
         $includeDefault = array_merge($includeDefault, $params->include);
       $query->with($includeDefault);//Add Relationships to query

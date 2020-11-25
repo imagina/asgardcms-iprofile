@@ -14,12 +14,14 @@ class UserTransformer extends JsonResource
   {
     $this->permissionsApiController = new PermissionsApiController();
     $this->settingsApiController = new SettingsApiController();
-    $smallImage = $this->fields()->where('name','smallImage')->first();
-    $mediumImage = $this->fields()->where('name','mediumImage')->first();
-    $mainImage = $this->fields()->where('name','mainImage')->first();
-    $contacts = $this->fields()->where('name','contacts')->first();
-    $socialNetworks = $this->fields()->where('name','socialNetworks')->first();
+    $mainImage = $this->fields ? $this->fields->where('name', 'mainImage')->first() : null;
+    $contacts = $this->fields ? $this->fields->where('name', 'contacts')->first() : null;
+    $socialNetworks = $this->fields ? $this->fields->where('name', 'socialNetworks')->first() : null;
     $defaultImage = \URL::to('/modules/iprofile/img/default.jpg');
+    //Get settings
+    $settings = json_decode(json_encode(SettingTransformer::collection($this->settings ?? collect([]))));
+    $settingsResponse = [];
+    foreach ($settings as $setting) $settingsResponse[$setting->name] = $setting->value;
 
     $data = [
       'id' => $this->when($this->id, $this->id),
@@ -44,13 +46,13 @@ class UserTransformer extends JsonResource
       'socialNetworks' => isset($socialNetworks->value) ? new FieldTransformer($socialNetworks) : ["name"=>"socialNetworks","value" =>[]],
 
       'departments' => DepartmentTransformer::collection($this->whenLoaded('departments')),
-      'settings' => SettingTransformer::collection($this->whenLoaded('settings')),
+      'settings' => $settingsResponse,//SettingTransformer::collection($this->whenLoaded('settings')),
       'fields' => FieldTransformer::collection($this->whenLoaded('fields')),
       'addresses' => AddressTransformer::collection($this->whenLoaded('addresses')),
       'roles' => RoleTransformer::collection($this->whenLoaded('roles')),
 
-      'allPermissions' => $this->permissionsApiController->getAll(['userId' => $this->id]),
-      'allSettings' => $this->settingsApiController->getAll(['userId' => $this->id]),
+      'allPermissions' => $this->relationLoaded('roles') ? $this->permissionsApiController->getAll(['userId' => $this->id]) : [],
+      'allSettings' => $this->relationLoaded('roles') ? $this->settingsApiController->getAll(['userId' => $this->id]) : [],
     ];
 
     $customUserIncludes = config('asgard.iprofile.config.customUserIncludes');

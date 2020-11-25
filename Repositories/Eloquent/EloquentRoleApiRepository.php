@@ -26,7 +26,7 @@ class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleAp
     /*=== SETTINGS ===*/
     if (isset($params->settings)) {
       $settings = $params->settings;
-      if (isset($settings['assignedRoles'])) {
+      if (isset($settings['assignedRoles']) && count($settings['assignedRoles'])) {
         $query->whereIn('id', $settings['assignedRoles']);
       }
     }
