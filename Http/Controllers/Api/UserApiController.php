@@ -3,6 +3,7 @@
 namespace Modules\Iprofile\Http\Controllers\Api;
 
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -17,6 +18,10 @@ use Modules\User\Repositories\UserRepository;
 use Modules\User\Http\Requests\RegisterRequest;
 use Modules\User\Services\UserRegistration;
 use Modules\Setting\Contracts\Setting;
+use Modules\Iprofile\Entities\Setting as profileSetting;
+//Events
+use Modules\Iprofile\Events\UserUpdatedEvent;
+use Modules\Iprofile\Events\UserCreatedEvent;
 
 class UserApiController extends BaseApiController
 {
@@ -27,6 +32,7 @@ class UserApiController extends BaseApiController
     private $userRepository;
     private $fhaOld;
     private $settingAsgard;
+  private $profileSetting;
 
     public function __construct(
         UserApiRepository $user,
@@ -34,7 +40,8 @@ class UserApiController extends BaseApiController
         AddressApiController $address,
         SettingApiController $setting,
         Setting $settingAsgard,
-        UserRepository $userRepository)
+    UserRepository $userRepository,
+    profileSetting $profileSetting)
     {
         parent::__construct();
         $this->user = $user;
@@ -43,6 +50,7 @@ class UserApiController extends BaseApiController
         $this->setting = $setting;
         $this->userRepository = $userRepository;
         $this->settingAsgard = $settingAsgard;
+    $this->profileSetting = $profileSetting;
     }
 
     /**
@@ -199,7 +207,7 @@ class UserApiController extends BaseApiController
             $checkEmail = isset($params->filter->checkEmail) ? $params->filter->checkEmail : false;
             $checkAdminActivate = isset($params->filter->checkAdminActivate) ? $params->filter->checkAdminActivate : false; //TODO: check if admin needs to activate new users > slim
 
-            $this->validateRequestApi(new RegisterRequest ($data));//Validate Request User
+      //$this->validateRequestApi(new RegisterRequest ($data));//Validate Request User
             $this->validateRequestApi(new CreateUserApiRequest($data));//Validate custom Request user
             if ($checkEmail) { //Create user required validate email
               $user = app(UserRegistration::class)->register($data);
@@ -240,17 +248,21 @@ class UserApiController extends BaseApiController
                 }
 
             //Create Settings
-            if (isset($data["settings"]))
-                foreach ($data["settings"] as $setting) {
-                    if (isset($setting["value"]) && !empty($setting["value"])) {
-                        $setting['related_id'] = $user->id;// Add user Id
-                        $setting['entity_name'] = 'user';// Add entity name
+      if (isset($data["settings"])) {
+        foreach ($data["settings"] as $settingName => $setting) {
                         $this->validateResponseApi(
-                            $this->setting->create(new Request(['attributes' => (array)$setting]))
+            $this->setting->create(new Request(['attributes' =>
+              ['related_id' => $user->id, 'entity_name' => 'user', 'name' => $settingName, 'value' => $setting]
+            ]))
                         );
                     }
                 }
+
             $response = ["data" => "User Created"];
+
+      //dispatch Event
+      event(new UserCreatedEvent($user));
+
             \DB::commit(); //Commit to Data Base
         } catch (\Exception $e) {
             \DB::rollback();//Rollback to Data Base
@@ -379,25 +391,11 @@ class UserApiController extends BaseApiController
 
                 //Create or Update Settings
                 if (isset($data["settings"]))
-                    foreach ($data["settings"] as $setting) {
-                        if (is_bool($setting["value"]) || (isset($setting["value"]) && !empty($setting["value"]))) {
-                            if (!isset($setting['id'])) {
-                                $setting['related_id'] = $user->id;// Add user Id
-                                $setting['entity_name'] = 'user';// Add entity name
-                                $this->validateResponseApi(
-                                    $this->setting->create(new Request(['attributes' => (array)$setting]))
+          foreach ($data["settings"] as $settingName => $setting) {
+            $this->profileSetting->updateOrCreate(
+              ['related_id' => $user->id, 'entity_name' => 'user', 'name' => $settingName],
+              ['related_id' => $user->id, 'entity_name' => 'user', 'name' => $settingName, 'value' => $setting]
                                 );
-                            } else
-                                $this->validateResponseApi(
-                                    $this->setting->update($setting['id'], new Request(['attributes' => (array)$setting]))
-                                );
-                        } else {
-                            if (isset($setting['id'])) {
-                                $this->validateResponseApi(
-                                    $this->setting->delete($setting['id'], new Request(['attributes' => (array)$setting]))
-                                );
-                            }
-                        }
                     }
 
                 // configuring pasword to audit
@@ -411,6 +409,8 @@ class UserApiController extends BaseApiController
                 $response = ["errors" => $data["email"] . ' | User Name already exist'];
             }
 
+      //dispatch Event
+      event(new UserUpdatedEvent($user));
 
             \DB::commit();//Commit to DataBase
         } catch (\Exception $e) {
@@ -524,7 +524,7 @@ class UserApiController extends BaseApiController
             }
 
         } catch (\Exception $e) {
-            \Log::Error($e);
+            \Log::error($e->getMessage());
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -574,7 +574,7 @@ class UserApiController extends BaseApiController
             }
 
         } catch (\Exception $e) {
-            \Log::Error($e);
+            \Log::error($e->getMessage());
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }

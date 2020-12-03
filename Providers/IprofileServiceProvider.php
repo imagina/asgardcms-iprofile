@@ -2,6 +2,7 @@
 
 namespace Modules\Iprofile\Providers;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Core\Events\BuildingSidebar;
@@ -20,8 +21,8 @@ class IprofileServiceProvider extends ServiceProvider
    * @var bool
    */
   protected $defer = false;
-  
-  
+
+
   protected $middleware = [
     'setting-can' => SettingMiddleware::class,
     'auth-can' => AuthCan::class,
@@ -51,6 +52,7 @@ class IprofileServiceProvider extends ServiceProvider
     $this->publishConfig('iprofile', 'permissions');
     $this->publishConfig('iprofile', 'settings');
     $this->publishConfig('iprofile', 'settings-fields');
+    $this->publishConfig('iprofile', 'crud-fields');
     $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
   }
 
@@ -137,7 +139,7 @@ class IprofileServiceProvider extends ServiceProvider
       }
     );
   }
-  
+
   private function registerMiddleware()
   {
     foreach ($this->middleware as $name => $class) {

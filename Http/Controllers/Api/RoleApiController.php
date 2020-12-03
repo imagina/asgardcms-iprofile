@@ -10,20 +10,24 @@ use Modules\Iprofile\Http\Requests\CreateRoleApiRequest;
 use Modules\Iprofile\Http\Requests\UpdateRoleApiRequest;
 use Modules\Iprofile\Repositories\RoleApiRepository;
 use Modules\Iprofile\Transformers\RoleTransformer;
+use Modules\Iprofile\Entities\Setting;
 
 class RoleApiController extends BaseApiController
 {
 
   private $role;
   private $setting;
+  private $profileSetting;
 
   public function __construct(
     RoleApiRepository $role,
-    SettingApiController $setting
+    SettingApiController $setting,
+    Setting $profileSetting
   )
   {
     $this->role = $role;
     $this->setting = $setting;
+    $this->profileSetting = $profileSetting;
   }
 
   /**
@@ -72,7 +76,7 @@ class RoleApiController extends BaseApiController
       $role = $this->role->getItem($criteria, $params);
 
       //Break if no found item
-      if (!$role) throw new Exception('Item not found', 404);
+      if (!$role) throw new \Exception('Item not found', 404);
 
       //Response
       $response = ["data" => new RoleTransformer($role)];
@@ -100,7 +104,7 @@ class RoleApiController extends BaseApiController
     \DB::beginTransaction(); //DB Transaction
     try {
       //Validate Permission
-      $this->validatePermission($request,'profile.role.edit');
+      $this->validatePermission($request, 'profile.role.edit');
 
       //Get data
       $data = $request->input('attributes');
@@ -116,25 +120,11 @@ class RoleApiController extends BaseApiController
 
       //Create or Update Settings
       if (isset($data["settings"]))
-        foreach ($data["settings"] as $setting) {
-          if (isset($setting["value"]) && !empty($setting["value"])) {
-            if (!isset($setting['id'])) {
-              $setting['related_id'] = $role->id;// Add role Id
-              $setting['entity_name'] = 'role';// Add entity name
-              $this->validateResponseApi(
-                $this->setting->create(new Request(['attributes' => (array)$setting]))
-              );
-            } else
-              $this->validateResponseApi(
-                $this->setting->update($setting['id'], new Request(['attributes' => (array)$setting]))
-              );
-          } else {
-            if (isset($setting['id'])) {
-              $this->validateResponseApi(
-                $this->setting->delete($setting['id'], new Request(['attributes' => (array)$setting]))
-              );
-            }
-          }
+        foreach ($data["settings"] as $settingName => $setting) {
+          $this->profileSetting->updateOrCreate(
+            ['related_id' => $role->id, 'entity_name' => 'role', 'name' => $settingName],
+            ['related_id' => $role->id, 'entity_name' => 'role', 'name' => $settingName, 'value' => $setting]
+          );
         }
 
       //Response
@@ -161,7 +151,7 @@ class RoleApiController extends BaseApiController
     \DB::beginTransaction();
     try {
       //Validate Permission
-      $this->validatePermission($request,'profile.role.create');
+      $this->validatePermission($request, 'profile.role.create');
 
       //Get data
       $data = $request->input('attributes');
@@ -174,14 +164,12 @@ class RoleApiController extends BaseApiController
 
       //Create or Update Settings
       if (isset($data["settings"]))
-        foreach ($data["settings"] as $setting) {
-          if (isset($setting["value"]) && !empty($setting["value"])) {
-            $setting['related_id'] = $role->id;// Add role Id
-            $setting['entity_name'] = 'role';// Add entity name
-            $this->validateResponseApi(
-              $this->setting->create(new Request(['attributes' => (array)$setting]))
-            );
-          }
+        foreach ($data["settings"] as $settingName => $setting) {
+          $this->validateResponseApi(
+            $this->setting->create(new Request(['attributes' =>
+              ['related_id' => $role->id, 'entity_name' => 'role', 'name' => $settingName, 'value' => $setting]
+            ]))
+          );
         }
 
       //Response
@@ -207,7 +195,7 @@ class RoleApiController extends BaseApiController
     \DB::beginTransaction();
     try {
       //Validate Permission
-      $this->validatePermission($request,'profile.role.destroy');
+      $this->validatePermission($request, 'profile.role.destroy');
 
       //Get params
       $params = $this->getParamsRequest($request);
