@@ -1,7 +1,7 @@
 <?php
 
 return [
- 
+
   'title' => [
     'profiles'          => 'Perfil',
     'create profile'    => 'Crear Perfil',
@@ -85,8 +85,9 @@ return [
     'create profile'    => 'Create a profile',
     'update profile'    => 'Actualizar Perfil',
     'my_wishlist'       => 'Mi lista de deseos',
-    'my_account'       => 'Mi Cuenta',
+    'my_account'        => 'Mi Cuenta',
     'order_list'        => 'Lista de ordenes',
+    'returns'           => 'Devoluciones',
     'sign_out'          => 'Cerrar sesión',
     'sign_in'           => 'Ingresar',
     'register'          => 'Registrarse',
