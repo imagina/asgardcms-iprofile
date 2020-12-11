@@ -68,12 +68,10 @@
                         {{ Form::password('password_confirmation',['required'=>true,'class'=>'form-control','placeholder' => '...']) }}
                         {!! $errors->first('password_confirmation', '<div class="invalid-feedback">:message</div>') !!}
                     </div>
-                    
-                    <!--17-09-2020::JCEC, primera version del register extra fields
-                                toca irlo mejorando-->
+                  
                     @php
      
-                            $registerExtraFields = json_decode(setting('iprofile::registerExtraFields', "[]"));
+                            $registerExtraFields = json_decode(setting('iprofile::registerExtraFields', null, "[]"));
                   
                     @endphp
                     @foreach($registerExtraFields as $extraField)
