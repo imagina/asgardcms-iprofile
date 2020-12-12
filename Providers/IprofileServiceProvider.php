@@ -3,6 +3,7 @@
 namespace Modules\Iprofile\Providers;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Modules\Core\Traits\CanPublishConfiguration;
@@ -55,7 +56,7 @@ class IprofileServiceProvider extends ServiceProvider
         $this->publishConfig('iprofile', 'settings-fields');
         $this->publishConfig('iprofile', 'crud-fields');
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
-        $this->registerComponentsLivewire();
+        $this->registerComponents();
     }
 
     /**
@@ -152,8 +153,8 @@ class IprofileServiceProvider extends ServiceProvider
     /**
      * Register components Livewire
      */
-    private function registerComponentsLivewire()
+    private function registerComponents()
     {
-        Livewire::component('iprofile::user-menu', \Modules\Iprofile\Http\Livewire\UserMenu::class);
+        Blade::component('iprofile-user-menu', \Modules\Iprofile\View\Components\UserMenu\UserMenu::class);
     }
 }

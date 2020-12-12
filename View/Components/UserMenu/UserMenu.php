@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Iprofile\Http\Livewire;
+namespace Modules\Iprofile\View\Components\UserMenu;
 
-use Livewire\Component;
+use Illuminate\View\Component;
 
 class UserMenu extends Component
 {
@@ -15,10 +15,10 @@ class UserMenu extends Component
     public $componentId;
     protected $authApiController;
 
-    public function mount($layout = 'user-layout-1', $showLabel = false, $componentId = "userMenuComponent", $moreOptions = [], $params = [])
+    public function __construct($layout = 'user-menu-layout-1', $showLabel = false, $componentId = "userMenuComponent", $moreOptions = [], $params = [])
     {
-        $this->defaultView = 'iprofile::frontend.livewire.user-menu.layouts.user-layout-1.index';
-        $this->view = isset($layout) ? 'iprofile::frontend.livewire.user-menu.layouts.'.$layout.'.index' : $this->defaultView;
+        $this->defaultView = 'iprofile::frontend.components.user-menu.layouts.user-menu-layout-1.index';
+        $this->view = isset($layout) ? 'iprofile::frontend.components.user-menu.layouts.'.$layout.'.index' : $this->defaultView;
         $this->authApiController = app("Modules\Iprofile\Http\Controllers\Api\AuthApiController");
         $this->showLabel = $showLabel;
         $this->moreOptions = $moreOptions;
