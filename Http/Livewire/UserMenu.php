@@ -12,15 +12,17 @@ class UserMenu extends Component
     public $params;
     public $moreOptions;
     public $showLabel;
+    public $componentId;
     protected $authApiController;
 
-    public function mount($layout = 'user-layout-1', $showLabel = false, $moreOptions = [], $params = [])
+    public function mount($layout = 'user-layout-1', $showLabel = false, $componentId = "userMenuComponent", $moreOptions = [], $params = [])
     {
         $this->defaultView = 'iprofile::frontend.livewire.user-menu.layouts.user-layout-1.index';
         $this->view = isset($layout) ? 'iprofile::frontend.livewire.user-menu.layouts.'.$layout.'.index' : $this->defaultView;
         $this->authApiController = app("Modules\Iprofile\Http\Controllers\Api\AuthApiController");
         $this->showLabel = $showLabel;
         $this->moreOptions = $moreOptions;
+        $this->componentId = $componentId ?? "userMenuComponent";
     }
 
     private function makeParamsFunction(){
