@@ -1,4 +1,4 @@
-<div id="{{ $componentId }}" class="d-inline-block">
+<div id="{{ $id }}" class="d-inline-block">
     <!--- LOGIN -->
     @if($user)
         @php

@@ -12,17 +12,17 @@ class UserMenu extends Component
     public $params;
     public $moreOptions;
     public $showLabel;
-    public $componentId;
+    public $id;
     protected $authApiController;
 
-    public function __construct($layout = 'user-menu-layout-1', $showLabel = false, $componentId = "userMenuComponent", $moreOptions = [], $params = [])
+    public function __construct($layout = 'user-menu-layout-1', $showLabel = false, $id = "userMenuComponent", $moreOptions = [], $params = [])
     {
         $this->defaultView = 'iprofile::frontend.components.user-menu.layouts.user-menu-layout-1.index';
         $this->view = isset($layout) ? 'iprofile::frontend.components.user-menu.layouts.'.$layout.'.index' : $this->defaultView;
         $this->authApiController = app("Modules\Iprofile\Http\Controllers\Api\AuthApiController");
         $this->showLabel = $showLabel;
         $this->moreOptions = $moreOptions;
-        $this->componentId = $componentId ?? "userMenuComponent";
+        $this->id = $id ?? "userMenuComponent";
     }
 
     private function makeParamsFunction(){
