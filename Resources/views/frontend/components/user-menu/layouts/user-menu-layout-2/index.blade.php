@@ -5,7 +5,7 @@
           $userData = $user['data'];
         @endphp
         <div  class="account-menu dropdown d-inline-block" id="accMenuDrop">
-            <button class="btn btn-link  dropdown-toggle" type="button"
+            <button class="btn  dropdown-toggle" type="button"
                     id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
 
@@ -69,7 +69,7 @@
         </div>
     @else
         <div class="account-menu dropdown d-inline-block" id="accMenuDrop">
-            <button class="btn btn-link  dropdown-toggle" type="button"
+            <button class="btn dropdown-toggle" type="button"
                     id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                 <div class="cart d-inline-block">
