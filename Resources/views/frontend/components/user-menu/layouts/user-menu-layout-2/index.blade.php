@@ -22,13 +22,13 @@
                 @endif
             </button>
             <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">
-                <div class="dropdown-item text-center ">
+                <div class="dropdown-item text-center py-3">
                     <!-- Nombre -->
                     @if($userData->mainImage)
-                        <img class="i-circle rounded-circle border border-dark" style="width: 20px;"
+                        <img class="i-circle d-inline-block rounded-circle border border-dark" style="width: 20px;"
                              src="{{$userData->mainImage}}"/>
                     @else
-                        <img class="i-circle rounded-circle border border-dark" style="width: 20px;"
+                        <img class="i-circle d-inline-block rounded-circle border border-dark" style="width: 20px;"
                              src="{{url('modules/iprofile/img/default.jpg')}}"/>
                     @endif
 
@@ -43,20 +43,9 @@
                 <a class="dropdown-item"  href="{{url('/account')}}">
                     <i class="fa fa-user mr-2"></i> {{trans('iprofile::frontend.title.profiles')}}
                 </a>
-                @if(is_module_enabled('Icommerce'))
-                    <a class="dropdown-item"  href="{{url('/orders')}}">
-                        <i class="fa fa-bars mr-2"></i> {{ trans('iprofile::frontend.button.order_list') }}
-                    </a>
-                    <a class="dropdown-item"  href="{{url('/orders')}}">
-                        <i class="fa fa-exclamation-circle mr-2"></i> {{ trans('iprofile::frontend.button.returns') }}
-                    </a>
-                    <a class="dropdown-item"  href="{{url('/wishlist')}}">
-                        <i class="fa fa-heart mr-2"></i> {{ trans('iprofile::frontend.button.my_wishlist') }}
-                    </a>
-                @endif
-                @foreach($moreOptions as $option)
-                    <a class="dropdown-item"  href="{{ $option['url'] }}">
-                        @if($option['icon'])<i class="{{ $option['icon'] }}"></i>@endif {{ $option['label'] }}
+                @foreach($moduleLinks as $link)
+                    <a class="dropdown-item"  href="{{ route($link['routeName']) }}">
+                        @if($link['icon'])<i class="{{ $link['icon'] }}"></i>@endif {{ trans($link['title']) }}
                     </a>
                 @endforeach
                 <a class="dropdown-item" href="{{url('/account/logout')}}" data-placement="bottom"
