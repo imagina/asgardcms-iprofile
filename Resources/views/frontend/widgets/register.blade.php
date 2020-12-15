@@ -77,7 +77,7 @@
                     @foreach($registerExtraFields as $extraField)
         
                         {{-- if is active--}}
-                        @if($extraField->active)
+                        @if(isset($extraField->active) && $extraField->active)
             
                             {{-- form group--}}
                             <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} py-2 has-feedback {{ $errors->has($extraField->field) ? ' has-error' : '' }}">
