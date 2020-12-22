@@ -155,6 +155,6 @@ class IprofileServiceProvider extends ServiceProvider
      */
     private function registerComponents()
     {
-        Blade::componentNamespace("\Modules\Iprofile\View\Components", "iprofile");
+      Blade::componentNamespace("Modules\Iprofile\View\Components", 'iprofile');
     }
 }
