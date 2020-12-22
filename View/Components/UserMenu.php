@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Iprofile\View\Components\UserMenu;
+namespace Modules\Iprofile\View\Components;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\Component;

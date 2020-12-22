@@ -155,6 +155,6 @@ class IprofileServiceProvider extends ServiceProvider
      */
     private function registerComponents()
     {
-        Blade::component('iprofile-user-menu', \Modules\Iprofile\View\Components\UserMenu\UserMenu::class);
+        Blade::componentNamespace("\Modules\Iprofile\View\Components", "iprofile");
     }
 }
