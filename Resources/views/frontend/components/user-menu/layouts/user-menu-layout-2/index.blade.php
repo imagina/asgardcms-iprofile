@@ -61,7 +61,7 @@
             <button class="btn dropdown-toggle" type="button"
                     id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
-                <div class="cart d-inline-block">
+                <div class="user d-inline-block">
                     @if($showLabel)
                         <span class="d-md-none d-lg-inline-block"> {{ trans('iprofile::frontend.button.my_account') }}</span>
                     @endif
