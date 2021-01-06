@@ -113,7 +113,7 @@ return [
     'label' => 'iprofile::settings.settingFields.identification',
     'group' => 'iprofile::settings.settingGroups.registerExtraFields',
     'children' => [
-      'field' => ['name' => 'field', 'value' => 'identification', 'fakeFieldName' => 'documentType'],
+      'field' => ['name' => 'field', 'value' => 'documentType', 'fakeFieldName' => 'documentType'],
       'type' => ['name' => 'type', 'value' => 'documentType', 'fakeFieldName' => 'documentType'],
       'options' => ['name' => 'options', 'value' => $optionsDocumentsTypes, 'fakeFieldName' => 'documentType'],
       'active' => [
@@ -231,9 +231,9 @@ return [
     'label' => 'iprofile::settings.settingFields.identification',
     'group' => 'iprofile::settings.settingGroups.addressesExtraFields',
     'children' => [
-      'field' => ['name' => 'field', 'value' => 'identification', 'fakeFieldName' => 'identification'],
-      'type' => ['name' => 'type', 'value' => 'documentType', 'fakeFieldName' => 'identification'],
-      'options' => ['name' => 'options', 'value' => $optionsDocumentsTypes, 'fakeFieldName' => 'identification'],
+      'field' => ['name' => 'field', 'value' => 'documentType', 'fakeFieldName' => 'documentType'],
+      'type' => ['name' => 'type', 'value' => 'documentType', 'fakeFieldName' => 'documentType'],
+      'options' => ['name' => 'options', 'value' => $optionsDocumentsTypes, 'fakeFieldName' => 'documentType'],
       'active' => [
         'name' => 'active',
         'fakeFieldName' => 'documentType',

@@ -121,8 +121,8 @@
                                             @endif
                                             </div>
                                             <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} py-2 has-feedback {{ $errors->has($extraField->field) ? ' has-error' : '' }}">
-                                                <label for="extraField-documentNumber">{{trans("iprofile::frontend.form.documentNumber")}}</label>
-                                              <input  type="number" name="fields[documentNumber]" required="{{$extraField->required}}" class ="form-control" id = 'extraFielddocumentNumber'/>
+                                                <label for="extraFieldDocumentNumber">{{trans("iprofile::frontend.form.documentNumber")}}</label>
+                                              <input  type="number" min="0" name="fields[documentNumber]" required="{{$extraField->required}}" class ="form-control" id = 'extraFieldDocumentNumber'/>
                                             </div>
                                     @endif
                               
