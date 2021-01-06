@@ -83,7 +83,7 @@
                             <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} py-2 has-feedback {{ $errors->has($extraField->field) ? ' has-error' : '' }}">
                 
                                 {{-- label --}}
-                                <label for="{{$extraField->field}}">{{trans("iprofile::frontend.form.$extraField->field")}}</label>
+                                <label for="extraField{{$extraField->field}}">{{trans("iprofile::frontend.form.$extraField->field")}}</label>
                 
                                 {{-- Generic input --}}
                                 @if( !in_array($extraField->type, ["select","textarea"]) )
@@ -120,10 +120,11 @@
                                                 {{Form::select("fields[$extraField->field]", $optionValues, null, ['id'=>'extraField'.$extraField->field, 'required'=>$extraField->required,'class'=>"form-control",'placeholder' => '']) }}
                                             @endif
                                             </div>
+                                       
                                             <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} py-2 has-feedback {{ $errors->has($extraField->field) ? ' has-error' : '' }}">
                                                 <label for="extraFieldDocumentNumber">{{trans("iprofile::frontend.form.documentNumber")}}</label>
                                               <input  type="number" min="0" name="fields[documentNumber]" required="{{$extraField->required}}" class ="form-control" id = 'extraFieldDocumentNumber'/>
-                                            </div>
+                                         
                                     @endif
                               
                                 @else
