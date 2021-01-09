@@ -57,6 +57,21 @@ return [
       'label' => 'iprofile::settings.registerUserWithPoliticsOfPrivacy'
     ],
   ],
+  //Roles to show as directory
+  'rolesToDirectory' => [
+    'name' => 'iprofile::rolesToDirectory',
+    'value' => [2],
+    'type' => 'select',
+    'props' => [
+      'label' => 'iprofile::settings.rolesAsDirectory',
+      'multiple' => true,
+      'useChips' => true
+    ],
+    'loadOptions' => [
+      'apiRoute' => 'apiRoutes.quser.roles',
+      'select' => ['label' => 'name', 'id' => 'id']
+    ]
+  ],
   //Register extra field cellularphone
   'cellularPhone' => [
     'name' => 'iprofile::registerExtraFields',

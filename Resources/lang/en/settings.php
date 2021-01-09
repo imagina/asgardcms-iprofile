@@ -18,6 +18,7 @@ return [
   'adminNeedsToActivateNewUsers' => 'Admin need active users',
   'registerUsersWithSocialNetworks' => 'Allow social network register',
   'registerUserWithPoliticsOfPrivacy' => 'Require register with politics of privacy',
+  'rolesAsDirectory' => 'Roles as corporate directory',
   'registerExtraFieldsActive' => 'Active register extra fields',
   'registerExtraFieldsRequired' => 'Required register extra fields',
   'addressesExtraFieldsActive' => 'Active address extra fields',
