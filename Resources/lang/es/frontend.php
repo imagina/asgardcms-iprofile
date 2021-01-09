@@ -3,7 +3,7 @@
 return [
 
   'title' => [
-    'profiles'          => 'Perfil',
+    'profile'          => 'Perfil',
     'create profile'    => 'Crear Perfil',
     'edit profile'      => 'Editar Perfil',
     'information'       => 'Información del cliente',
@@ -22,11 +22,13 @@ return [
     'profile general'   => 'Perfil General',
     'profile user'      => 'Perfil de Usuario',
     'profile client'    => 'Perfil de Cliente',
+    'extraFields'    => 'Datos adicionales',
     'social msj'        => 'Inicia sesión con los datos de tu cuenta de Facebook o Google.',
     'social msj register' => 'Regístrate con los datos de tu cuenta de Facebook o tu cuenta de Google.',
     'social msj register 2' => '...O también puedes registrarte con tu cuenta de correo electrónico a continuación:',
     'password confirmation' => 'Confirmacion de Contraseña',
     'stay connect'      => 'Mantenerme conectado a éste computador.',
+    'resetPassword'      => 'Restablecer Contraseña',
   ],
 
   'form' => [

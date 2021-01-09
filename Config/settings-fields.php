@@ -5,7 +5,9 @@ $optionsDocumentsTypes = [
   ['label' => 'Registro Civil', 'value' => 'RC'],
   ['label' => 'Tarjeta de identidad', 'value' => 'TI'],
   ['label' => 'Cédula de ciudadanía', 'value' => 'CC'],
-  ['label' => 'Cédula de extranjería', 'value' => 'CE']
+  ['label' => 'Cédula de extranjería', 'value' => 'CE'],
+  ['label' => 'Pasaporte', 'value' => 'PP'],
+  ['label' => 'NIT', 'value' => 'NIT'],
 ];
 
 //Fields
