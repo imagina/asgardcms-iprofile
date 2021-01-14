@@ -1,0 +1,18 @@
+#indexProfile{
+
+  .profile-section-title{
+    margin-top: 22px;
+  }
+  
+  label[for=extraFieldmainImage]{
+    display: none;
+  }
+  
+  #imgProfile{
+    img{
+      height: 250px;
+      width: 250px;
+      object-fit: cover;
+    }
+  }
+}

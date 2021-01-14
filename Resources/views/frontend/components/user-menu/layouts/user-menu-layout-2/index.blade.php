@@ -41,7 +41,7 @@
                     </span>
                 </div>
                 <a class="dropdown-item"  href="{{url('/account')}}">
-                    <i class="fa fa-user mr-2"></i> {{trans('iprofile::frontend.title.profiles')}}
+                    <i class="fa fa-user mr-2"></i> {{trans('iprofile::frontend.title.profile')}}
                 </a>
                 @foreach($moduleLinks as $link)
                     <a class="dropdown-item"  href="{{ route($link['routeName']) }}">
@@ -61,7 +61,7 @@
             <button class="btn dropdown-toggle" type="button"
                     id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
-                <div class="cart d-inline-block">
+                <div class="user d-inline-block">
                     @if($showLabel)
                         <span class="d-md-none d-lg-inline-block"> {{ trans('iprofile::frontend.button.my_account') }}</span>
                     @endif

@@ -70,28 +70,8 @@ class ProfileController extends AdminBaseController
         }
 
         $tpl = 'iprofile::frontend.index';
-        $ttpl = 'iprofile.index';
-
-        if (view()->exists($ttpl)) $tpl = $ttpl;
-
-        $categories = "";
-        if(is_module_enabled('Iplaces')){
-            $this->categoriesPlaces = app("Modules\Iplaces\Repositories\CategoryRepository");
-            $categories = $this->categoriesPlaces->all();
-        }
-
-        $stores = "";
-        if(is_module_enabled('Imarketplace')){
-            $this->storable = app("Modules\Imarketplace\Repositories\StorableRepository");
-            $stores = $this->storable->getPlaces(\Auth::user()->id);
-        }
-
-        $categoriesProducts = "";
-        if (function_exists('icommerce_categories')) {
-            $categoriesProducts = icommerce_categories();
-        }
         
-        return view($tpl, compact('user','fields','categories','stores','categoriesProducts'));
+        return view($tpl, compact('user','fields'));
 
     }
 
@@ -149,7 +129,7 @@ class ProfileController extends AdminBaseController
 
             return redirect()->route('account.profile.index')
                     ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans(
-                        'iprofile::frontend.title.profiles')]));
+                        'iprofile::frontend.title.profile')]));
 
         } catch (\Throwable $t) {
 

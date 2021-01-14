@@ -14,6 +14,7 @@ return [
     'destroy' => 'profile::user.destroy resource',
     'department' => 'profile::user.department resource',
     'impersonate' => 'profile::user.impersonate resource',
+    'directory' => 'profile::user.directory resource',
   ],
 
   'profile.permissions' => [

@@ -45,6 +45,12 @@ class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleAp
           $query->whereDate($date->field, '<=', $date->to);
       }
 
+      //Filter by ID
+      if(isset($filter->id)){
+        $idFilter = is_array($filter->id) ? $filter->id : [$filter->id];
+        $query->whereIn('id', $idFilter);
+      }
+
       //Order by
       if (isset($filter->order)) {
         $orderByField = $filter->order->field ?? 'created_at';//Default field
