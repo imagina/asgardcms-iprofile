@@ -2,6 +2,7 @@
 
 namespace Modules\Iprofile\Http\Controllers;
 
+use Cartalyst\Sentinel\Laravel\Facades\Reminder;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\Storage;
@@ -284,7 +285,13 @@ class AuthProfileController extends AuthController
    */
   public function postReset(ResetRequest $request)
   {
-    parent::postReset($request);
+    $user = $this->user->findByCredentials($request->all());
+    if($user) {
+        $reminder = Reminder::exists($user);
+        if ($reminder == false) {
+            parent::postReset($request);
+        }
+    }
 
     return redirect()->route('account.reset')
       ->withSuccess(trans('user::messages.check email to reset password'));
