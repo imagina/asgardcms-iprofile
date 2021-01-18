@@ -20,19 +20,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
   $router->get(trans('iprofile::routes.account'), [
     'as' => $locale . '.iprofile.account.index',
     'uses' => 'ProfileController@index',
-    'middleware' => 'can:profile.user.index'
+    'middleware' => 'logged.in'
   ]);
   
 });
 
 $router->group(['prefix' => '/account'], function (Router $router) {
-
-    $router->get('/', [
-        'as' => 'account.profile.index',
-        'uses' => 'ProfileController@index',
-        'middleware' => 'can:profile.user.index'
-        //'middleware' => 'can:iprofile.profiles.index'
-    ]);
+  
+  
     $router->get('profile/', [
         'as' => 'account.profile.edit',
         'uses' => 'ProfileController@edit',
