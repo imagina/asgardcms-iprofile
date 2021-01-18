@@ -40,7 +40,7 @@
                     <?php endif; ?>
                     </span>
                 </div>
-                <a class="dropdown-item"  href="{{url('/account')}}">
+                <a class="dropdown-item"  href="{{\URL::route(\LaravelLocalization::getCurrentLocale() . '.iprofile.account.index')}}">
                     <i class="fa fa-user mr-2"></i> {{trans('iprofile::frontend.title.profile')}}
                 </a>
                 @foreach($moduleLinks as $link)

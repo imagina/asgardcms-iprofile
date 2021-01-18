@@ -56,6 +56,7 @@ class UserMenu extends Component
     public function render()
     {
         $this->user = null;
+       
         if(\Auth::user()) {
             $user = $this->authApiController->me();
             $user = json_decode($user->getContent());
