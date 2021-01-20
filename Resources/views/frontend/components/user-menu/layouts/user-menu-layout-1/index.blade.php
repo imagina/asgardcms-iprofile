@@ -72,13 +72,13 @@
             </button>
 
             <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">
-                <a class="dropdown-item" href="{{route('login')}}"
-                {{$openLoginInModal ? 'data-toggle="modal" data-target="#userLoginModal"' : ''}}
+                <a class="dropdown-item"
+                {{$openLoginInModal ? "data-toggle=modal data-target=#userLoginModal href=".route('account.login.get')."" : ''}}
                 >
                     <i class="fa fa-user mr-2"></i>{{trans('iprofile::frontend.button.sign_in')}}
                 </a>
                 <a class="dropdown-item" href="{{route('account.register')}}"
-                {{$openRegisterInModal ? 'data-toggle="modal" data-target="#userRegisterModal"' : ''}}
+                {{$openRegisterInModal ? "data-toggle=modal data-target=#userRegisterModal  href=".route('account.register')."" : ''}}
                 
                 >
                     <i class="fa fa-sign-out mr-2"></i>{{trans('iprofile::frontend.button.register')}}

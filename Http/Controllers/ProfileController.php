@@ -125,8 +125,8 @@ class ProfileController extends AdminBaseController
           }
         }// End Foreach
       }// End If
-      
-      return redirect()->route('account.profile.index')
+      $locale = \LaravelLocalization::setLocale() ?: \App::getLocale();
+      return redirect()->route($locale.'.iprofile.account.index')
         ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans(
           'iprofile::frontend.title.profile')]));
       
