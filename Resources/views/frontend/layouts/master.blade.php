@@ -3,7 +3,7 @@
 
 
 @section('content')
-  @yield('profileBreadcrumb', \View::make('iprofile::frontend.partials.breadcrumb'))
+  @yield('profileBreadcrumb')
   
   
   {{-- Need Publish --}}
@@ -17,12 +17,13 @@
         <div class="col-lg-4 col-xl-3 mb-3">
           
           {{--################# MENU #################--}}
-          @include('iprofile::frontend.partials.menu')
+          <x-iprofile::user-menu layout="user-menu-layout-2" :onlyShowInTheDropdownHeader="false"
+                                 :onlyShowInTheMenuOfTheIndexProfilePage="true"/>
         
         </div> {{-- End col --}}
         
         <div class="col-lg-8 col-xl-9 mb-5">
-          <div class="title border-bottom border-top-dotted border-bottom-dotted py-2 mt-3 mb-2">
+          <div class="title border-bottom border-top-dotted border-bottom-dotted py-2 mb-2">
             <h1 class="h4 my-0text-primary">
               @yield('profileTitle')
             </h1>
@@ -36,3 +37,5 @@
   
   </div>
 @stop
+
+@yield('profileExtraFooter')
