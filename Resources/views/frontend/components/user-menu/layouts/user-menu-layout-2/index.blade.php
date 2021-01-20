@@ -13,7 +13,7 @@
       <a class="d-inline  d-sm-none navbar-brand" href="#">{{trans("iprofile::frontend.button.my_account")}}</a>
       
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto flex-column">
+        <ul class="navbar-nav mr-auto flex-column w-100">
           <li class="nav-item">
             <a class="dropdown-item"  href="{{\URL::route(\LaravelLocalization::getCurrentLocale() . '.iprofile.account.index')}}">
               <i class="fa fa-user mr-2"></i> {{trans('iprofile::frontend.title.profile')}}
