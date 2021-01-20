@@ -10,7 +10,7 @@
 @section('profileTitle')
   
   @if(isset($user) &&  !empty($user->first_name))
-    {{trans('iprofile::frontend.title.welcome')}}, {{$user->first_name}}
+    <span class="text-capitalize">{{trans('iprofile::frontend.title.welcome')}}, {{$user->first_name}}</span>
   @else
     {{trans('iprofile::frontend.title.user name')}}
   @endif
@@ -18,12 +18,10 @@
   @endsection
 @section('profileContent')
   
-  
-    @include('iprofile::frontend.partials.edit-fields')
+  @include('iprofile::frontend.partials.edit-fields')
 
+@stop
 
-
-  @stop
 
 @section('scripts')
 @parent

@@ -31,10 +31,9 @@
 
 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
-   <a class="nav-link @if(isset($user->id) && $user->roles->first()->slug!='client') active @endif" id="v-pills-edit-tab"
+   <a class="nav-link @if(isset($user->id) && $user->roles->first()->slug!='client') active @endif"
       href="{{\URL::route(\LaravelLocalization::getCurrentLocale() . '.iprofile.account.index')}}"
-      data-toggle="pill" href="#v-pills-edit"
-   role="tab" aria-controls="v-pills-edit"
+      
       aria-selected="true">
       <i class="fa fa-edit mr-2" onclick="$('#img-profile').show();$('#img-profile-store').hide();"></i>
       {{trans('iprofile::frontend.title.profile')}}
