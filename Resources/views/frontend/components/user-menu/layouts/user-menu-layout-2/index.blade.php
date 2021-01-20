@@ -17,7 +17,7 @@
                 <a class="dropdown-item" href="{{url('/account/logout')}}" data-placement="bottom"
                    title="Sign Out">
                     <i class="fa fa-sign-out mr-1"></i>
-                    <span class="d-none d-lg-inline-block">{{trans('iprofile::frontend.button.sign_out')}}</span>
+                    <span>{{trans('iprofile::frontend.button.sign_out')}}</span>
                 </a>
        
         </div>
