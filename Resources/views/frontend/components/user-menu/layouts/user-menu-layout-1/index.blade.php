@@ -11,7 +11,7 @@
 
 
                 @if($showLabel)
-                    <span class="username text-truncate aling-middle">
+                    <span class="username text-truncate aling-middle text-capitalize">
                             <?php if ($userData->firstName != ' '): ?>
                                 <?= $userData->firstName; ?>
                             <?php else: ?>
@@ -33,7 +33,7 @@
                              src="{{url('modules/iprofile/img/default.jpg')}}"/>
                     @endif
 
-                    <span class="username text-truncate aling-middle">
+                    <span class="username text-truncate aling-middle text-capitalize">
                     <?php if ($userData->firstName != ' '): ?>
                         <?= $userData->firstName; ?>
                     <?php else: ?>
@@ -41,7 +41,8 @@
                     <?php endif; ?>
                     </span>
                 </div>
-                <a class="dropdown-item"  href="{{url('/account')}}">
+              
+                <a class="dropdown-item"  href="{{\URL::route(\LaravelLocalization::getCurrentLocale() . '.iprofile.account.index')}}">
                     <i class="fa fa-user mr-2"></i> {{trans('iprofile::frontend.title.profile')}}
                 </a>
                 @foreach($moduleLinks as $link)
@@ -52,7 +53,7 @@
                 <a class="dropdown-item" href="{{url('/account/logout')}}" data-placement="bottom"
                    title="Sign Out">
                     <i class="fa fa-sign-out mr-1"></i>
-                    <span class="d-none d-lg-inline-block">{{trans('iprofile::frontend.button.sign_out')}}</span>
+                    <span>{{trans('iprofile::frontend.button.sign_out')}}</span>
                 </a>
             </div>
 
@@ -71,16 +72,58 @@
             </button>
 
             <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">
-                <a class="dropdown-item" href="{{route('login')}}">
+                <a class="dropdown-item"
+                {{$openLoginInModal ? "data-toggle=modal data-target=#userLoginModal href=".route('account.login.get')."" : ''}}
+                >
                     <i class="fa fa-user mr-2"></i>{{trans('iprofile::frontend.button.sign_in')}}
                 </a>
-                <a class="dropdown-item" href="{{route('account.register')}}">
+                <a class="dropdown-item" href="{{route('account.register')}}"
+                {{$openRegisterInModal ? "data-toggle=modal data-target=#userRegisterModal  href=".route('account.register')."" : ''}}
+                
+                >
                     <i class="fa fa-sign-out mr-2"></i>{{trans('iprofile::frontend.button.register')}}
                 </a>
             </div>
         </div>
     @endif
 
+@if($openLoginInModal)
+    <!-- User login modal -->
+    <div class="modal fade" id="userLoginModal" tabindex="-1" aria-labelledby="userLoginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userLoginModalLabel">{{ trans('user::auth.login') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @include('iprofile::frontend.widgets.login',["embedded" => true, "register" => false])
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+    
+    @if($openRegisterInModal)
+    <!-- User register modal -->
+    <div class="modal fade" id="userRegisterModal" tabindex="-1" aria-labelledby="userRegisterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userRegisterModalLabel">{{ trans('user::auth.register') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @include('iprofile::frontend.widgets.register',["embedded" => true])
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
 
 
     @section('scripts')
