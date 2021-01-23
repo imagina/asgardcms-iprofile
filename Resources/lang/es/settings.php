@@ -32,7 +32,8 @@ return [
   'validation' => [
   ],
   'settingGroups' => [
-    'registerExtraFields' => 'Campos extra para el registro'
+    'registerExtraFields' => 'Campos extra para el registro',
+    'addressesExtraFields' => 'Campos extra para las direcciones'
   ],
   'settingFields' => [
     'enabled' => 'Activo',
