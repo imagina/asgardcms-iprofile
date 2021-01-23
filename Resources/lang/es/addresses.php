@@ -25,6 +25,8 @@ return [
       "default" => "Dirección por defecto",
       "billing" => "Facturación",
       "shipping" => "Envío",
+      "shippingAddress" => "Dirección de Envío",
+      "billingAddress" => "Dirección de Facturación",
       "company" => "Nombre de la Compañía",
       "zipCode" => "Código Postal",
       'identification' => 'Tipo de Documento',

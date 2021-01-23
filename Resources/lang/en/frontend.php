@@ -57,6 +57,7 @@ return [
     'address1'          => 'Dirección 1',
     'address2'          => 'Dirección 2',
     'city'              => 'Ciudad',
+    'email'              => 'Email',
     'post_code'         => 'Zip/Codigo Postal',
     'zipCode'           => 'Postal Code',
     'country'           => 'País',
