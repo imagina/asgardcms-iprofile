@@ -15,7 +15,7 @@ class DepartmentApiController extends BaseApiController
 {
   private $department;
   private $setting;
-  
+
   public function __construct(
     DepartmentRepository $department,
     SettingApiController $setting)
@@ -23,7 +23,7 @@ class DepartmentApiController extends BaseApiController
     $this->department = $department;
     $this->setting = $setting;
   }
-  
+
   /**
    * GET ITEMS
    *
@@ -34,26 +34,26 @@ class DepartmentApiController extends BaseApiController
     try {
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $departments = $this->department->getItemsBy($params);
-      
+
       //Response
       $response = [
         "data" => DepartmentTransformer::collection($departments)
       ];
-      
+
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($departments)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * GET A ITEM
    *
@@ -65,27 +65,27 @@ class DepartmentApiController extends BaseApiController
     try {
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $department = $this->department->getItem($criteria, $params);
-      
+
       //Break if no found item
-      if (!$department) throw new Exception('Item not found', 404);
-      
+      if (!$department) throw new \Exception('Item not found', 404);
+
       //Response
       $response = ["data" => new DepartmentTransformer($department)];
-      
+
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($department)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * CREATE A ITEM
    *
@@ -101,13 +101,13 @@ class DepartmentApiController extends BaseApiController
 
       //Get data
       $data = $request->input('attributes');
-      
+
       //Validate Request
       $this->validateRequestApi(new CreateDepartmentRequest($data));
-      
+
       //Create item
       $department = $this->department->create($data);
-  
+
       //Create Settings
       if (isset($data["settings"]))
         foreach ($data["settings"] as $setting) {
@@ -119,7 +119,7 @@ class DepartmentApiController extends BaseApiController
             );
           }
         }
-      
+
       //Response
       $response = ["data" => ""];
       \DB::commit(); //Commit to Data Base
@@ -131,7 +131,7 @@ class DepartmentApiController extends BaseApiController
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * UPDATE ITEM
    *
@@ -148,16 +148,16 @@ class DepartmentApiController extends BaseApiController
 
       //Get data
       $data = $request->input('attributes');
-      
+
       //Validate Request
       $this->validateRequestApi(new UpdateDepartmentRequest($data));
-      
+
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $department = $this->department->updateBy($criteria, $data, $params);
-  
+
       //Create or Update Settings
       if (isset($data["settings"]))
         foreach ($data["settings"] as $setting) {
@@ -189,11 +189,11 @@ class DepartmentApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
+
   /**
    * DELETE A ITEM
    *
@@ -209,10 +209,10 @@ class DepartmentApiController extends BaseApiController
 
       //Get params
       $params = $this->getParamsRequest($request);
-      
+
       //call Method delete
       $this->department->deleteBy($criteria, $params);
-      
+
       //Response
       $response = ["data" => ""];
       \DB::commit();//Commit to Data Base
@@ -221,7 +221,7 @@ class DepartmentApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }

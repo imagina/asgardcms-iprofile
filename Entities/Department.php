@@ -2,7 +2,7 @@
 
 namespace Modules\Iprofile\Entities;
 
-use Dimsav\Translatable\Translatable;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Modules\User\Entities\Sentinel\User;
 
@@ -14,6 +14,7 @@ class Department extends Model
   protected $fillable = [
     'title',
     'parent_id',
+    'internal',
     'options'
   ];
 

@@ -27,6 +27,7 @@ return [
       "shipping" => "Envío",
       "company" => "Nombre de la Compañía",
       "zipCode" => "Código Postal",
+      'identification' => 'Tipo de Documento',
       'documentType' => 'Tipo de Documento',
       'documentNumber' => 'Número de Documento',
       'extraInfo' => 'Información Extra',

@@ -2,6 +2,7 @@
 
 namespace Modules\Iprofile\Repositories\Eloquent;
 
+use Illuminate\Support\Arr;
 use Modules\Iprofile\Repositories\UserApiRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
@@ -18,7 +19,7 @@ class EloquentUserApiRepository extends EloquentBaseRepository implements UserAp
     if (in_array('*', $params->include)) {//If Request all relationships
       $query->with([]);
     } else {//specific relationships
-      $includeDefault = [];//Default relationships
+      $includeDefault = ['fields','settings'];//Default relationships
       if (isset($params->include))//merge relations with default relationships
         $includeDefault = array_merge($includeDefault, $params->include);
       $query->with($includeDefault);//Add Relationships to query
@@ -214,7 +215,7 @@ class EloquentUserApiRepository extends EloquentBaseRepository implements UserAp
 
     if ($model) {
       // sync tables
-      $model->departments()->sync(array_get($data, 'departments', []));
+      $model->departments()->sync(Arr::get($data, 'departments', []));
 
 
     }
@@ -245,7 +246,7 @@ class EloquentUserApiRepository extends EloquentBaseRepository implements UserAp
       $model->update((array)$data);
       $newData = $model->toArray();
       // sync tables
-      $model->departments()->sync(array_get($data, 'departments', []));
+      $model->departments()->sync(Arr::get($data, 'departments', []));
 
     }
 

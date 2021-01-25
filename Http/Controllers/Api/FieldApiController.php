@@ -77,7 +77,7 @@ class FieldApiController extends BaseApiController
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($field)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["errors" => $this->getErrorMessage($e)];
     }
 
     //Return response
@@ -148,9 +148,13 @@ class FieldApiController extends BaseApiController
 
       //Validate Request
       $this->validateRequestApi(new UpdateCustomFieldRequest($data));
-      if ($data['name'] == 'mainImage' && Str::contains($data['value'], 'data:image/jpeg;base64')) {
+      if ($data['name'] == 'mainImage' && Str::contains($data['value'], 'data:image')) {
+        $endFile = 'jpg';
+        if(Str::startsWith($data['value'], 'data:image/png;'))
+          $endFile = 'png';
+        
         //Update Iprofile image
-        $data['value'] = saveImage($data['value'], "assets/iprofiles/" . $data['user_id'] . ".jpg");
+        $data['value'] = saveImage($data['value'], "assets/iprofiles/" . $data['user_id'] . ".$endFile");
       }
 
       //Get Parameters from URL.

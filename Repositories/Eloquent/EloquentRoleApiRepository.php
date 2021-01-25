@@ -26,7 +26,7 @@ class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleAp
     /*=== SETTINGS ===*/
     if (isset($params->settings)) {
       $settings = $params->settings;
-      if (isset($settings['assignedRoles'])) {
+      if (isset($settings['assignedRoles']) && count($settings['assignedRoles'])) {
         $query->whereIn('id', $settings['assignedRoles']);
       }
     }
@@ -43,6 +43,12 @@ class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleAp
           $query->whereDate($date->field, '>=', $date->from);
         if (isset($date->to))//to a date
           $query->whereDate($date->field, '<=', $date->to);
+      }
+
+      //Filter by ID
+      if(isset($filter->id)){
+        $idFilter = is_array($filter->id) ? $filter->id : [$filter->id];
+        $query->whereIn('id', $idFilter);
       }
 
       //Order by
