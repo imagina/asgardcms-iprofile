@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-12 {{isset($embedded) ? '' : 'col-md-8 col-lg-6' }} ">
-  
+
       @if(!isset($embedded))
       <div class="title">
         <h1 class="text-primary">{{ trans('user::auth.login') }}</h1>
@@ -23,15 +23,15 @@
           </div>
       </div>--}}
       <hr class="border-top-dotted">
-      
+
       <div class="form-body">
-        @include('partials.notifications')
+        @include('isite::frontend.partials.notifications')
         {!! Form::open(['route' => 'account.login.post', 'class' => 'form-content']) !!}
-  
+
         @if(isset($embedded))
           <input name="embedded" type="hidden" value="{{isset($route) && $route ? $route : ''}}">
         @endif
-        
+
         <div class="row">
           <div class="col-sm-12 py-2">
             <div class="form-group has-feedback {{ $errors->has('email') ? ' has-error' : '' }}">
@@ -48,12 +48,12 @@
             </div>
           </div>
         </div>
-        
+
         <div class=" form-button text-center  border-bottom  border-bottom-dotted py-4 mb-4">
           {{ Form::submit(trans('user::auth.login'),['class'=>'btn btn-primary text-uppercase text-white font-weight-bold rounded-pill px-3 py-2 mr-2']) }}
           {{ link_to(route('account.reset'),trans('user::auth.forgot password'),[]) }}
         </div>
-  
+
         @if(!isset($register) || (isset($register) && $register))
         <div class="page-links mt-4 text-center">
           {{ link_to(route('account.register'),trans('user::auth.register'),[]) }}

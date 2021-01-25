@@ -41,7 +41,7 @@
                     <?php endif; ?>
                     </span>
                 </div>
-              
+
                 <a class="dropdown-item"  href="{{\URL::route(\LaravelLocalization::getCurrentLocale() . '.iprofile.account.index')}}">
                     <i class="fa fa-user mr-2"></i> {{trans('iprofile::frontend.title.profile')}}
                 </a>
@@ -79,7 +79,7 @@
                 </a>
                 <a class="dropdown-item" href="{{route('account.register')}}"
                 {{$openRegisterInModal ? "data-toggle=modal data-target=#userRegisterModal  href=".route('account.register')."" : ''}}
-                
+
                 >
                     <i class="fa fa-sign-out mr-2"></i>{{trans('iprofile::frontend.button.register')}}
                 </a>
@@ -105,7 +105,7 @@
         </div>
     </div>
 @endif
-    
+
     @if($openRegisterInModal)
     <!-- User register modal -->
     <div class="modal fade" id="userRegisterModal" tabindex="-1" aria-labelledby="userRegisterModalLabel" aria-hidden="true">
