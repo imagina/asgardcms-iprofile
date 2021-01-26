@@ -2,7 +2,7 @@
     <!--- LOGIN -->
     @if($user)
         @php
-          $userData = $user['data'];
+            $userData = $user['data'];
         @endphp
         <div  class="account-menu dropdown d-inline-block" id="accMenuDrop">
             <button class="btn dropdown-toggle" type="button"
@@ -11,7 +11,7 @@
 
 
                 @if($showLabel)
-                    <span class="username text-truncate aling-middle text-capitalize">
+                    <span class="username text-truncate d-none d-sm-block aling-middle text-capitalize">
                             <?php if ($userData->firstName != ' '): ?>
                                 <?= $userData->firstName; ?>
                             <?php else: ?>
@@ -65,7 +65,7 @@
                     aria-expanded="false">
                 <div class="user d-inline-block">
                     @if($showLabel)
-                        <span class="d-md-none d-lg-inline-block"> {{ trans('iprofile::frontend.button.my_account') }}</span>
+                        <span class="d-none d-lg-inline-block"> {{ trans('iprofile::frontend.button.my_account') }}</span>
                     @endif
                     <i class="fa fa-user" aria-hidden="true"></i>
                 </div>
@@ -73,12 +73,12 @@
 
             <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">
                 <a class="dropdown-item"
-                {{$openLoginInModal ? "data-toggle=modal data-target=#userLoginModal href=".route('account.login.get')."" : ''}}
+                        {{$openLoginInModal ? "data-toggle=modal data-target=#userLoginModal href=".route('account.login.get')."" : ''}}
                 >
                     <i class="fa fa-user mr-2"></i>{{trans('iprofile::frontend.button.sign_in')}}
                 </a>
                 <a class="dropdown-item" href="{{route('account.register')}}"
-                {{$openRegisterInModal ? "data-toggle=modal data-target=#userRegisterModal  href=".route('account.register')."" : ''}}
+                        {{$openRegisterInModal ? "data-toggle=modal data-target=#userRegisterModal  href=".route('account.register')."" : ''}}
 
                 >
                     <i class="fa fa-sign-out mr-2"></i>{{trans('iprofile::frontend.button.register')}}
@@ -87,43 +87,43 @@
         </div>
     @endif
 
-@if($openLoginInModal)
+    @if($openLoginInModal)
     <!-- User login modal -->
-    <div class="modal fade" id="userLoginModal" tabindex="-1" aria-labelledby="userLoginModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="userLoginModalLabel">{{ trans('user::auth.login') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @include('iprofile::frontend.widgets.login',["embedded" => true, "register" => false])
+        <div class="modal fade" id="userLoginModal" tabindex="-1" aria-labelledby="userLoginModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="userLoginModalLabel">{{ trans('user::auth.login') }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @include('iprofile::frontend.widgets.login',["embedded" => true, "register" => false])
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-@endif
+    @endif
 
     @if($openRegisterInModal)
     <!-- User register modal -->
-    <div class="modal fade" id="userRegisterModal" tabindex="-1" aria-labelledby="userRegisterModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="userRegisterModalLabel">{{ trans('user::auth.register') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @include('iprofile::frontend.widgets.register',["embedded" => true])
+        <div class="modal fade" id="userRegisterModal" tabindex="-1" aria-labelledby="userRegisterModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="userRegisterModalLabel">{{ trans('user::auth.register') }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @include('iprofile::frontend.widgets.register',["embedded" => true])
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-@endif
+    @endif
 
 
     @section('scripts')

@@ -59,6 +59,7 @@ return [
     'company'           => 'Nombre de la compañia',
     'address1'          => 'Dirección 1',
     'address2'          => 'Dirección 2',
+    'email'             => 'Correo Electrónico',
     'city'              => 'Ciudad',
     'post_code'         => 'Zip/Codigo Postal',
     'zipCode'           => 'Zip/Codigo Postal',
