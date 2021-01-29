@@ -104,6 +104,13 @@
                 </div>
             </div>
         </div>
+        <script>
+            @if(Session::has('error'))
+                $(function(){
+                    $('#userLoginModal').modal('show');
+                })
+            @endif
+        </script>
     @endif
 
     @if($openRegisterInModal)
