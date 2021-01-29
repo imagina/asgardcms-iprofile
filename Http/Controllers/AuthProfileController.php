@@ -10,6 +10,7 @@ use Illuminate\Support\MessageBag;
 
 use Modules\Core\Http\Controllers\BasePublicController;
 
+use Modules\User\Events\UserHasRegistered;
 use Modules\User\Http\Requests\LoginRequest;
 use Modules\User\Http\Requests\RegisterRequest;
 use Modules\User\Http\Requests\ResetCompleteRequest;
@@ -149,6 +150,8 @@ class AuthProfileController extends AuthController
 
       $data = $request->all();
 
+      $validateRegisterWithEmail = setting('iprofile::validateRegisterWithEmail',null, false);
+
       // Check Exist Roles
       if (isset($data['roles'])) {
 
@@ -177,8 +180,10 @@ class AuthProfileController extends AuthController
         array_push($data['roles'], $roleCustomer->id);
       }
 
-      if (!isset($data["is_activated"]))
+      if (!isset($data["is_activated"]) && !$validateRegisterWithEmail)
         $data["is_activated"] = 1;
+      else if($validateRegisterWithEmail)
+        $data["is_activated"] = 0;
 
       // Create User with Roles
       $user = $this->user->createWithRoles($data, $data["roles"], $data["is_activated"]);
@@ -214,6 +219,10 @@ class AuthProfileController extends AuthController
           $this->field->create(new Request(['attributes' => (array)$field]));
 
         }
+      }
+
+      if($validateRegisterWithEmail){
+          event(new UserHasRegistered($user));
       }
 
       \DB::commit(); //Commit to Data Base
