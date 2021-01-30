@@ -2,76 +2,53 @@
   
   <!--- LOGIN -->
     @if($user)
-    
-    
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-block">
-    
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="d-inline  d-sm-none navbar-brand" href="#">{{trans("iprofile::frontend.button.my_account")}}</a>
       
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto flex-column w-100">
+        <ul class="list-sidebar">
           <li class="nav-item">
-            <a class="dropdown-item"  href="{{\URL::route(\LaravelLocalization::getCurrentLocale() . '.iprofile.account.index')}}">
-              <i class="fa fa-user mr-2"></i> {{trans('iprofile::frontend.title.profile')}}
+            <a  href="{{\URL::route(\LaravelLocalization::getCurrentLocale() . '.iprofile.account.index')}}">
+              <i class="fa fa-user mr-2"></i> <span class="nav-label">{{trans('iprofile::frontend.title.profile')}} </span>
             </a>
           </li>
           @foreach($moduleLinks as $link)
             <li class="nav-item">
-              <a class="dropdown-item"  href="{{ route($link['routeName']) }}">
-                @if($link['icon'])<i class="{{ $link['icon'] }}"></i>@endif {{ trans($link['title']) }}
+              <a  href="{{ route($link['routeName']) }}">
+                @if($link['icon'])<i class="{{ $link['icon'] }}"></i>@endif <span class="nav-label">{{ trans($link['title']) }}</span>
               </a>
             </li>
           @endforeach
           <li class="nav-item">
-            <a class="dropdown-item" href="{{url('/account/logout')}}" data-placement="bottom"
+            <a  href="{{url('/account/logout')}}" data-placement="bottom"
                title="Sign Out">
               <i class="fa fa-sign-out mr-1"></i>
-              <span>{{trans('iprofile::frontend.button.sign_out')}}</span>
+              <span class="nav-label">{{trans('iprofile::frontend.button.sign_out')}}</span>
             </a>
           </li>
         
         </ul>
-      
-      </div>
-    </nav>
+
   @else
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-block">
-      
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="d-inline  d-sm-none navbar-brand" href="#">{{trans("iprofile::frontend.button.my_account")}}</a>
-      
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto flex-column w-100">
+
+        <ul class="list-sidebar bg-default">
           <li class="nav-item">
-            <a class="dropdown-item"
+            <a
               {{$openLoginInModal ? "data-toggle=modal data-target=#userLoginModal href=".route('account.login.get')."" : ''}}
             >
-              <i class="fa fa-user mr-2"></i>{{trans('iprofile::frontend.button.sign_in')}}
+              <i class="fa fa-user mr-2"></i><span class="nav-label">{{trans('iprofile::frontend.button.sign_in')}}</span>
             </a>
           </li>
         
             <li class="nav-item">
   
-              <a class="dropdown-item" href="{{route('account.register')}}"
+              <a  href="{{route('account.register')}}"
                 {{$openRegisterInModal ? "data-toggle=modal data-target=#userRegisterModal  href=".route('account.register')."" : ''}}
               >
-                <i class="fa fa-sign-out mr-2"></i>{{trans('iprofile::frontend.button.register')}}
+                <i class="fa fa-sign-out mr-2"></i><span class="nav-label">{{trans('iprofile::frontend.button.register')}}</span>
               </a>
             </li>
        
         
         </ul>
-      
-      </div>
-    </nav>
- 
+   
   @endif
   
   @if($openLoginInModal)
