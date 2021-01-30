@@ -10,6 +10,8 @@ use Illuminate\Support\MessageBag;
 
 use Modules\Core\Http\Controllers\BasePublicController;
 
+use Modules\User\Events\UserHasRegistered;
+use Modules\User\Events\UserLoggedIn;
 use Modules\User\Http\Requests\LoginRequest;
 use Modules\User\Http\Requests\RegisterRequest;
 use Modules\User\Http\Requests\ResetCompleteRequest;
@@ -90,16 +92,31 @@ class AuthProfileController extends AuthController
   public function postLogin(LoginRequest $request)
   {
 
-    parent::postLogin($request);
-
     $data = $request->all();
 
-    if (isset($data["embedded"]) && $data["embedded"])
-      return redirect()->route($data["embedded"])
-        ->withSuccess(trans('user::messages.successfully logged in'));
+      $credentials = [
+          'email' => $request->email,
+          'password' => $request->password,
+      ];
 
-    return redirect()->intended(route(config('asgard.user.config.redirect_route_after_login')))
-      ->withSuccess(trans('user::messages.successfully logged in'));
+      $remember = (bool) $request->get('remember_me', false);
+
+      $error = $this->auth->login($credentials, $remember);
+
+      if ($error) {
+          return redirect()->back()->withInput()->withError($error);
+      }
+
+      $user = $this->auth->user();
+      event(new UserLoggedIn($user));
+
+
+      if (isset($data["embedded"]) && $data["embedded"])
+        return redirect()->route($data["embedded"])
+            ->withSuccess(trans('user::messages.successfully logged in'));
+
+      return redirect()->intended(route(config('asgard.user.config.redirect_route_after_login')))
+          ->withSuccess(trans('user::messages.successfully logged in'));
 
   }
 
@@ -149,6 +166,8 @@ class AuthProfileController extends AuthController
 
       $data = $request->all();
 
+      $validateRegisterWithEmail = setting('iprofile::validateRegisterWithEmail',null, false);
+
       // Check Exist Roles
       if (isset($data['roles'])) {
 
@@ -177,8 +196,10 @@ class AuthProfileController extends AuthController
         array_push($data['roles'], $roleCustomer->id);
       }
 
-      if (!isset($data["is_activated"]))
+      if (!isset($data["is_activated"]) && !$validateRegisterWithEmail)
         $data["is_activated"] = 1;
+      else if($validateRegisterWithEmail)
+        $data["is_activated"] = 0;
 
       // Create User with Roles
       $user = $this->user->createWithRoles($data, $data["roles"], $data["is_activated"]);
@@ -214,6 +235,10 @@ class AuthProfileController extends AuthController
           $this->field->create(new Request(['attributes' => (array)$field]));
 
         }
+      }
+
+      if($validateRegisterWithEmail){
+          event(new UserHasRegistered($user));
       }
 
       \DB::commit(); //Commit to Data Base

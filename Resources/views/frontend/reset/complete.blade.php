@@ -20,7 +20,7 @@
                     <div class="formulario">
 
                         <p class="login-box-msg">{{ trans('user::auth.reset password') }}</p>
-                        @include('partials.notifications')
+                        @include('isite::frontend.partials.notifications')
 
                         {!! Form::open() !!}
                         <div class="form-group has-feedback {{ $errors->has('password') ? ' has-error' : '' }}">

@@ -21,7 +21,7 @@ class UserTransformer extends JsonResource
     //Get settings
     $settings = json_decode(json_encode(SettingTransformer::collection($this->settings ?? collect([]))));
     $settingsResponse = [];
-    foreach ($settings as $setting) $settingsResponse[$setting->name] = $setting->value;
+    foreach ($settings as $setting) $settingsResponse[$setting->value->name ?? $setting->name] = $setting->value->value ?? $setting->value;
 
     $data = [
       'id' => $this->when($this->id, $this->id),
