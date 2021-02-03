@@ -22,6 +22,7 @@ return [
   ],
 
   'profile.fields' => [
+    'manage' => 'profile::fields.manage resource',
     'index' => 'profile::fields.list resource',
     'create' => 'profile::fields.create resource',
     'edit' => 'profile::fields.edit resource',
@@ -29,6 +30,7 @@ return [
   ],
 
   'profile.addresses' => [
+    'manage' => 'profile::addresses.manage resource',
     'index' => 'profile::addresses.list resource',
     'create' => 'profile::addresses.create resource',
     'edit' => 'profile::addresses.edit resource',
@@ -44,6 +46,7 @@ return [
   ],
 
   'profile.settings' => [
+    'manage' => 'profile::settings.manage resource',
     'index' => 'profile::settings.list resource',
     'create' => 'profile::settings.create resource',
     'edit' => 'profile::settings.edit resource',
@@ -51,6 +54,7 @@ return [
   ],
 
   'profile.user-departments' => [
+    'manage' => 'profile::user-departments.manage resource',
     'index' => 'profile::user-departments.list resource',
     'create' => 'profile::user-departments.create resource',
     'edit' => 'profile::user-departments.edit resource',
