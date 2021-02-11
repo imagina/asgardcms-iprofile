@@ -1,19 +1,14 @@
 @extends('layouts.master')
 
-
-
 @section('content')
-  
-  
-  
   {{-- Need Publish --}}
-  
+
   <div id="indexProfile" class="page page-profile position-relative">
     <div class="overlay"></div>
     @yield('profileBreadcrumb')
-    
+
     <div class="sidebar-profile left ">
-      
+
       <ul class="my-account border-bottom py-4">
         <li class=" w-100">
           <a class="button-left"><i class="fa fa-bars"></i> <span class="nav-label text-bold">Mi cuenta</span></a>
@@ -22,7 +17,7 @@
       {{--################# MENU #################--}}
       <x-iprofile::user-menu layout="user-menu-layout-2" :onlyShowInTheDropdownHeader="false"
                              :onlyShowInTheMenuOfTheIndexProfilePage="true"/>
-      
+
       <!--DESCOMENTAR ESTA SECCION PARA VER OTRAS FORMAS CÖMO EXTENDER EL MENU
       SOBRETODO PARA SUBMENUS -->
       <!--
@@ -91,71 +86,73 @@
         <li><a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Other Pages</span></a></li>
         <li><a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Other Pages</span></a></li>
       </ul>
-      
+
       -->
     </div>
-    
-    
+
+
     <div class="container">
       <div class="row">
-        
-        
+
+
         <div class="profile-content col-12 mb-5">
           <div class="title border-bottom border-top-dotted border-bottom-dotted py-2 mb-2">
-            
+
             <h1 class="h4 my-0text-primary">
-              
+
               @yield('profileTitle')
             </h1>
           </div>
           @yield('profileContent')
-        
+
         </div> {{-- End col --}}
-      
+
       </div>
     </div>
-  
+
   </div>
-@stop
+  @yield('profileExtraFooter')
+@endsection
 
 @section('scripts')
+  @parent
   <script>
     $(document).ready(function () {
       $('.button-left').click(function () {
         var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-        
+
         if (width <= 1620) {
           $('.sidebar-profile').toggleClass('fliph');
-          
+
           if (!$('.sidebar-profile').hasClass('fliph')) {
             $('.overlay').addClass('active');
           } else {
             $('.overlay').removeClass('active');
           }
-          
+
         }
-        
+
       });
-      
+
       var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-      
+
       function toggleProfileMenu() {
-        
+
         var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
         if (width <= 1620) {
           $('.sidebar-profile').addClass('fliph');
-          
+
         } else {
           $('.sidebar-profile').removeClass('fliph');
-          
+
           if ($('.overlay').hasClass('active')) {
             $('.overlay').removeClass('active');
           }
-          
+
         }
-        
+
       }
-      
+
       $(window).resize(toggleProfileMenu);
       if (width <= 1620) {
         $('.sidebar-profile').addClass('fliph');
@@ -163,5 +160,3 @@
     });
   </script>
 @stop
-
-@yield('profileExtraFooter')
