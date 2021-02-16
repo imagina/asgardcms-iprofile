@@ -89,7 +89,7 @@
                                 @if( !in_array($extraField->type, ["select","textarea"]) )
 
                                     {{-- Text input --}}
-                                    @if(in_array($extraField->type ,["text","number","checkbox","password"]))
+                                    @if(in_array($extraField->type ,["text","number","checkbox","password","date"]))
                                       <input  type="{{$extraField->type}}" name="fields[{{$extraField->field}}]" required="{{$extraField->required}}" class ="form-control" id = 'extraField{{$extraField->field}}'/>
                                     @endif
 
@@ -112,12 +112,17 @@
                                                     @endforeach
                                                 @endif
                                             @else
-                                                @php($optionValues = $extraField->options)
+                                            @php($optionValues = [])
+                                            @foreach ($extraField->options as $option)
+                                                    @php($optionValues = array_merge($optionValues, [ $option->value => $option->label]))
+                                            @endforeach
+
                                             @endif
 
                                             @if(isset($optionValues))
                                                 {{-- Select --}}
-                                                {{Form::select("fields[$extraField->field]", $optionValues, null, ['id'=>'extraField'.$extraField->field, 'required'=>$extraField->required,'class'=>"form-control",'placeholder' => '']) }}
+
+                                            {{Form::select("fields[$extraField->field]", [], null, ['id'=>'extraField'.$extraField->field, 'required'=>$extraField->required,'class'=>"form-control",'placeholder' => '']) }}
                                             @endif
                                             </div>
 
