@@ -70,9 +70,7 @@
                     </div>
 
                     @php
-
-                            $registerExtraFields = json_decode(setting('iprofile::registerExtraFields', null, "[]"));
-
+                        $registerExtraFields = json_decode(setting('iprofile::registerExtraFields', null, "[]"));
                     @endphp
                     @foreach($registerExtraFields as $extraField)
 
@@ -97,7 +95,7 @@
 
                                     {{-- Custom documentType input --}}
                                     @if($extraField->type == "documentType")
-
+                                     
                                             {{-- foreach options --}}
                                             @if(isset($extraField->availableOptions) && is_array($extraField->availableOptions) && count($extraField->availableOptions))
                                                 @if(isset($extraField->availableOptions) && isset($extraField->options))
@@ -118,11 +116,11 @@
                                             @endforeach
 
                                             @endif
-
+                            
                                             @if(isset($optionValues))
                                                 {{-- Select --}}
 
-                                            {{Form::select("fields[$extraField->field]", [], null, ['id'=>'extraField'.$extraField->field, 'required'=>$extraField->required,'class'=>"form-control",'placeholder' => '']) }}
+                                            {{Form::select("fields[$extraField->field]", $optionValues, null, ['id'=>'extraField'.$extraField->field, 'required'=>$extraField->required,'class'=>"form-control",'placeholder' => '']) }}
                                             @endif
                                             </div>
 
