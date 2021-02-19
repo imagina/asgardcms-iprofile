@@ -15,9 +15,11 @@ return [
   //Register Users
   'registerUsers' => [
     'name' => 'iprofile::registerUsers',
-    'value' => null,
+    'value' => '1',
     'type' => 'checkbox',
     'props' => [
+      'trueValue'=>"1",
+      'falseValue'=>"0",
       'label' => 'iprofile::settings.registerUsers'
     ],
   ],

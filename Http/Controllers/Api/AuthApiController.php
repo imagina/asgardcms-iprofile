@@ -19,6 +19,7 @@ use Modules\User\Http\Requests\ResetCompleteRequest;
 use Modules\User\Http\Requests\ResetRequest;
 use Modules\User\Services\UserResetter;
 use Socialite;
+use Modules\User\Contracts\Authentication;
 
 // Reset
 
@@ -30,6 +31,7 @@ class AuthApiController extends BaseApiController
   private $userApiController;
   private $fieldApiController;
   private $user;
+  protected $auth;
 
   public function __construct(UserApiController $userApiController, FieldApiController $fieldApiController, UserApiRepository $user)
   {
@@ -37,6 +39,7 @@ class AuthApiController extends BaseApiController
     $this->userApiController = $userApiController;
     $this->fieldApiController = $fieldApiController;
     $this->user = $user;
+    $this->auth = app(Authentication::class);
     $this->clearTokens();//CLear tokens
   }
 
@@ -164,10 +167,12 @@ class AuthApiController extends BaseApiController
         if (isset($field->user)) $credentials->email = $field->user->email;
       } catch (Exception $e) {
       }
-
+  
+      $error = $this->auth->login((array)$credentials);
+      
       //Try login
-      if (Auth::attempt((array)$credentials)) {
-        $user = Auth::user();//Get user
+      if (!$error) {
+        $user = $this->auth->user();//Get user
         $token = $this->getToken($user);//Get token
 
         //Response bearer and expires date
