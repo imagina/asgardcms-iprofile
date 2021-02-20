@@ -11,7 +11,7 @@
           </li>
           @foreach($moduleLinks as $link)
             <li class="nav-item">
-              <a  href="{{ route($link['routeName']) }}">
+              <a  href="{{ $link['url'] }}">
                 @if($link['icon'])<i class="{{ $link['icon'] }}"></i>@endif <span class="nav-label">{{ trans($link['title']) }}</span>
               </a>
             </li>
@@ -29,23 +29,13 @@
   @else
 
         <ul class="list-sidebar bg-default">
-          <li class="nav-item">
-            <a
-              {{$openLoginInModal ? "data-toggle=modal data-target=#userLoginModal href=".route('account.login.get')."" : ''}}
-            >
-              <i class="fa fa-user mr-2"></i><span class="nav-label">{{trans('iprofile::frontend.button.sign_in')}}</span>
-            </a>
-          </li>
-        
+          @foreach($moduleLinksWithoutSession as $link)
             <li class="nav-item">
-  
-              <a  href="{{route('account.register')}}"
-                {{$openRegisterInModal ? "data-toggle=modal data-target=#userRegisterModal  href=".route('account.register')."" : ''}}
-              >
-                <i class="fa fa-sign-out mr-2"></i><span class="nav-label">{{trans('iprofile::frontend.button.register')}}</span>
-              </a>
+            <a  href="{{$link['url']}}" {{isset($link["dispatchModal"]) ? "data-toggle=modal data-target=".$link['dispatchModal'] : ''}}>
+              @if($link['icon'])<i class="{{ $link['icon'] }}"></i>@endif <span class="nav-label">{{ trans($link['title']) }}</span>
+            </a>
             </li>
-       
+          @endforeach
         
         </ul>
    
