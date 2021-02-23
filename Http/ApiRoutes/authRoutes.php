@@ -14,7 +14,6 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
   $router->post('login', [
     'as' => $locale . 'api.iprofile.login',
     'uses' => 'AuthApiController@login',
-    'middleware' => ['encryptCookie', 'addQueueCookie', 'startSession']
   ]);
 
     /** @var Router $router */
