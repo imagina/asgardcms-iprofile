@@ -95,7 +95,7 @@
       <div class="row">
 
 
-        <div class="profile-content col-12 mb-5">
+        <div id="profileContent" class="profile-content col-12 mb-5">
           <div class="title border-bottom border-top-dotted border-bottom-dotted py-2 mb-2">
 
             <h1 class="h4 my-0text-primary">
