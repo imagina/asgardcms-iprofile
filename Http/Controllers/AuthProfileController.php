@@ -141,13 +141,20 @@ class AuthProfileController extends AuthController
    */
   public function getRegister()
   {
-    parent::getRegister();
-
-    $tpl = 'iprofile::frontend.register';
-    $ttpl = 'iprofile.register';
-    if (view()->exists($ttpl)) $tpl = $ttpl;
-    return view($tpl);
-
+    $usersCanRegisterSetting = setting("iprofile::registerUsers", null, true);
+    
+    if($usersCanRegisterSetting){
+      parent::getRegister();
+  
+      $tpl = 'iprofile::frontend.register';
+      $ttpl = 'iprofile.register';
+      if (view()->exists($ttpl)) $tpl = $ttpl;
+      return view($tpl);
+  
+    }else{
+      return abort(404);
+    }
+    
   }
 
 
@@ -163,85 +170,92 @@ class AuthProfileController extends AuthController
     \DB::beginTransaction();
 
     try {
-
-      $data = $request->all();
-
-      $validateRegisterWithEmail = setting('iprofile::validateRegisterWithEmail',null, false);
-
-      // Check Exist Roles
-      if (isset($data['roles'])) {
-
-        $roles = $data['roles'];
-        $newRoles = [];
-
-        foreach ($roles as $rolName) {
-          $roleCustomer = $this->role->findByName($rolName);
-          if ($roleCustomer) {
-            array_push($newRoles, $roleCustomer->id);
+  
+      $usersCanRegisterSetting = setting("iprofile::registerUsers", null, true);
+  
+      if($usersCanRegisterSetting){
+        $data = $request->all();
+  
+        $validateRegisterWithEmail = setting('iprofile::validateRegisterWithEmail',null, false);
+  
+        // Check Exist Roles
+        if (isset($data['roles'])) {
+    
+          $roles = $data['roles'];
+          $newRoles = [];
+    
+          foreach ($roles as $rolName) {
+            $roleCustomer = $this->role->findByName($rolName);
+            if ($roleCustomer) {
+              array_push($newRoles, $roleCustomer->id);
+            }
           }
-        }
-
-        $data['roles'] = [];
-
-        if (count($newRoles) > 0) {
-          $data['roles'] = $newRoles;
+    
+          $data['roles'] = [];
+    
+          if (count($newRoles) > 0) {
+            $data['roles'] = $newRoles;
+          } else {
+            $roleCustomer = $this->role->findByName('User');
+            array_push($data['roles'], $roleCustomer->id);
+          }
+    
         } else {
+          $data['roles'] = [];
           $roleCustomer = $this->role->findByName('User');
           array_push($data['roles'], $roleCustomer->id);
         }
-
-      } else {
-        $data['roles'] = [];
-        $roleCustomer = $this->role->findByName('User');
-        array_push($data['roles'], $roleCustomer->id);
-      }
-
-      if (!isset($data["is_activated"]) && !$validateRegisterWithEmail)
-        $data["is_activated"] = 1;
-      else if($validateRegisterWithEmail)
-        $data["is_activated"] = 0;
-
-      // Create User with Roles
-      $user = $this->user->createWithRoles($data, $data["roles"], $data["is_activated"]);
-      $checkPointRegister = $this->setting->get('iredeems::points-per-register-user-checkbox');
-      if ($checkPointRegister) {
-        //Assign points to user
-        $pointsPerRegister = $this->setting->get('iredeems::points-per-register-user');
-        if ((int)$pointsPerRegister > 0) {
-          iredeems_StorePointUser([
-            "user_id" => $user->id,
-            "pointable_id" => 0,
-            "pointable_type" => "---",
-            "type" => 1,
-            "description" => trans("iredeems::common.settingsMsg.points-per-register"),
-            "points" => (int)$pointsPerRegister
-          ]);
-        }//points to assign > 0
-      }//Checkpoint per register
-      //Extra Fields
-      if (isset($data["fields"])) {
-        $field = [];
-        foreach ($data["fields"] as $key => $value) {
-
-          $field['user_id'] = $user->id;// Add user Id
-          $field['value'] = $value;
-          $field['name'] = $key;
-
-          /*
-          $this->validateResponseApi(
-              $this->field->create(new Request(['attributes' => (array)$field]))
-          );
-          */
-          $this->field->create(new Request(['attributes' => (array)$field]));
-
+  
+        if (!isset($data["is_activated"]) && !$validateRegisterWithEmail)
+          $data["is_activated"] = 1;
+        else if($validateRegisterWithEmail)
+          $data["is_activated"] = 0;
+  
+        // Create User with Roles
+        $user = $this->user->createWithRoles($data, $data["roles"], $data["is_activated"]);
+        $checkPointRegister = $this->setting->get('iredeems::points-per-register-user-checkbox');
+        if ($checkPointRegister) {
+          //Assign points to user
+          $pointsPerRegister = $this->setting->get('iredeems::points-per-register-user');
+          if ((int)$pointsPerRegister > 0) {
+            iredeems_StorePointUser([
+              "user_id" => $user->id,
+              "pointable_id" => 0,
+              "pointable_type" => "---",
+              "type" => 1,
+              "description" => trans("iredeems::common.settingsMsg.points-per-register"),
+              "points" => (int)$pointsPerRegister
+            ]);
+          }//points to assign > 0
+        }//Checkpoint per register
+        //Extra Fields
+        if (isset($data["fields"])) {
+          $field = [];
+          foreach ($data["fields"] as $key => $value) {
+      
+            $field['user_id'] = $user->id;// Add user Id
+            $field['value'] = $value;
+            $field['name'] = $key;
+      
+            /*
+            $this->validateResponseApi(
+                $this->field->create(new Request(['attributes' => (array)$field]))
+            );
+            */
+            $this->field->create(new Request(['attributes' => (array)$field]));
+      
+          }
         }
-      }
-
-      if($validateRegisterWithEmail){
+  
+        if($validateRegisterWithEmail){
           event(new UserHasRegistered($user));
+        }
+  
+        \DB::commit(); //Commit to Data Base
+      }else{
+        abort(401);
       }
-
-      \DB::commit(); //Commit to Data Base
+     
 
     } catch (\Throwable $t) {
 

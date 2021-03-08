@@ -13,6 +13,7 @@ class UserMenu extends Component
   public $params;
   public $showLabel;
   public $moduleLinks;
+  public $moduleLinksWithoutSession;
   public $id;
   public $openLoginInModal;
   public $openRegisterInModal;
@@ -33,6 +34,7 @@ class UserMenu extends Component
     $modules = app('modules')->allEnabled();
 
     $this->moduleLinks = [];
+    $this->moduleLinksWithoutSession = [];
     $locale = LaravelLocalization::setLocale() ?: \App::getLocale();
     foreach ($modules as $name => $module) {
       $moduleLinksCfg = config('asgard.' . strtolower($name) . '.config.userMenuLinks');
@@ -43,12 +45,21 @@ class UserMenu extends Component
             ||
             ($onlyShowInTheMenuOfTheIndexProfilePage && !isset($moduleLink["onlyShowInTheDropdownHeader"]))
           ) {
-            $routeWithLocale = $locale . '.' . $moduleLink['routeName'];
-            if (Route::has($routeWithLocale))
-              $moduleLink['routeName'] = $routeWithLocale;
-            else if (!Route::has($moduleLink['routeName']))
-              $moduleLink['routeName'] = 'homepage';
-            $this->moduleLinks[] = $moduleLink;
+            if(!isset($moduleLink['url'])){
+              $routeWithLocale = $locale . '.' . $moduleLink['routeName'];
+              if (Route::has($routeWithLocale))
+                $moduleLink['url'] = \URL::route($routeWithLocale);
+              else if($moduleLink['routeName'])
+                $moduleLink['url'] = \URL::route($moduleLink['routeName']);
+                else if (!Route::has($moduleLink['routeName']))
+                $moduleLink['url'] = \URL::to('/');
+     
+            }
+            
+            if(isset($moduleLink["showInMenuWithoutSession"]) && $moduleLink["showInMenuWithoutSession"])
+              $this->moduleLinksWithoutSession[] = $moduleLink;
+            else
+              $this->moduleLinks[] = $moduleLink;
 
           }
 

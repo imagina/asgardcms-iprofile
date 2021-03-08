@@ -46,7 +46,7 @@
                     <i class="fa fa-user mr-2"></i> {{trans('iprofile::frontend.title.profile')}}
                 </a>
                 @foreach($moduleLinks as $link)
-                    <a class="dropdown-item"  href="{{ route($link['routeName']) }}">
+                    <a class="dropdown-item"  href="{{ $link['url'] }}">
                         @if($link['icon'])<i class="{{ $link['icon'] }}"></i>@endif {{ trans($link['title']) }}
                     </a>
                 @endforeach
@@ -72,17 +72,11 @@
             </button>
 
             <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">
-                <a class="dropdown-item"
-                        {{$openLoginInModal ? "data-toggle=modal data-target=#userLoginModal href=".route('account.login.get')."" : ''}}
-                >
-                    <i class="fa fa-user mr-2"></i>{{trans('iprofile::frontend.button.sign_in')}}
-                </a>
-                <a class="dropdown-item" href="{{route('account.register')}}"
-                        {{$openRegisterInModal ? "data-toggle=modal data-target=#userRegisterModal  href=".route('account.register')."" : ''}}
-
-                >
-                    <i class="fa fa-sign-out mr-2"></i>{{trans('iprofile::frontend.button.register')}}
-                </a>
+                @foreach($moduleLinksWithoutSession as $link)
+                    <a class="dropdown-item"  href="{{$link['url']}}" {{isset($link["dispatchModal"]) ? "data-toggle=modal data-target=".$link['dispatchModal'] : ''}}>
+                        @if($link['icon'])<i class="{{ $link['icon'] }}"></i>@endif {{ trans($link['title']) }}
+                    </a>
+                @endforeach
             </div>
         </div>
     @endif

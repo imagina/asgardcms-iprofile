@@ -52,6 +52,8 @@ return [
         'other_revenue' => '',
         'concept_other_revenue' => '',
     ],
+  
+  
   'iprofile' => [
     /*
     |--------------------------------------------------------------------------
@@ -70,11 +72,7 @@ return [
         'edit' => [],
       ],
     ],
-    /*
-    |--------------------------------------------------------------------------
-    | Array of directories to ignore when selecting the template for a page
-    |--------------------------------------------------------------------------
-    */
+
     /*
     |--------------------------------------------------------------------------
     | Dynamic relations
@@ -86,5 +84,35 @@ return [
       //            return $self->belongsTo(PostExtension::class, 'id', 'post_id')->first();
       //        }
     ],
-  ]
+  ],
+  
+  
+  /*
+   |--------------------------------------------------------------------------
+   | Define the options to the user menu component
+   |
+   | @note routeName param must be set without locale. Ex: (icommerce orders: 'icommerce.store.order.index')
+   | use **onlyShowInTheDropdownHeader** (boolean) if you want the link only appear in the dropdown in the header
+   | use **onlyShowInTheMenuOfTheIndexProfilePage** (boolean) if you want the link only appear in the dropdown in the header
+   | use **showInMenuWithoutSession** (boolean) if you want the link only appear in the dropdown when don't exist session
+   | use **dispatchModal** (string - modalAlias) if you want the link only appear in the dropdown when don't exist session
+   | use **url** (string) if you want customize the link
+   |--------------------------------------------------------------------------
+   */
+  "userMenuLinks" => [
+    [
+      "title" => "iprofile::frontend.button.sign_in",
+      "routeName" => "account.login.get",
+      "icon" => "fa fa-user mr-2",
+      "showInMenuWithoutSession" => true,
+      'dispatchModal' => "#userLoginModal"
+    ],
+    [
+      "title" => "iprofile::frontend.button.register",
+      "routeName" => "account.register",
+      "icon" => "fa fa-sign-out mr-2",
+      "showInMenuWithoutSession" => true,
+      //'dispatchModal' => "#userRegisterModal"
+    ]
+  ],
 ];

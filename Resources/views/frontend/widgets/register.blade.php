@@ -70,9 +70,7 @@
                     </div>
 
                     @php
-
-                            $registerExtraFields = json_decode(setting('iprofile::registerExtraFields', null, "[]"));
-
+                        $registerExtraFields = json_decode(setting('iprofile::registerExtraFields', null, "[]"));
                     @endphp
                     @foreach($registerExtraFields as $extraField)
 
@@ -89,7 +87,7 @@
                                 @if( !in_array($extraField->type, ["select","textarea"]) )
 
                                     {{-- Text input --}}
-                                    @if(in_array($extraField->type ,["text","number","checkbox","password"]))
+                                    @if(in_array($extraField->type ,["text","number","checkbox","password","date"]))
                                       <input  type="{{$extraField->type}}" name="fields[{{$extraField->field}}]" required="{{$extraField->required}}" class ="form-control" id = 'extraField{{$extraField->field}}'/>
                                     @endif
 
@@ -97,7 +95,7 @@
 
                                     {{-- Custom documentType input --}}
                                     @if($extraField->type == "documentType")
-
+                                     
                                             {{-- foreach options --}}
                                             @if(isset($extraField->availableOptions) && is_array($extraField->availableOptions) && count($extraField->availableOptions))
                                                 @if(isset($extraField->availableOptions) && isset($extraField->options))
@@ -112,12 +110,17 @@
                                                     @endforeach
                                                 @endif
                                             @else
-                                                @php($optionValues = $extraField->options)
-                                            @endif
+                                            @php($optionValues = [])
+                                            @foreach ($extraField->options as $option)
+                                                    @php($optionValues = array_merge($optionValues, [ $option->value => $option->label]))
+                                            @endforeach
 
+                                            @endif
+                            
                                             @if(isset($optionValues))
                                                 {{-- Select --}}
-                                                {{Form::select("fields[$extraField->field]", $optionValues, null, ['id'=>'extraField'.$extraField->field, 'required'=>$extraField->required,'class'=>"form-control",'placeholder' => '']) }}
+
+                                            {{Form::select("fields[$extraField->field]", $optionValues, null, ['id'=>'extraField'.$extraField->field, 'required'=>$extraField->required,'class'=>"form-control",'placeholder' => '']) }}
                                             @endif
                                             </div>
 
