@@ -31,7 +31,7 @@
 
             <hr class="border-top-dotted">
 
-            {!! Form::open(['route' => 'account.register.post', 'class' => 'form-content','autocomplete' => 'off']) !!}
+            {!! Form::open(['route' => 'account.register.post', 'class' => 'form-content','autocomplete' => 'off', 'id' => 'registerForm']) !!}
 
             @if(isset($embedded))
                 <input name="embedded" type="hidden" value="{{isset($route) && $route ? $route : ''}}">
@@ -95,7 +95,7 @@
 
                                     {{-- Custom documentType input --}}
                                     @if($extraField->type == "documentType")
-                                     
+
                                             {{-- foreach options --}}
                                             @if(isset($extraField->availableOptions) && is_array($extraField->availableOptions) && count($extraField->availableOptions))
                                                 @if(isset($extraField->availableOptions) && isset($extraField->options))
@@ -116,7 +116,7 @@
                                             @endforeach
 
                                             @endif
-                            
+
                                             @if(isset($optionValues))
                                                 {{-- Select --}}
 
@@ -193,22 +193,30 @@
                                 {{trans('iprofile::frontend.title.stay connect')}}
                             </label>
                         </div>
-
-
                     </div>
+                    <x-isite::captcha formId="loginForm" :params="['data-callback' => 'enableRegisterButton', 'data-expired-callback' => 'disableRegisterButton', 'data-error-callback' => 'disableRegisterButton']" />
                     <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} pt-4 pt-lg-0">
                         <input class="btn btn-primary text-white text-uppercase font-weight-bold rounded-pill px-3 py-2"
-                               type="submit" value="{{ trans('core::core.button.create') }}">
+                               type="submit" value="{{ trans('core::core.button.create') }}" {{ setting('isite::activateCaptcha') ? 'disabled' : '' }}>
                     </div>
                 </div>
 
             </div>
-
             {!! Form::close() !!}
-
-
         </div>
-
     </div>
 </div>
-
+@once
+    @section('scripts-owl')
+        @parent
+        <script type="text/javascript">
+          function enableRegisterButton(response){
+            if(response)
+              $("#registerForm input[type=submit]").removeAttr('disabled');
+          }
+          function disableRegisterButton(){
+            $("#registerForm input[type=submit]").attr('disabled','disabled');
+          }
+        </script>
+    @stop
+@endonce
