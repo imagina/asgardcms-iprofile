@@ -57,6 +57,7 @@ class IprofileServiceProvider extends ServiceProvider
         $this->publishConfig('iprofile', 'crud-fields');
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
         $this->registerComponents();
+        $this->registerComponentsLivewire();
     }
 
     /**
@@ -157,4 +158,13 @@ class IprofileServiceProvider extends ServiceProvider
     {
       Blade::componentNamespace("Modules\Iprofile\View\Components", 'iprofile');
     }
+  
+  /**
+   * Register components Livewire
+   */
+  private function registerComponentsLivewire()
+  {
+    Livewire::component('iprofile::address-form', \Modules\Iprofile\Http\Livewire\AddressForm::class);
+  }
+  
 }

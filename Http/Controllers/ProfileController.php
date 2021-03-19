@@ -137,7 +137,6 @@ class ProfileController extends AdminBaseController
       Log::error($t);
       
       echo $t->getMessage();
-      exit();
       
       return redirect()->route('account.register')
         ->withError($response['message']);
