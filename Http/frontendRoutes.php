@@ -38,6 +38,7 @@ $router->group(['prefix' => '/account'], function (Router $router) {
         'uses' => 'ProfileController@store',
         'middleware' => 'can:iprofile.profiles.create'
     ]);
+    
     $router->put('profile/{user_id}', [
         'as' => 'iprofile.profile.update',
         'uses' => 'ProfileController@update',
