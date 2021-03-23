@@ -26,7 +26,7 @@
                                 <form class="needs-validation" novalidate wire:submit.prevent="save">
 
                                     @if(!empty($type))
-                                        <input wire:model="address.type" type="hidden" value="{{$type}}">
+                                        <input wire:model.defer="address.type" type="hidden" value="{{$type}}">
                                     @endif
 
                                     <div class="form-group row pt-2">
@@ -34,7 +34,7 @@
                                             <label for="payment_firstname">{{ trans('iprofile::addresses.form.firstName') }} </label>
                                             <input class="form-control" type="text"
                                                    id="paymentFirstname"
-                                                   wire:model="address.first_name">
+                                                   wire:model.defer="address.first_name">
                                             {!! $errors->first("address.first_name", '<span class="help-block">:message</span>') !!}
 
                                         </div>
@@ -42,7 +42,7 @@
                                             <label for="payment_lastname">{{ trans('iprofile::addresses.form.lastName') }}</label>
                                             <input class="form-control" type="text"
                                                    id="paymentLastname"
-                                                   wire:model="address.last_name">
+                                                   wire:model.defer="address.last_name">
                                             {!! $errors->first("address.last_name", '<span class="help-block">:message</span>') !!}
                                         </div>
 
@@ -52,7 +52,7 @@
                                         <label for="payment_address_1">{{ trans('iprofile::addresses.form.address1') }}</label>
                                         <input class="form-control" type="text"
                                                id="paymentAddress1"
-                                               wire:model="address.address_1">
+                                               wire:model.defer="address.address_1">
                                         {!! $errors->first("address.address_1", '<span class="help-block">:message</span>') !!}
                                     </div>
                                     <div class="form-group">
@@ -60,7 +60,7 @@
                                         <input type="number"
                                                class="form-control"
                                                id="paymentTelephone"
-                                               wire:model="address.telephone">
+                                               wire:model.defer="address.telephone">
                                         {!! $errors->first("address.telephone", '<span class="help-block">:message</span>') !!}
                                     </div>
 
@@ -83,7 +83,7 @@
                                         <label for="payment_zone">{{ trans('iprofile::addresses.form.state') }}</label>
                                         <select id="paymentState"
                                                 class="form-control"
-                                                wire:model="address.state">
+                                                wire:model.defer="address.state">
                                             <option value="">{{ trans('iprofile::addresses.form.select_province') }}</option>
                                             @foreach($provinces as $province)
                                                 <option value="{{$province->iso_2}}">{{ $province->name }}</option>
@@ -97,7 +97,7 @@
                                         <input id="paymentCity"
                                                type="text"
                                                class="form-control"
-                                               wire:model="address.city">
+                                               wire:model.defer="address.city">
                                         {!! $errors->first("address.city", '<span class="help-block">:message</span>') !!}
                                     </div>
 
@@ -134,7 +134,7 @@
 
                                                         {{-- Select Document Type --}}
                                                         <select id="{{$extraField->field}}"
-                                                                wire:model="address.options.{{$extraField->field}}"
+                                                                wire:model.defer="address.options.{{$extraField->field}}"
                                                                 class="form-control">
                                                             <option value="">{{ trans('iprofile::addresses.form.select_option') }}</option>
                                                             {{-- select options --}}
@@ -154,13 +154,13 @@
                                                 <input id="documentNumber"
                                                        type="number"
                                                        class="form-control"
-                                                       wire:model="address.options.documentNumber"/>
+                                                       wire:model.defer="address.options.documentNumber"/>
                                                 {!! $errors->first("address.options.documentNumber", '<span class="help-block">:message</span>') !!}
                                                 @else
                                                     <input id="{{$extraField->field}}"
                                                            type="{{$extraField->type}}"
                                                            class="form-control"
-                                                           wire:model="address.options.{{$extraField->field}}"/>
+                                                           wire:model.defer="address.options.{{$extraField->field}}"/>
                                                     {!! $errors->first("address.options.$extraField->field", '<span class="help-block">:message</span>') !!}
                                                 @endif
                                                 @else
@@ -183,7 +183,7 @@
 
                                                         {{-- Select --}}
                                                         <select id="{{$extraField->field}}"
-                                                                wire:model="address.options.{{$extraField->field}}"
+                                                                wire:model.defer="address.options.{{$extraField->field}}"
                                                                 class="form-control">
                                                             <option value="">{{ trans('iprofile::addresses.form.select_option') }}</option>
                                                             {{-- validate availableOptions and options --}}
@@ -198,7 +198,7 @@
                                                         @if($extraField->type == "textarea")
                                                             {{-- Textarea --}}
                                                             <textarea id="{{$extraField->field}}"
-                                                                      wire:model="address.options.{{$extraField->field}}"
+                                                                      wire:model.defer="address.options.{{$extraField->field}}"
                                                                       class="form-control" cols="30"
                                                                       rows="3"></textarea>
                                                             {!! $errors->first("address.options.$extraField->field", '<span class="help-block">:message</span>') !!}
@@ -213,7 +213,7 @@
 
                                         <label class="form-check-label">
                                             <input type="checkbox"
-                                                   wire:model="address.default">
+                                                   wire:model.defer="address.default">
                                             @switch($type)
                                                 @case('billing')
                                                 {{ trans('iprofile::frontend.form.defaultBilling') }}
