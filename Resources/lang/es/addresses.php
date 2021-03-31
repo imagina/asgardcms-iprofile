@@ -7,8 +7,9 @@ return [
     'destroy resource' => 'Destroy addresses',
     'title' => [
         'addresses' => 'Address',
-        'create address' => 'Create a address',
+        'create address' => 'Crear nueva dirección',
         'edit address' => 'Edit a address',
+        'myAddresses' => 'Mis Direcciones',
     ],
     'button' => [
         'create address' => 'Create a address',
@@ -17,11 +18,19 @@ return [
     ],
     'form' => [
       "name" => "Nombre",
+      "firstName" => "Nombre",
+      "lastName" => "Apellido",
+      "address1" => "Dirección 1",
+      "address2" => "Dirección 2",
+      "telephone" => "Número de Teléfono",
       "address" => "Dirección",
       "phone" => "Teléfono",
       "city" => "Ciudad",
       "state" => "Provincia",
       "country" => "País",
+      "select_country" => "Seleccione un País",
+      "select_province" => "Seleccione una Provincia",
+      "select_option" => "Seleccione una Opción",
       "default" => "Dirección por defecto",
       "billing" => "Facturación",
       "shipping" => "Envío",
@@ -35,6 +44,7 @@ return [
       'extraInfo' => 'Información Extra',
     ],
     'messages' => [
+      "created" => "Dirección creada exitosamente"
     ],
     'validation' => [
     ],

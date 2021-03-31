@@ -27,7 +27,7 @@ class UserTransformer extends JsonResource
       'id' => $this->when($this->id, $this->id),
       'firstName' => $this->when($this->first_name, $this->first_name),
       'lastName' => $this->when($this->last_name, $this->last_name),
-      'fullName' => $this->when(($this->first_name && $this->last_name), trim($this->present()->fullname)),
+      'fullName' => trim($this->present()->fullname),
       'isActivated' => $this->isActivated() ? "1" : "0",
       'email' => $this->when($this->email, $this->email),
       'permissions' => $this->permissions ?? [],
