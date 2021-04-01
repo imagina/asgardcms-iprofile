@@ -26,7 +26,7 @@
 
       <div class="form-body">
         @include('isite::frontend.partials.notifications')
-        {!! Form::open(['route' => 'account.login.post', 'class' => 'form-content']) !!}
+        {!! Form::open(['route' => 'account.login.post', 'class' => 'form-content', 'id' => 'loginForm']) !!}
 
         @if(isset($embedded))
           <input name="embedded" type="hidden" value="{{isset($route) && $route ? $route : ''}}">
@@ -48,10 +48,15 @@
             </div>
           </div>
         </div>
-
+        <x-isite::captcha formId="loginForm" :params="['data-callback' => 'enableLoginButton', 'data-expired-callback' => 'disableLoginButton', 'data-error-callback' => 'disableLoginButton']" />
         <div class=" form-button text-center  border-bottom  border-bottom-dotted py-4 mb-4">
-          {{ Form::submit(trans('user::auth.login'),['class'=>'btn btn-primary text-uppercase text-white font-weight-bold rounded-pill px-3 py-2 mr-2']) }}
-          {{ link_to(route('account.reset'),trans('user::auth.forgot password'),[]) }}
+          @php
+            $disabled = setting('isite::activateCaptcha') ? ['disabled' => 'disabled'] : [];
+            $buttonAttrs = ['class'=>'btn btn-primary text-uppercase text-white font-weight-bold rounded-pill px-3 py-2 mr-2'];
+            $buttonAttrs = array_merge($buttonAttrs, $disabled);
+          @endphp
+          {{ Form::submit(trans('user::auth.login'),$buttonAttrs) }}
+          {{ link_to(route('account.reset'),trans('user::auth.forgot password')) }}
         </div>
 
         @if(!isset($register) || (isset($register) && $register))
@@ -64,3 +69,18 @@
     </div>
   </div>
 </div>
+@once
+  @section('scripts-owl')
+    @parent
+    <script type="text/javascript">
+      function enableLoginButton(response){
+        console.warn(response);
+        if(response)
+          $("#loginForm input[type=submit]").removeAttr('disabled');
+      }
+      function disableLoginButton(){
+        $("#loginForm input[type=submit]").attr('disabled','disabled');
+      }
+    </script>
+  @stop
+@endonce
