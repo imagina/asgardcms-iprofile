@@ -2,7 +2,8 @@
 
 return [
   'profile.api' => [
-    'login' => 'profile::profiles.api.login',
+    'login-iadmin' => 'profile::profiles.api.login.iadmin',
+    'login-ipanel' => 'profile::profiles.api.login.iadmin',
   ],
 
   'profile.user' => [
