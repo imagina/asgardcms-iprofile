@@ -122,7 +122,7 @@ class AuthProfileController extends AuthController
       if (isset($data["embedded"]) && $data["embedded"]) {
               return redirect()->route($data['embedded'])
                   ->withSuccess(trans('user::messages.successfully logged in'));
-      }else if(!empty(session('url.intended'))){
+      }else if(!empty(request()->session()->get('url.intended'))){
           $url = request()->session()->get('url.intended');
           request()->session()->put('url.intended', null);
           return redirect()->to($url)
