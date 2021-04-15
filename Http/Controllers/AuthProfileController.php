@@ -80,8 +80,6 @@ class AuthProfileController extends AuthController
     $tpl = 'iprofile::frontend.login';
     $ttpl = 'iprofile.login';
 
-    \Log::info(url()->previous());
-
     request()->session()->put('url.intended',url()->previous());
 
     if (view()->exists($ttpl)) $tpl = $ttpl;
@@ -115,8 +113,6 @@ class AuthProfileController extends AuthController
 
       $user = $this->auth->user();
       event(new UserLoggedIn($user));
-
-      \Log::info(request()->session()->get('url.intended'));
 
 
       if (isset($data["embedded"]) && $data["embedded"]) {
