@@ -240,6 +240,8 @@ class AuthApiController extends BaseApiController
     try {
       $token = $this->validateResponseApi($this->getRequestToken($request));//Get Token
       DB::table('oauth_access_tokens')->where('id', $token->id)->delete();//Delete Token
+      $this->auth->logout();
+      
     } catch (Exception $e) {
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];

@@ -103,6 +103,7 @@ return [
     [
       "title" => "iprofile::frontend.button.sign_in",
       "routeName" => "account.login.get",
+      "quasarUrl" => '/ipanel/#/auth/login/',
       "icon" => "fa fa-user mr-2",
       "showInMenuWithoutSession" => true,
       'dispatchModal' => "#userLoginModal"
@@ -110,9 +111,18 @@ return [
     [
       "title" => "iprofile::frontend.button.register",
       "routeName" => "account.register",
+      "quasarUrl" => '/ipanel/#/auth/register/',
       "icon" => "fa fa-sign-out mr-2",
       "showInMenuWithoutSession" => true,
       //'dispatchModal' => "#userRegisterModal"
     ]
   ],
+  
+  /*
+   |--------------------------------------------------------------------------
+   | Use Blade Panel or Quasar Ipanel
+   |--------------------------------------------------------------------------
+   | options: blade | quasar
+   */
+  'panel' => 'blade',
 ];

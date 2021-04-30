@@ -42,7 +42,7 @@
                     </span>
                 </div>
 
-                <a class="dropdown-item"  href="{{\URL::route(\LaravelLocalization::getCurrentLocale() . '.iprofile.account.index')}}">
+                <a class="dropdown-item"  href="{{$profileRoute}}">
                     <i class="fa fa-user mr-2"></i> {{trans('iprofile::frontend.title.profile')}}
                 </a>
                 @foreach($moduleLinks as $link)
