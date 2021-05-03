@@ -229,8 +229,7 @@
                                     <div class="form-group text-center">
 
                                         <button type="submit" class="btn btn-primary"
-                                                name="button">Agregar
-                                            dirección
+                                                name="button"> {{ trans('iprofile::addresses.button.add_address') }}
                                         </button>
                                     </div>
 
