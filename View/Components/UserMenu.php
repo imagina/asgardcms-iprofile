@@ -15,6 +15,8 @@ class UserMenu extends Component
   public $moduleLinks;
   public $moduleLinksWithoutSession;
   public $id;
+  public $panel;
+  public $profileRoute;
   public $openLoginInModal;
   public $openRegisterInModal;
   protected $authApiController;
@@ -36,8 +38,17 @@ class UserMenu extends Component
     $this->moduleLinks = [];
     $this->moduleLinksWithoutSession = [];
     $locale = LaravelLocalization::setLocale() ?: \App::getLocale();
+    $this->panel = config("asgard.iprofile.config.panel");
+    
+    if($this->panel == "quasar"){
+      $this->profileRoute = "/ipanel/#/me/profile/";
+    }else{
+      $this->profileRoute = \URL::route($locale . '.iprofile.account.index');
+    }
+    
     foreach ($modules as $name => $module) {
       $moduleLinksCfg = config('asgard.' . strtolower($name) . '.config.userMenuLinks');
+      \Log::info($moduleLinksCfg);
       if (!empty($moduleLinksCfg)) {
         foreach ($moduleLinksCfg as &$moduleLink) {
           if (
@@ -45,6 +56,11 @@ class UserMenu extends Component
             ||
             ($onlyShowInTheMenuOfTheIndexProfilePage && !isset($moduleLink["onlyShowInTheDropdownHeader"]))
           ) {
+            
+            
+            if($this->panel == "quasar" && isset($moduleLink['quasarUrl'])){
+              $moduleLink['url'] = $moduleLink['quasarUrl']."?redirectTo=".url()->current();
+            }else
             if(!isset($moduleLink['url'])){
               $routeWithLocale = $locale . '.' . $moduleLink['routeName'];
               if (Route::has($routeWithLocale))

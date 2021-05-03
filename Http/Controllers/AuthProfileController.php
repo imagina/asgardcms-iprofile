@@ -23,6 +23,8 @@ use Modules\User\Repositories\RoleRepository;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Entities\Sentinel\User;
 use Modules\Setting\Contracts\Setting;
+use Lcobucci\JWT\Parser;
+use Validator;
 
 use Socialite;
 use Laravel\Socialite\Contracts\User as ProviderUser;
@@ -81,6 +83,14 @@ class AuthProfileController extends AuthController
     $ttpl = 'iprofile.login';
 
     request()->session()->put('url.intended',url()->previous());
+  
+    $panel = config("asgard.iprofile.config.panel");
+
+    if(!empty($panel) && $panel == "quasar"){
+    
+        return redirect("/ipanel/#/auth/login"."?redirectTo=".url()->previous());
+      
+    }
 
     if (view()->exists($ttpl)) $tpl = $ttpl;
     return view($tpl);
@@ -142,7 +152,8 @@ class AuthProfileController extends AuthController
    */
   public function getLogout()
   {
-    parent::getLogout();
+    \DB::table('oauth_access_tokens')->where('user_id', \Auth::id() ?? null)->delete();//Delete Token
+    $this->auth->logout();
     return \Redirect::to('/');
   }
 
@@ -566,6 +577,7 @@ class AuthProfileController extends AuthController
     }
 
   }
+  
 
 
 }

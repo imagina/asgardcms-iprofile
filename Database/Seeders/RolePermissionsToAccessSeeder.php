@@ -22,11 +22,11 @@ class RolePermissionsToAccessSeeder extends Seeder
     //Roles to set access
     $rolesToSetAccess = [
       'iadmin' => [
-        'slugs' => ['admin', 'super-admin'],
+        'slugs' => ['admin', 'super-admin', 'superadmin'],
         'permissions' => ['profile.api.login-iadmin']
       ],
       'ipanel' => [
-        'slugs' => ['user', 'admin', 'super-admin'],
+        'slugs' => ['user', 'admin', 'super-admin', 'superadmin'],
         'permissions' => ['profile.api.login-ipanel']
       ],
     ];
