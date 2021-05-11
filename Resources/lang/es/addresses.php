@@ -6,13 +6,14 @@ return [
     'edit resource' => 'Edit addresses',
     'destroy resource' => 'Destroy addresses',
     'title' => [
-        'addresses' => 'Address',
+        'addresses' => 'Direcciones',
         'create address' => 'Crear nueva dirección',
-        'edit address' => 'Edit a address',
+        'edit address' => 'Editar una dirección',
         'myAddresses' => 'Mis Direcciones',
     ],
     'button' => [
-        'create address' => 'Create a address',
+        'create address' => 'Crear una dirección',
+        'add_address' => 'Agregar dirección',
     ],
     'table' => [
     ],

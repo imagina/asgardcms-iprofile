@@ -50,7 +50,6 @@ return [
     'address'           => 'Dirección',
     'birthday'          => 'Fecha de Nacimiento',
     'identification'    => 'Cedula',
-    'business'          => 'Empresa',
     'nit'               => 'N.I.T',
     'user id'           => 'Número de identificación',
     'identification type' => 'Tipo de identificación',
@@ -79,13 +78,14 @@ return [
     'rol' => 'Rol',
     'login to account' => 'Ingresar',
     'register to account' => 'Registrate',
+     'reason'            => 'La razón para mi registro ...',
     'documentType' => 'Tipo de Documento',
     'documentNumber' => 'Número de Documento',
     'extraInfo' => 'Información Extra',
   ],
 
   'button' => [
-    'create profile'    => 'Create a profile',
+    'create profile'    => 'Crear un perfil',
     'update profile'    => 'Actualizar Perfil',
     'my_wishlist'       => 'Mi lista de deseos',
     'my_account'        => 'Mi Cuenta',
@@ -94,6 +94,7 @@ return [
     'sign_out'          => 'Cerrar sesión',
     'sign_in'           => 'Ingresar',
     'register'          => 'Registrarse',
+    'privacy_policy_url' => '/politica-de-privacidad',
   ],
 
   'messages' => [

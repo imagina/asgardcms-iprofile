@@ -181,7 +181,7 @@
                                 <input type="radio" class="custom-control-input"
                                        id="customradio-select1" name="confirmPolytics" value="1" required>
                                 <label class="custom-control-label" for="customradio-select1">
-                                    {!!  trans('icommerce::customer.form.confirmPolytics',["url" => url("/politica-de-privacidad")])  !!}
+                                    {!!  trans('icommerce::customer.form.confirmPolytics',["url" => url(trans("iprofile::frontend.button.privacy_policy_url"))])  !!}
                                 </label>
                             </div>
                         @endif

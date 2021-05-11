@@ -4,10 +4,10 @@ return [
   'profile.api' => [
     'login' => 'profile::profiles.api.login',
   ],
-  
-  'profile.admin' => [
-    'login-iadmin' => 'profile::profiles.api.login.iadmin',
-    'login-ipanel' => 'profile::profiles.api.login.iadmin',
+
+  'profile.access' => [
+    'iadmin' => 'profile::profiles.api.login.iadmin',
+    'ipanel' => 'profile::profiles.api.login.iadmin',
   ],
 
   'profile.user' => [
