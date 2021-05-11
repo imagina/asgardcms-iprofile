@@ -43,12 +43,13 @@
               @endforeach
             @endif
           @else
-            @php($optionValues = $extraField->options)
+            @php($optionValues = [])
+            @foreach ($extraField->options as $option)
+                @php($optionValues = array_merge($optionValues, [ $option->value => $option->label]))
+            @endforeach
           @endif
-          
           @if(isset($optionValues))
             {{-- Select --}}
-       
             {{Form::select("fields[$extraField->field]", $optionValues, $oldValue, ['id'=>'extraField'.$extraField->field, 'required'=>$extraField->required,'class'=>"form-control",'placeholder' => ''] ) }}
           @endif
     </div>
@@ -79,9 +80,11 @@
               @endforeach
             @endif
           @else
-            @php($optionValues = $extraField->options)
+            @php($optionValues = [])
+            @foreach ($extraField->options as $option)
+              @php($optionValues = array_merge($optionValues, [ $option->value => $option->label]))
+            @endforeach
           @endif
-          
           @if(isset($optionValues))
             {{-- Select --}}
             {{Form::select("fields[$extraField->field]", $optionValues, $oldValue, ['id'=>'extraField'.$extraField->field, 'required'=>$extraField->required,'class'=>"form-control",'placeholder' => '']) }}
