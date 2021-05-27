@@ -48,7 +48,7 @@ class UserMenu extends Component
     
     foreach ($modules as $name => $module) {
       $moduleLinksCfg = config('asgard.' . strtolower($name) . '.config.userMenuLinks');
-      \Log::info($moduleLinksCfg);
+
       if (!empty($moduleLinksCfg)) {
         foreach ($moduleLinksCfg as &$moduleLink) {
           if (
