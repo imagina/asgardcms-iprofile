@@ -48,12 +48,12 @@
             </div>
           </div>
         </div>
-        <x-isite::captcha formId="loginForm" :params="['data-callback' => 'enableLoginButton', 'data-expired-callback' => 'disableLoginButton', 'data-error-callback' => 'disableLoginButton']" />
+        <x-isite::captcha formId="loginForm" />
         <div class=" form-button text-center  border-bottom  border-bottom-dotted py-4 mb-4">
           @php
-            $disabled = setting('isite::activateCaptcha') ? ['disabled' => 'disabled'] : [];
+            //$disabled = setting('isite::activateCaptcha') ? ['disabled' => 'disabled'] : [];
             $buttonAttrs = ['class'=>'btn btn-primary text-uppercase text-white font-weight-bold rounded-pill px-3 py-2 mr-2'];
-            $buttonAttrs = array_merge($buttonAttrs, $disabled);
+            //$buttonAttrs = array_merge($buttonAttrs, $disabled);
           @endphp
           {{ Form::submit(trans('user::auth.login'),$buttonAttrs) }}
           {{ link_to(route('account.reset'),trans('user::auth.forgot password')) }}
@@ -69,18 +69,3 @@
     </div>
   </div>
 </div>
-@once
-  @section('scripts-owl')
-    @parent
-    <script type="text/javascript">
-      function enableLoginButton(response){
-        console.warn(response);
-        if(response)
-          $("#loginForm input[type=submit]").removeAttr('disabled');
-      }
-      function disableLoginButton(){
-        $("#loginForm input[type=submit]").attr('disabled','disabled');
-      }
-    </script>
-  @stop
-@endonce

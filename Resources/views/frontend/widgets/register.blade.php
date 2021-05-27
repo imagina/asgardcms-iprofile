@@ -194,7 +194,7 @@
                             </label>
                         </div>
                     </div>
-                    <x-isite::captcha formId="loginForm" :params="['data-callback' => 'enableRegisterButton', 'data-expired-callback' => 'disableRegisterButton', 'data-error-callback' => 'disableRegisterButton']" />
+                    <x-isite::captcha formId="registerForm" />
                     <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} pt-4 pt-lg-0">
                         <input class="btn btn-primary text-white text-uppercase font-weight-bold rounded-pill px-3 py-2"
                                type="submit" value="{{ trans('core::core.button.create') }}" {{ setting('isite::activateCaptcha') ? 'disabled' : '' }}>
@@ -206,17 +206,3 @@
         </div>
     </div>
 </div>
-@once
-    @section('scripts-owl')
-        @parent
-        <script type="text/javascript">
-          function enableRegisterButton(response){
-            if(response)
-              $("#registerForm input[type=submit]").removeAttr('disabled');
-          }
-          function disableRegisterButton(){
-            $("#registerForm input[type=submit]").attr('disabled','disabled');
-          }
-        </script>
-    @stop
-@endonce
