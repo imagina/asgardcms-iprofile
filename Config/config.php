@@ -1,7 +1,7 @@
 <?php
 return [
   'name' => 'Iprofile',
-  'fields' =>[
+  'fields' => [
     "cellularPhone",
     "confirmPolytics",
     "birthday",
@@ -16,10 +16,10 @@ return [
     "user_type_id",
   ],
   //add: custom user includes (if they are empty iprofile module will be using default includes) (slim)
-  'customUserIncludes'=>[],
+  'customUserIncludes' => [],
   //end custom includes and transformers
   
-  'registerExtraFields' =>[
+  'registerExtraFields' => [
     "cellularPhone",
     "birthday",
     "identification",
@@ -28,7 +28,7 @@ return [
     "mainImage"
   ],
   
-  'addressesExtraFields' =>[
+  'addressesExtraFields' => [
     "company",
     "zipCode",
     "documentType",
@@ -42,16 +42,16 @@ return [
   'imagesize' => ['width' => 800, 'height' => 800],
   'mediumthumbsize' => ['width' => 400, 'height' => 400],
   'smallthumbsize' => ['width' => 100, 'height' => 100],
-
-    'file_remove' => [
-        'rut' => ' ',
-        'camaracomercio' => ' ',
-        'revenue' => '',
-        'patrimony' => '',
-        'expenses' => '',
-        'other_revenue' => '',
-        'concept_other_revenue' => '',
-    ],
+  
+  'file_remove' => [
+    'rut' => ' ',
+    'camaracomercio' => ' ',
+    'revenue' => '',
+    'patrimony' => '',
+    'expenses' => '',
+    'other_revenue' => '',
+    'concept_other_revenue' => '',
+  ],
   
   
   'iprofile' => [
@@ -72,7 +72,7 @@ return [
         'edit' => [],
       ],
     ],
-
+    
     /*
     |--------------------------------------------------------------------------
     | Dynamic relations
@@ -112,7 +112,7 @@ return [
       "title" => "iprofile::frontend.button.register",
       "routeName" => "account.register",
       "quasarUrl" => '/ipanel/#/auth/register/',
-      "icon" => "fa fa-sign-out mr-2",
+      "icon" => "fas fa-sign-out-alt mr-2",
       "showInMenuWithoutSession" => true,
       //'dispatchModal' => "#userRegisterModal"
     ]
@@ -125,4 +125,19 @@ return [
    | options: blade | quasar
    */
   'panel' => 'blade',
+  
+  /*
+|--------------------------------------------------------------------------
+| Define all the exportable available
+|--------------------------------------------------------------------------
+*/
+  'exportable' => [
+    "user" => [
+      'moduleName' => "Iprofile",
+      'fileName' => "Users",
+      'fields' => ['id', 'first_name', 'last_name', 'email', 'last_login', 'created_at', 'updated_at'],
+      'headings' => ['id', 'Nombre', 'Apellido', 'Email', 'Fecha Ultima Sesión', 'Fecha de Creación', 'Fecha Ultima Actualización'],
+      'repositoryName' => "UserApiRepository"
+    ]
+  ]
 ];
