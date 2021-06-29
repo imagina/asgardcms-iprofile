@@ -18,6 +18,7 @@
                                 <em>{{trans('core::core.general.complete your profile')}}.</em>
                             <?php endif; ?>
                     </span>
+                    <i class="d-inline-block d-sm-none fa fa-user" aria-hidden="true"></i>
                 @else
                     <i class="fa fa-user" aria-hidden="true"></i>
                 @endif
@@ -52,7 +53,7 @@
                 @endforeach
                 <a class="dropdown-item" href="{{url('/account/logout')}}" data-placement="bottom"
                    title="Sign Out">
-                    <i class="fa fa-sign-out mr-1"></i>
+                    <i class="fas fa-sign-out-alt mr-1"></i>
                     <span>{{trans('iprofile::frontend.button.sign_out')}}</span>
                 </a>
             </div>
