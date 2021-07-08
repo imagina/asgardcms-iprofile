@@ -50,13 +50,24 @@ return [
       'label' => 'iprofile::settings.registerUsersWithSocialNetworks'
     ],
   ],
-  //Enable register with social media
+  //Enable register with oliticsOfPrivacy
   'registerUserWithPoliticsOfPrivacy' => [
     'name' => 'iprofile::registerUserWithPoliticsOfPrivacy',
     'value' => null,
-    'type' => 'checkbox',
+    'type' => 'input',
     'props' => [
-      'label' => 'iprofile::settings.registerUserWithPoliticsOfPrivacy'
+      'label' => 'iprofile::settings.registerUserWithPoliticsOfPrivacy',
+      'type' => 'text'
+    ],
+  ],
+  //Enable register with DataTreatment
+  'registerUserWithTermsAndConditions' => [
+    'name' => 'iprofile::registerUserWithTermsAndConditions',
+    'value' => null,
+    'type' => 'input',
+    'props' => [
+      'label' => 'iprofile::settings.registerUserWithTermsAndConditions',
+      'type' => 'text'
     ],
   ],
   //Roles to show as directory

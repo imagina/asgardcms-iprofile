@@ -19,7 +19,7 @@
           <li class="nav-item">
             <a  href="{{url('/account/logout')}}" data-placement="bottom"
                title="Sign Out">
-              <i class="fa fa-sign-out mr-1"></i>
+              <i class="fas fa-sign-out-alt mr-1"></i>
               <span class="nav-label">{{trans('iprofile::frontend.button.sign_out')}}</span>
             </a>
           </li>
